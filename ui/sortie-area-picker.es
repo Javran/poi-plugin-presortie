@@ -5,23 +5,29 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../ptyp'
-import { MapInfo, DynMapId } from '../structs'
+import { MapInfo } from '../structs'
 
 class SortieAreaPicker extends Component {
   static propTypes = {
     mapInfoArray: PTyp.arrayOf(PTyp.MapInfo).isRequired,
     sortieHistory: PTyp.arrayOf(PTyp.MapId).isRequired,
     dynMapId: PTyp.DynMapId.isRequired,
+    curMapId: PTyp.MapId.isRequired,
+    style: PTyp.object,
 
     onDynMapIdChange: PTyp.func.isRequired,
+  }
+
+  static defaultProps = {
+    style: {},
   }
 
   render() {
     const {
       mapInfoArray, sortieHistory,
-      dynMapId, onDynMapIdChange,
+      curMapId, dynMapId, onDynMapIdChange,
+      style,
     } = this.props
-    const curMapId = DynMapId.toMapId(dynMapId,sortieHistory)
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
     const curMapInfo = findMapInfo(curMapId)
     const sortieTextHeader =
@@ -29,6 +35,7 @@ class SortieAreaPicker extends Component {
     const sortieText = `${sortieTextHeader}: ${MapInfo.toString(curMapInfo)}`
     return (
       <DropdownButton
+        style={style}
         title={sortieText}
         onSelect={onDynMapIdChange}
         key={curMapId}

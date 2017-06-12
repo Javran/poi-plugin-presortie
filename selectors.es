@@ -5,6 +5,8 @@ import {
   extensionSelectorFactory,
 } from 'views/utils/selectors'
 
+import { DynMapId } from './structs'
+
 const splitMapId = mapId => ({
   world: Math.floor(mapId/10),
   area: mapId % 10,
@@ -32,11 +34,18 @@ const dynamicMapIdSelector = createSelector(
   extState => extState.dynMapId
 )
 
+const currentMapIdSelector = createSelector(
+  extSelector,
+  dynamicMapIdSelector,
+  (extState,dynMapId) => DynMapId.toMapId(
+    dynMapId, extState.sortieHistory))
+
 const presortieMainUISelector = createSelector(
   mapInfoArraySelector,
   extSelector,
   dynamicMapIdSelector,
-  (mapInfoArray, extState, dynMapId) => {
+  currentMapIdSelector,
+  (mapInfoArray, extState, dynMapId, curMapId) => {
     const {
       ready,
       sortieHistory,
@@ -45,7 +54,7 @@ const presortieMainUISelector = createSelector(
     return {
       mapInfoArray,
       sortieHistory: !ready ? [] : sortieHistory,
-      dynMapId,
+      dynMapId, curMapId,
     }
   }
 )

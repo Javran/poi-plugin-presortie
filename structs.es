@@ -2,6 +2,9 @@ class MapInfo {
   static toString = ({world, area, name}) =>
     `${world}-${area}: ${name}`
 
+  static toShortString = ({world, area}) =>
+    `${world}-${area}`
+
   static findMapInfo = mapInfoArray => mapId =>
     mapInfoArray.find(x => x.id === mapId)
 }

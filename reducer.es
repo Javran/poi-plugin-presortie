@@ -1,7 +1,7 @@
 import { _ } from 'lodash'
 
 import {
-  initConfig,
+  initConfig, saveConfig,
 } from './config'
 
 const reducer = (state = initConfig, action) => {
@@ -10,13 +10,15 @@ const reducer = (state = initConfig, action) => {
     const { mapId } = action
     if (sortieHistory.length === 0 ||
         sortieHistory[0] !== mapId) {
-      return {
+      const newConfig = {
         ...state,
         // keep up to 5 history contents
         sortieHistory: _.take(
           [mapId, ...sortieHistory.filter(x => x !== mapId)],
           5),
       }
+      saveConfig(newConfig)
+      return newConfig
     } else {
       return state
     }

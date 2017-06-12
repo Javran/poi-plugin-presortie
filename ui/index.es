@@ -3,9 +3,34 @@ import {
   DropdownButton,
   MenuItem,
 } from 'react-bootstrap'
+import { observer, observe } from 'redux-observers'
+
+import { store } from 'views/create-store'
 
 import { PTyp } from '../ptyp'
 import { MapInfo } from '../structs'
+import { mapDispatchToProps } from '../reducer'
+
+const mapIdObserver = observer(
+  state => state.sortie.sortieMapId,
+  (dispatch, curMapIdRaw, prevMapIdRaw) => {
+    const normalize = x => {
+      const parsed = parseInt(x,10)
+      // all falsy values are turned into null
+      if (!parsed)
+        return null
+      return parsed
+    }
+
+    const curMapId = normalize(curMapIdRaw)
+    const prevMapId = normalize(prevMapIdRaw)
+    // only observe sortie-changing events
+    // where we are not returning to port (i.e. not null)
+    if (curMapId !== prevMapId &&
+        curMapId !== null) {
+      mapDispatchToProps(dispatch).onMapIdChange(curMapId)
+    }
+  })
 
 class PresortieMain extends Component {
   static propTypes = {
@@ -14,13 +39,21 @@ class PresortieMain extends Component {
 
   constructor(props) {
     super(props)
+    this.unsubscribe = null
     this.state = {
       curMapId: 11,
     }
   }
 
   componentDidMount() {
+    this.unsubscribe = observe(store,[mapIdObserver])
+  }
 
+  componentWillUnmount() {
+    if (this.unsubscribe !== null) {
+      this.unsubscribe()
+      this.unsubscribe = null
+    }
   }
 
   handleChangeMapId = mapId =>

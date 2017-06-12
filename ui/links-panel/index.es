@@ -6,6 +6,7 @@ import {
 
 import { PTyp } from '../../ptyp'
 import { AddLinkControl } from './add-link-control'
+import { LinkControl } from './link-control'
 
 class LinksPanel extends Component {
   static propTypes = {
@@ -41,7 +42,9 @@ class LinksPanel extends Component {
               <ListGroupItem
                 style={{padding: '8px 15px'}}
                 key={linkInfo.name}>
-                <a href={linkInfo.link}>{linkInfo.name}</a>
+                <LinkControl
+                  linkInfo={linkInfo}
+                />
               </ListGroupItem>
             ))
           }

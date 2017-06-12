@@ -17,7 +17,7 @@ const getPStateFilePath = () => {
   const { APPDATA_PATH } = window
   const configPath = join(APPDATA_PATH,'presortie')
   ensureDirSync(configPath)
-  return join(configPath,'config.json')
+  return join(configPath,'p-state.json')
 }
 
 const loadPState = () => {

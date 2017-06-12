@@ -10,6 +10,7 @@ import { store } from 'views/create-store'
 import { PTyp } from '../ptyp'
 import { MapInfo } from '../structs'
 import { mapDispatchToProps } from '../reducer'
+import { loadPState } from '../p-state'
 
 const mapIdObserver = observer(
   state => state.sortie.sortieMapId,
@@ -35,6 +36,8 @@ const mapIdObserver = observer(
 class PresortieMain extends Component {
   static propTypes = {
     mapInfoArray: PTyp.arrayOf(PTyp.MapInfo).isRequired,
+
+    onInit: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -46,7 +49,11 @@ class PresortieMain extends Component {
   }
 
   componentDidMount() {
+    const { onInit } = this.props
     this.unsubscribe = observe(store,[mapIdObserver])
+    setTimeout(() => {
+      onInit(loadPState())
+    })
   }
 
   componentWillUnmount() {

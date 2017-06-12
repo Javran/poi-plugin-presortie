@@ -6,10 +6,23 @@ import {
 } from './p-state'
 
 const initState = {
+  ready: false,
   ...emptyPState,
 }
 
 const reducer = (state = initState, action) => {
+  if (action.type === '@poi-plugin-presortie@Init') {
+    const { pState } = action
+    return {
+      ...state,
+      ...pState,
+      ready: true,
+    }
+  }
+
+  if (!state.ready)
+    return state
+
   if (action.type === '@poi-plugin-presortie@MapIdChange') {
     const { sortieHistory } = state
     const { mapId } = action
@@ -27,6 +40,10 @@ const reducer = (state = initState, action) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  onInit: pState => dispatch({
+    type: '@poi-plugin-presortie@Init',
+    pState,
+  }),
   // note that mapId must be a valid mapId
   onMapIdChange: mapId => dispatch({
     type: '@poi-plugin-presortie@MapIdChange',

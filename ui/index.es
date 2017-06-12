@@ -14,6 +14,7 @@ import { MapInfo, MapExtra } from '../structs'
 import { modifyArray } from '../utils'
 
 import { SortieAreaPicker } from './sortie-area-picker'
+import { NotesPanel } from './notes-panel'
 import { LinksPanel } from './links-panel'
 
 const { FontAwesome } = window
@@ -145,12 +146,9 @@ class PresortieMain extends Component {
           }>
           TODO
         </Panel>
-        <Panel
-          style={{...panelStyle}}
-          className="main-panel"
-          header="Notes">
-          TODO
-        </Panel>
+        <NotesPanel
+          style={panelStyle}
+        />
         <LinksPanel
           style={panelStyle}
           links={links}

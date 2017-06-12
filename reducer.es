@@ -1,24 +1,24 @@
 import { _ } from 'lodash'
 
 import {
-  initConfig, saveConfig,
-} from './config'
+  emptyPState,
+  updateSortieHistory,
+} from './p-state'
 
-const reducer = (state = initConfig, action) => {
+const initState = {
+  ...emptyPState,
+}
+
+const reducer = (state = initState, action) => {
   if (action.type === '@poi-plugin-presortie@MapIdChange') {
     const { sortieHistory } = state
     const { mapId } = action
-    if (sortieHistory.length === 0 ||
-        sortieHistory[0] !== mapId) {
-      const newConfig = {
+    const newSortieHistory = updateSortieHistory(sortieHistory,mapId)
+    if (newSortieHistory !== sortieHistory) {
+      return {
         ...state,
-        // keep up to 5 history contents
-        sortieHistory: _.take(
-          [mapId, ...sortieHistory.filter(x => x !== mapId)],
-          5),
+        sortieHistory: newSortieHistory,
       }
-      saveConfig(newConfig)
-      return newConfig
     } else {
       return state
     }
@@ -27,7 +27,7 @@ const reducer = (state = initConfig, action) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  // note that mapId must be an integer.
+  // note that mapId must be a valid mapId
   onMapIdChange: mapId => dispatch({
     type: '@poi-plugin-presortie@MapIdChange',
     mapId}),

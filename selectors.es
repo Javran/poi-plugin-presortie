@@ -22,13 +22,36 @@ const mapInfoArraySelector = createSelector(
       const {world, area} = splitMapId(id)
       return {id, name, world, area}
     }
-    const mapInfoArray = Object.values($maps)
+    return Object.values($maps)
       .map(transform)
       .sort((x,y) => x.id - y.id)
-    return {mapInfoArray}
   })
+
+const dynamicMapIdSelector = createSelector(
+  extSelector,
+  extState => extState.dynMapId
+)
+
+const presortieMainUISelector = createSelector(
+  mapInfoArraySelector,
+  extSelector,
+  dynamicMapIdSelector,
+  (mapInfoArray, extState, dynMapId) => {
+    const {
+      ready,
+      sortieHistory,
+    } = extState
+
+    return {
+      mapInfoArray,
+      sortieHistory: !ready ? [] : sortieHistory,
+      dynMapId,
+    }
+  }
+)
 
 export {
   mapInfoArraySelector,
   extSelector,
+  presortieMainUISelector,
 }

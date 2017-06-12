@@ -17,6 +17,9 @@ const allRequired = shapeObj => {
   return ret
 }
 
+const isValue = expectedValue =>
+  PropTypes.oneOf([expectedValue])
+
 const MapInfo = PropTypes.shape(allRequired({
   id: PropTypes.number,
   name: PropTypes.string,
@@ -24,11 +27,20 @@ const MapInfo = PropTypes.shape(allRequired({
   area: PropTypes.number,
 }))
 
+const MapId = PropTypes.number
+
+const DynMapId = PropTypes.oneOfType([
+  isValue('last'),
+  MapId])
+
 const PTyp = {
   ...PropTypes,
   allRequired,
+  isValue,
 
   MapInfo,
+  MapId,
+  DynMapId,
 }
 
 export { PTyp }

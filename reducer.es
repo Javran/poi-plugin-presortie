@@ -15,10 +15,14 @@ const stateToPState = state => {
   const {
     ready,
     sortieHistory,
+    dynMapId,
   } = state
   if (!ready)
     return null
-  return {sortieHistory}
+  return {
+    sortieHistory,
+    dynMapId,
+  }
 }
 
 const reducer = (state = initState, action) => {
@@ -47,6 +51,15 @@ const reducer = (state = initState, action) => {
       return state
     }
   }
+
+  if (action.type === '@poi-plugin-presortie@DynMapIdChange') {
+    const { dynMapId } = action
+    return {
+      ...state,
+      dynMapId,
+    }
+  }
+
   return state
 }
 
@@ -59,6 +72,10 @@ const mapDispatchToProps = dispatch => ({
   onMapIdChange: mapId => dispatch({
     type: '@poi-plugin-presortie@MapIdChange',
     mapId}),
+  onDynMapIdChange: dynMapId => dispatch({
+    type: '@poi-plugin-presortie@DynMapIdChange',
+    dynMapId,
+  }),
 })
 
 export {

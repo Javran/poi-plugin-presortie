@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import { mapInfoArraySelector } from './selectors'
+import { presortieMainUISelector } from './selectors'
 import { PresortieMain } from './ui'
 import { reducer, mapDispatchToProps } from './reducer'
 
 const reactClass = connect(
-  mapInfoArraySelector,
+  presortieMainUISelector,
   mapDispatchToProps)(PresortieMain)
 
 export {

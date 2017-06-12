@@ -5,23 +5,20 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../ptyp'
-import { MapInfo } from '../structs'
+import { MapInfo, DynMapId } from '../structs'
 import { loadPState } from '../p-state'
 import { observeAll } from '../observers'
 
+import { SortieAreaPicker } from './sortie-area-picker'
+
 class PresortieMain extends Component {
   static propTypes = {
-    mapInfoArray: PTyp.arrayOf(PTyp.MapInfo).isRequired,
+    mapInfoArray: PTyp.array.isRequired,
+    sortieHistory: PTyp.array.isRequired,
+    dynMapId: PTyp.DynMapId.isRequired,
 
     onInit: PTyp.func.isRequired,
-  }
-
-  constructor(props) {
-    super(props)
-    this.unsubscribe = null
-    this.state = {
-      curMapId: 11,
-    }
+    onDynMapIdChange: PTyp.func.isRequired,
   }
 
   componentDidMount() {
@@ -39,42 +36,21 @@ class PresortieMain extends Component {
     }
   }
 
-  handleChangeMapId = mapId =>
-    this.setState({curMapId: mapId})
-
   render() {
-    const { mapInfoArray } = this.props
-    const { curMapId } = this.state
-
-    const curMapInfo = mapInfoArray.find(x => x.id === curMapId)
+    const {
+      mapInfoArray, sortieHistory,
+      dynMapId, onDynMapIdChange,
+    } = this.props
     return (
       <div
         style={{margin: 5}}
       >
-        <DropdownButton
-          title={`Sortie Area: ${MapInfo.toString(curMapInfo)}`}
-          onSelect={this.handleChangeMapId}
-          key={curMapId}
-          id={`presortie-dropdown-sortie-area`}>
-          {
-            /*
-               TODO:
-
-               - MenuItem: last sortie area
-               - maintain a list of unique sortie areas from history,
-                 if possible.
-               - <MenuItem divider />
-             */
-          }
-          {
-            mapInfoArray.map( x => (
-              <MenuItem
-                key={x.id} eventKey={x.id}>
-                {MapInfo.toString(x)}
-              </MenuItem>
-            ))
-          }
-        </DropdownButton>
+        <SortieAreaPicker
+          mapInfoArray={mapInfoArray}
+          sortieHistory={sortieHistory}
+          dynMapId={dynMapId}
+          onDynMapIdChange={onDynMapIdChange}
+        />
       </div>
     )
   }

@@ -11,6 +11,9 @@ import { _ } from 'lodash'
 const emptyPState = {
   // a list of mapIds
   sortieHistory: [],
+  // a dynamic map id, for now it's either 'last'
+  // or just a map id
+  dynMapId: 'last',
 }
 
 const getPStateFilePath = () => {

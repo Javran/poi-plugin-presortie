@@ -1,10 +1,17 @@
-import { constSelector } from 'views/utils/selectors'
 import { createSelector } from 'reselect'
+
+import {
+  constSelector,
+  extensionSelectorFactory,
+} from 'views/utils/selectors'
 
 const splitMapId = mapId => ({
   world: Math.floor(mapId/10),
   area: mapId % 10,
 })
+
+const extSelector =
+  extensionSelectorFactory('poi-plugin-presortie')
 
 const mapInfoArraySelector = createSelector(
   constSelector,
@@ -23,4 +30,5 @@ const mapInfoArraySelector = createSelector(
 
 export {
   mapInfoArraySelector,
+  extSelector,
 }

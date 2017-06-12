@@ -3,35 +3,11 @@ import {
   DropdownButton,
   MenuItem,
 } from 'react-bootstrap'
-import { observer, observe } from 'redux-observers'
-
-import { store } from 'views/create-store'
 
 import { PTyp } from '../ptyp'
 import { MapInfo } from '../structs'
-import { mapDispatchToProps } from '../reducer'
 import { loadPState } from '../p-state'
-
-const mapIdObserver = observer(
-  state => state.sortie.sortieMapId,
-  (dispatch, curMapIdRaw, prevMapIdRaw) => {
-    const normalize = x => {
-      const parsed = parseInt(x,10)
-      // all falsy values are turned into null
-      if (!parsed)
-        return null
-      return parsed
-    }
-
-    const curMapId = normalize(curMapIdRaw)
-    const prevMapId = normalize(prevMapIdRaw)
-    // only observe sortie-changing events
-    // where we are not returning to port (i.e. not null)
-    if (curMapId !== prevMapId &&
-        curMapId !== null) {
-      mapDispatchToProps(dispatch).onMapIdChange(curMapId)
-    }
-  })
+import { observeAll } from '../observers'
 
 class PresortieMain extends Component {
   static propTypes = {
@@ -50,7 +26,7 @@ class PresortieMain extends Component {
 
   componentDidMount() {
     const { onInit } = this.props
-    this.unsubscribe = observe(store,[mapIdObserver])
+    this.unsubscribe = observeAll()
     setTimeout(() => {
       onInit(loadPState())
     })

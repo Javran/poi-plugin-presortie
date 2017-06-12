@@ -10,6 +10,17 @@ const initState = {
   ...emptyPState,
 }
 
+// keep only parts needed to be persistent
+const stateToPState = state => {
+  const {
+    ready,
+    sortieHistory,
+  } = state
+  if (!ready)
+    return null
+  return {sortieHistory}
+}
+
 const reducer = (state = initState, action) => {
   if (action.type === '@poi-plugin-presortie@Init') {
     const { pState } = action
@@ -53,4 +64,5 @@ const mapDispatchToProps = dispatch => ({
 export {
   reducer,
   mapDispatchToProps,
+  stateToPState,
 }

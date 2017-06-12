@@ -33,6 +33,15 @@ const DynMapId = PropTypes.oneOfType([
   isValue('last'),
   MapId])
 
+const LinkInfo = PropTypes.shape({
+  ...allRequired({
+    name: PropTypes.string,
+    link: PropTypes.string,
+  }),
+  // (optional) only present on custom links
+  onModifyLink: PropTypes.func,
+})
+
 const PTyp = {
   ...PropTypes,
   allRequired,
@@ -41,6 +50,7 @@ const PTyp = {
   MapInfo,
   MapId,
   DynMapId,
+  LinkInfo,
 }
 
 export { PTyp }

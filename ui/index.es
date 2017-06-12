@@ -10,9 +10,10 @@ import { PTyp } from '../ptyp'
 import { loadPState } from '../p-state'
 import { observeAll } from '../observers'
 import * as MapLinks from '../map-links'
-import { MapInfo } from '../structs'
+import { MapInfo, MapExtra } from '../structs'
 
 import { SortieAreaPicker } from './sortie-area-picker'
+import { LinksPanel } from './links-panel'
 
 const { FontAwesome } = window
 
@@ -22,9 +23,11 @@ class PresortieMain extends Component {
     sortieHistory: PTyp.array.isRequired,
     dynMapId: PTyp.DynMapId.isRequired,
     curMapId: PTyp.MapId.isRequired,
+    curMapExtra: PTyp.object.isRequired,
 
     onInit: PTyp.func.isRequired,
     onDynMapIdChange: PTyp.func.isRequired,
+    onModifyMapExtras: PTyp.func.isRequired,
   }
 
   componentDidMount() {
@@ -42,17 +45,40 @@ class PresortieMain extends Component {
     }
   }
 
+  handleAddLink = linkInfo => {
+    const { curMapId, onModifyMapExtras } = this.props
+    onModifyMapExtras( mapExtras => {
+      let mapExtra = mapExtras[curMapId]
+      if (typeof mapExtra === 'undefined')
+        mapExtra = MapExtra.empty
+      return {
+        ...mapExtras,
+        [curMapId]: {
+          ...mapExtra,
+          links: [...mapExtra.links, linkInfo],
+        },
+      }
+    })
+  }
+
   render() {
     const panelStyle = {
       marginBottom: 14,
     }
     const {
       mapInfoArray, sortieHistory,
-      curMapId, dynMapId, onDynMapIdChange,
+      curMapExtra, curMapId, dynMapId,
+      onDynMapIdChange,
     } = this.props
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
     const curMapInfo = findMapInfo(curMapId)
-    const links = MapLinks.getLinks(curMapInfo)
+    const wikiLinks = MapLinks.getLinks(curMapInfo)
+    const extraLinks =
+      curMapExtra.links.map(linkInfo => ({
+        ...linkInfo,
+        onModifyLink: () => "dummy",
+      }))
+    const links = [...wikiLinks, ...extraLinks]
     return (
       <div
         style={{margin: 5}}
@@ -88,27 +114,11 @@ class PresortieMain extends Component {
           header="Notes">
           TODO
         </Panel>
-        <Panel
-          style={{...panelStyle}}
-          className="main-panel"
-          header="Links">
-          <ListGroup fill>
-            {
-              links.map( linkInfo => (
-                <ListGroupItem
-                  style={{padding: '8px 15px'}}
-                  key={linkInfo.link}>
-                  <a href={linkInfo.link}>{linkInfo.name}</a>
-                </ListGroupItem>
-              ))
-            }
-            {
-              <ListGroupItem>
-                TODO: custom links
-              </ListGroupItem>
-            }
-          </ListGroup>
-        </Panel>
+        <LinksPanel
+          style={panelStyle}
+          links={links}
+          onAddLink={this.handleAddLink}
+        />
       </div>
     )
   }

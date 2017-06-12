@@ -14,6 +14,8 @@ const emptyPState = {
   // a dynamic map id, for now it's either 'last'
   // or just a map id
   dynMapId: 'last',
+  // mapId to MapExtra
+  mapExtras: {},
 }
 
 const getPStateFilePath = () => {

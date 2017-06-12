@@ -18,7 +18,19 @@ class DynMapId {
     dynMapId
 }
 
+class MapExtra {
+  static empty = {
+    // TODO
+    checklist: [],
+    // array of strings in Markdown
+    notes: [],
+    // array of LinkInfo, require names to be unique
+    links: [],
+  }
+}
+
 export {
   MapInfo,
   DynMapId,
+  MapExtra,
 }

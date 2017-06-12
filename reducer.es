@@ -16,12 +16,14 @@ const stateToPState = state => {
     ready,
     sortieHistory,
     dynMapId,
+    mapExtras,
   } = state
   if (!ready)
     return null
   return {
     sortieHistory,
     dynMapId,
+    mapExtras,
   }
 }
 
@@ -60,6 +62,19 @@ const reducer = (state = initState, action) => {
     }
   }
 
+  if (action.type === '@poi-plugin-presortie@ModifyMapExtras') {
+    const { ready, mapExtras } = state
+    if (!ready) {
+      console.error('attempted to modify map extras while initializing')
+      return state
+    }
+    const { modifier } = action
+    return {
+      ...state,
+      mapExtras: modifier(mapExtras),
+    }
+  }
+
   return state
 }
 
@@ -75,6 +90,10 @@ const mapDispatchToProps = dispatch => ({
   onDynMapIdChange: dynMapId => dispatch({
     type: '@poi-plugin-presortie@DynMapIdChange',
     dynMapId,
+  }),
+  onModifyMapExtras: modifier => dispatch({
+    type: '@poi-plugin-presortie@ModifyMapExtras',
+    modifier,
   }),
 })
 

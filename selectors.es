@@ -2,6 +2,8 @@ import { createSelector } from 'reselect'
 
 import {
   constSelector,
+  fleetsSelector,
+  shipsSelector,
   extensionSelectorFactory,
 } from 'views/utils/selectors'
 import { _ } from 'lodash'
@@ -43,12 +45,44 @@ const currentMapIdSelector = createSelector(
   (extState,dynMapId) => DynMapId.toMapId(
     dynMapId, extState.sortieHistory))
 
+const currentFleetIdSelector = createSelector(
+  extSelector,
+  extState => extState.curFleetId)
+
 const currentMapExtraSelector = createSelector(
   extSelector,
   currentMapIdSelector,
   (extState,curMapId) => {
     const mapExtra = extState.mapExtras[curMapId]
     return typeof mapExtra === 'undefined' ? MapExtra.empty : mapExtra
+  })
+
+const allFleetInfoSelector = createSelector(
+  fleetsSelector,
+  shipsSelector,
+  constSelector,
+  (fleets,ships,{$ships}) => {
+    const nonEmptyFleets = fleets.filter(fleet =>
+      Array.isArray(fleet.api_ship) &&
+      fleet.api_ship.length > 0 &&
+      !fleet.api_ship.every(rid => rid < 0))
+
+    const getShip = rosterId => {
+      const ship = ships[rosterId]
+      const $ship = $ships[ship.api_ship_id]
+      return {
+        rosterId,
+        level: ship.api_lv,
+        name: $ship.api_name,
+      }
+    }
+
+    const transformFleet = rawFleet => ({
+      id: rawFleet.api_id,
+      name: rawFleet.api_name,
+      flagship: getShip(rawFleet.api_ship[0]),
+    })
+    return nonEmptyFleets.map(transformFleet)
   })
 
 const presortieMainUISelector = createSelector(
@@ -71,8 +105,15 @@ const presortieMainUISelector = createSelector(
   }
 )
 
+const checklistUISelector = createSelector(
+  currentFleetIdSelector,
+  allFleetInfoSelector,
+  (fleetId, allFleetInfo) => ({fleetId, allFleetInfo}))
+
 export {
   mapInfoArraySelector,
   extSelector,
   presortieMainUISelector,
+  currentFleetIdSelector,
+  checklistUISelector,
 }

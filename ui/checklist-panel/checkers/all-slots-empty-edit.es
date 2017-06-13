@@ -6,9 +6,9 @@ import {
 
 import { PTyp } from '../../../ptyp'
 
-class AllSlotsEdit extends Component {
+class AllSlotsEmptyEdit extends Component {
   static propTypes = {
-    allSlots: PTyp.PartialChecker.AllSlots.isRequired,
+    allSlotsEmpty: PTyp.PartialChecker.AllSlotsEmpty.isRequired,
     onModifyValue: PTyp.func.isRequired,
     style: PTyp.object,
   }
@@ -51,7 +51,7 @@ class AllSlotsEdit extends Component {
   }
 
   render() {
-    const {style, allSlots} = this.props
+    const {style, allSlotsEmpty} = this.props
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
@@ -67,7 +67,7 @@ class AllSlotsEdit extends Component {
             <FormControl
               style={{flex: 2, marginRight: 5}}
               onChange={this.handleChangeMethodType}
-              value={allSlots.method.type}
+              value={allSlotsEmpty.method.type}
               componentClass="select">
               <option value="le">≤</option>
               <option value="eq">=</option>
@@ -76,7 +76,7 @@ class AllSlotsEdit extends Component {
             <FormControl
               style={{flex: 5, marginRight: 5}}
               onChange={this.handleChangeMethodValue}
-              value={allSlots.method.value}
+              value={allSlotsEmpty.method.value}
               type="number" />
             <div
               style={{flex: 2}}
@@ -87,12 +87,12 @@ class AllSlotsEdit extends Component {
         </div>
         <Checkbox
           onChange={this.handleToggleIgnoreExtra}
-          checked={allSlots.ignoreExtra}>Ignore Extra Slots</Checkbox>
+          checked={allSlotsEmpty.ignoreExtra}>Ignore Extra Slots</Checkbox>
       </div>
     )
   }
 }
 
 export {
-  AllSlotsEdit,
+  AllSlotsEmptyEdit,
 }

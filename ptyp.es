@@ -56,12 +56,24 @@ const CheckTarget = PropTypes.oneOf(['fs','all'])
 
 // Checkers whoes "id" fields could be missing
 const PartialChecker = {
-  AllSlots: PropTypes.shape(allRequired({
-    type: isValue('all-slots'),
+  AllSlotsEmpty: PropTypes.shape(allRequired({
+    type: isValue('all-slots-empty'),
     method: CheckMethod,
     ignoreExtra: PropTypes.bool,
   })),
 }
+
+const ShipInfo = PropTypes.shape(allRequired({
+  level: PropTypes.number,
+  name: PropTypes.string,
+  rosterId: PropTypes.number,
+}))
+
+const FleetInfo = PropTypes.shape(allRequired({
+  flagship: ShipInfo,
+  id: PropTypes.number,
+  name: PropTypes.string,
+}))
 
 const PTyp = {
   ...PropTypes,
@@ -79,6 +91,9 @@ const PTyp = {
   CheckMethod,
 
   PartialChecker,
+
+  ShipInfo,
+  FleetInfo,
 }
 
 export { PTyp }

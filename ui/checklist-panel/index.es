@@ -9,12 +9,16 @@ import FontAwesome from 'react-fontawesome'
 
 import { PTyp } from '../../ptyp'
 import { AddCheckerPanel } from './add-checker-panel'
+import { FleetPicker } from './fleet-picker'
 
 class ChecklistPanel extends Component {
   static propTypes = {
     checklist: PTyp.array.isRequired,
     style: PTyp.object,
+    fleetId: PTyp.number.isRequired,
+    allFleetInfo: PTyp.array.isRequired,
 
+    onFleetIdChange: PTyp.func.isRequired,
     onModifyMapExtra: PTyp.func.isRequired,
   }
 
@@ -43,7 +47,10 @@ class ChecklistPanel extends Component {
     })
 
   render() {
-    const { style, checklist } = this.props
+    const {
+      style, checklist,
+      fleetId, allFleetInfo, onFleetIdChange,
+    } = this.props
     return (
       <Panel
         style={style}
@@ -60,17 +67,27 @@ class ChecklistPanel extends Component {
           </div>
         }>
         <ListGroup fill>
-          <ListGroupItem key="fleet-picker">
-            TODO: fleet picker
+          <ListGroupItem
+            style={{padding: '8px 15px'}}
+            key="fleet-picker">
+            <FleetPicker
+              fleetId={fleetId}
+              allFleetInfo={allFleetInfo}
+              onFleetIdChange={onFleetIdChange}
+            />
           </ListGroupItem>
           {
             checklist.map(checker => (
-              <ListGroupItem key={checker.id}>
+              <ListGroupItem
+                style={{padding: '8px 15px'}}
+                key={checker.id}>
                 <div>{ JSON.stringify(checker) }</div>
               </ListGroupItem>
             ))
           }
-          <ListGroupItem key="add">
+          <ListGroupItem
+            style={{padding: '8px 15px'}}
+            key="add">
             <AddCheckerPanel
               onAddChecker={this.handleAddChecker}
             />

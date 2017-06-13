@@ -1,5 +1,6 @@
 import { join } from 'path-extra'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import { PTyp } from '../ptyp'
 import { loadPState } from '../p-state'
@@ -7,11 +8,16 @@ import { observeAll } from '../observers'
 import * as MapLinks from '../map-links'
 import { MapInfo } from '../structs'
 import { modifyArray } from '../utils'
+import { mapDispatchToProps } from '../reducer'
+import { checklistUISelector } from '../selectors'
 
 import { SortieAreaPicker } from './sortie-area-picker'
 import { ChecklistPanel } from './checklist-panel'
 import { NotesPanel } from './notes-panel'
 import { LinksPanel } from './links-panel'
+
+const ChecklistPanelInst =
+  connect(checklistUISelector,mapDispatchToProps)(ChecklistPanel)
 
 class PresortieMain extends Component {
   static propTypes = {
@@ -175,7 +181,7 @@ class PresortieMain extends Component {
           onDynMapIdChange={onDynMapIdChange}
           style={{marginBottom: 14}}
         />
-        <ChecklistPanel
+        <ChecklistPanelInst
           style={panelStyle}
           checklist={checklist}
           onModifyMapExtra={this.handleModifyMapExtra}

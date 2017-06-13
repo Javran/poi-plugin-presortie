@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import {
-  FormControl,
-  Checkbox,
   Button,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
-import { AllSlotsEdit } from './checkers/all-slots-edit'
+import { AllSlotsEmptyEdit } from './checkers/all-slots-empty-edit'
 import { PTyp } from '../../ptyp'
 
-const defaultAllSlots = {
-  type: 'all-slots',
+const defaultAllSlotsEmpty = {
+  type: 'all-slots-empty',
   method: {type: 'eq', value: 6},
   ignoreExtra: false,
 }
@@ -23,7 +21,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      allSlots: defaultAllSlots,
+      allSlotsEmpty: defaultAllSlotsEmpty,
     }
   }
 
@@ -34,22 +32,22 @@ class AddCheckerPanel extends Component {
     }))
 
   handleAddChecker = () => {
-    const partialChecker = this.state.allSlots
+    const partialChecker = this.state.allSlotsEmpty
     const { onAddChecker } = this.props
     onAddChecker(partialChecker)
-    this.setState({ allSlots: defaultAllSlots })
+    this.setState({ allSlotsEmpty: defaultAllSlotsEmpty })
   }
 
   handleReset = () =>
-    this.setState({ allSlots: defaultAllSlots })
+    this.setState({ allSlotsEmpty: defaultAllSlotsEmpty })
 
   render() {
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
-        <AllSlotsEdit
+        <AllSlotsEmptyEdit
           style={{flex: 1}}
-          allSlots={this.state.allSlots}
-          onModifyValue={this.handleModifyValue('allSlots')}
+          allSlotsEmpty={this.state.allSlotsEmpty}
+          onModifyValue={this.handleModifyValue('allSlotsEmpty')}
         />
         <Button
           style={{marginLeft: 5, height: 'auto'}}

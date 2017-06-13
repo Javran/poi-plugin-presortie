@@ -72,13 +72,13 @@ that user can define.
     }
     ```
 
-- when `type` is `all-slots`
+- when `type` is `all-slots-empty`
 
-    This checker counts number of ships whose all slots are equipped.
+    This checker counts number of ships whose all slots are empty.
 
     ```
     {
-      type: 'all-slots'
+      type: 'all-slots-empty'
       method: <CheckMethod>, // valid range 0~6
       ignoreExtra: <bool>,
       id: <number>,

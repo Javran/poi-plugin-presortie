@@ -8,7 +8,10 @@ import {
 const initState = {
   ready: false,
   ...emptyPState,
+  curFleetId: 1,
 }
+
+// TODO: removing all "cur..." stuff
 
 // keep only parts needed to be persistent
 const stateToPState = state => {
@@ -75,6 +78,14 @@ const reducer = (state = initState, action) => {
     }
   }
 
+  if (action.type === '@poi-plugin-presortie@FleetIdChange') {
+    const { fleetId } = action
+    return {
+      ...state,
+      curFleetId: fleetId,
+    }
+  }
+
   return state
 }
 
@@ -94,6 +105,10 @@ const mapDispatchToProps = dispatch => ({
   onModifyMapExtras: modifier => dispatch({
     type: '@poi-plugin-presortie@ModifyMapExtras',
     modifier,
+  }),
+  onFleetIdChange: fleetId => dispatch({
+    type: '@poi-plugin-presortie@FleetIdChange',
+    fleetId,
   }),
 })
 

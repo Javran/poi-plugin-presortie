@@ -1,24 +1,17 @@
 import { join } from 'path-extra'
 import React, { Component } from 'react'
-import {
-  Panel,
-  ListGroup, ListGroupItem,
-  Button,
-} from 'react-bootstrap'
 
 import { PTyp } from '../ptyp'
 import { loadPState } from '../p-state'
 import { observeAll } from '../observers'
 import * as MapLinks from '../map-links'
-import { MapInfo, MapExtra } from '../structs'
+import { MapInfo } from '../structs'
 import { modifyArray } from '../utils'
 
 import { SortieAreaPicker } from './sortie-area-picker'
 import { ChecklistPanel } from './checklist-panel'
 import { NotesPanel } from './notes-panel'
 import { LinksPanel } from './links-panel'
-
-const { FontAwesome } = window
 
 class PresortieMain extends Component {
   static propTypes = {

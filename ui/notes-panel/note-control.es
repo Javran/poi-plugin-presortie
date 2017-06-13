@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import {
-  Panel,
-  ListGroup, ListGroupItem,
   Button,
 } from 'react-bootstrap'
 import Markdown from 'react-remarkable'
 import Textarea from 'react-textarea-autosize'
 
 import { PTyp } from '../../ptyp'
+
 const { FontAwesome } = window
 
 class NoteControl extends Component {

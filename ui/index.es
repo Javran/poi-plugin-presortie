@@ -135,6 +135,14 @@ class PresortieMain extends Component {
     }
   }
 
+  handleModifyMapExtra = modifier => {
+    const { onModifyMapExtras, curMapExtra, curMapId } = this.props
+    onModifyMapExtras( mapExtras => ({
+      ...mapExtras,
+      [curMapId]: modifier(curMapExtra),
+    }))
+  }
+
   render() {
     const panelStyle = {
       marginBottom: 14,
@@ -153,7 +161,7 @@ class PresortieMain extends Component {
         onModifyLink: this.handleModifyLink(linkInfo),
       }))
     const links = [...wikiLinks, ...extraLinks]
-    const notes = curMapExtra.notes
+    const { notes, checklist } = curMapExtra
     return (
       <div
         style={{margin: 5}}
@@ -168,7 +176,10 @@ class PresortieMain extends Component {
           style={{marginBottom: 14}}
         />
         <ChecklistPanel
-          />
+          style={panelStyle}
+          checklist={checklist}
+          onModifyMapExtra={this.handleModifyMapExtra}
+        />
         <NotesPanel
           style={panelStyle}
           notes={notes}

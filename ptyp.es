@@ -47,6 +47,22 @@ const Note = PropTypes.shape(allRequired({
   content: PropTypes.string,
 }))
 
+const CheckMethod = PropTypes.shape(allRequired({
+  type: PropTypes.oneOf(['le','eq','ge']),
+  value: PropTypes.number,
+}))
+
+const CheckTarget = PropTypes.oneOf(['fs','all'])
+
+// Checkers whoes "id" fields could be missing
+const PartialChecker = {
+  AllSlots: PropTypes.shape(allRequired({
+    type: isValue('all-slots'),
+    method: CheckMethod,
+    ignoreExtra: PropTypes.bool,
+  })),
+}
+
 const PTyp = {
   ...PropTypes,
   allRequired,
@@ -58,6 +74,11 @@ const PTyp = {
   LinkInfo,
 
   Note,
+
+  CheckTarget,
+  CheckMethod,
+
+  PartialChecker,
 }
 
 export { PTyp }

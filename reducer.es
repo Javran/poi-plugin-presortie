@@ -101,4 +101,5 @@ export {
   reducer,
   mapDispatchToProps,
   stateToPState,
+  initState,
 }

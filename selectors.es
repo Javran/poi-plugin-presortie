@@ -4,16 +4,19 @@ import {
   constSelector,
   extensionSelectorFactory,
 } from 'views/utils/selectors'
+import { _ } from 'lodash'
 
 import { DynMapId, MapExtra } from './structs'
+import { initState } from './reducer'
 
 const splitMapId = mapId => ({
   world: Math.floor(mapId/10),
   area: mapId % 10,
 })
 
-const extSelector =
-  extensionSelectorFactory('poi-plugin-presortie')
+const extSelector = createSelector(
+  extensionSelectorFactory('poi-plugin-presortie'),
+  extStore => _.isEmpty(extStore) ? initState : extStore)
 
 const mapInfoArraySelector = createSelector(
   constSelector,

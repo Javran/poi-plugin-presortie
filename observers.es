@@ -39,7 +39,11 @@ const mapIdObserver = observer(
 const pStateObserver = observer(
   state => stateToPState(extSelector(state)),
   (_dispatch, curPState, prevPState) => {
-    if (curPState === null)
+    if (curPState === prevPState ||
+        // current state is not initialized
+        curPState === null ||
+        // transition from an uninitialized state
+        prevPState === null)
       return
     if (! shallowObjectEqual(curPState,prevPState)) {
       setTimeout(() => savePState(curPState))

@@ -42,6 +42,11 @@ const LinkInfo = PropTypes.shape({
   onModifyLink: PropTypes.func,
 })
 
+const Note = PropTypes.shape(allRequired({
+  id: PropTypes.number,
+  content: PropTypes.string,
+}))
+
 const PTyp = {
   ...PropTypes,
   allRequired,
@@ -51,6 +56,8 @@ const PTyp = {
   MapId,
   DynMapId,
   LinkInfo,
+
+  Note,
 }
 
 export { PTyp }

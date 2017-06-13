@@ -48,11 +48,9 @@ class PresortieMain extends Component {
   }
 
   handleAddLink = linkInfo => {
-    const { curMapId, onModifyMapExtras } = this.props
+    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
     onModifyMapExtras( mapExtras => {
-      let mapExtra = mapExtras[curMapId]
-      if (typeof mapExtra === 'undefined')
-        mapExtra = MapExtra.empty
+      const mapExtra = curMapExtra
       return {
         ...mapExtras,
         [curMapId]: {
@@ -65,13 +63,11 @@ class PresortieMain extends Component {
 
   handleModifyLink = linkInfo => modifier => {
     const newLinkInfo = modifier(linkInfo)
-    const { curMapId, onModifyMapExtras } = this.props
+    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
     if (! newLinkInfo) {
       // any falsy value removes the link in question
       onModifyMapExtras( mapExtras => {
-        let mapExtra = mapExtras[curMapId]
-        if (typeof mapExtra === 'undefined')
-          mapExtra = MapExtra.empty
+        const mapExtra = curMapExtra
         return {
           ...mapExtras,
           [curMapId]: {
@@ -83,16 +79,62 @@ class PresortieMain extends Component {
     } else {
       // otherwise replace old one
       onModifyMapExtras( mapExtras => {
-        let mapExtra = mapExtras[curMapId]
-        if (typeof mapExtra === 'undefined')
-          mapExtra = MapExtra.empty
+        const mapExtra = curMapExtra
         const ind = mapExtra.links.findIndex(x => x.name === linkInfo.name)
-
         return {
           ...mapExtras,
           [curMapId]: {
             ...mapExtra,
             links: modifyArray(ind,() => newLinkInfo)(mapExtra.links),
+          },
+        }
+      })
+    }
+  }
+
+  handleAddNote = content => {
+    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
+    onModifyMapExtras( mapExtras => {
+      const newId = curMapExtra.notes.length === 0 ?
+        0 :
+        Math.max(...curMapExtra.notes.map(n => n.id))+1
+      return {
+        ...mapExtras,
+        [curMapId]: {
+          ...curMapExtra,
+          notes: [...curMapExtra.notes, {id: newId, content}],
+        },
+      }
+    })
+  }
+
+  // TODO: be consistent regarding how handleModifyXxxx is called.
+  handleModifyNote = noteId => newContent => {
+    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
+    if (! newContent) {
+      // falsy value, removing this note
+      onModifyMapExtras( mapExtras => {
+        const notes = curMapExtra.notes.filter(n => n.id !== noteId)
+        return {
+          ...mapExtras,
+          [curMapId]: {
+            ...curMapExtra,
+            notes,
+          },
+        }
+      })
+    } else {
+      onModifyMapExtras( mapExtras => {
+        const ind = curMapExtra.notes.findIndex(n => n.id === noteId)
+        return {
+          ...mapExtras,
+          [curMapId]: {
+            ...curMapExtra,
+            notes:
+              modifyArray(ind, () => ({
+                id: noteId,
+                content: newContent,
+              }))(curMapExtra.notes),
           },
         }
       })
@@ -117,6 +159,7 @@ class PresortieMain extends Component {
         onModifyLink: this.handleModifyLink(linkInfo),
       }))
     const links = [...wikiLinks, ...extraLinks]
+    const notes = curMapExtra.notes
     return (
       <div
         style={{margin: 5}}
@@ -148,6 +191,9 @@ class PresortieMain extends Component {
         </Panel>
         <NotesPanel
           style={panelStyle}
+          notes={notes}
+          onAddNote={this.handleAddNote}
+          onModifyNote={this.handleModifyNote}
         />
         <LinksPanel
           style={panelStyle}

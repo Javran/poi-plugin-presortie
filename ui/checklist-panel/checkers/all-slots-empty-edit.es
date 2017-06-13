@@ -71,7 +71,7 @@ class AllSlotsEmptyEdit extends Component {
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
-          <div style={{flex: 3}}>All Slots Are Empty</div>
+          <div style={{flex: 3}}>Ships without Equipments</div>
           <div
             style={{
               flex: 5,

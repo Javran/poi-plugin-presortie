@@ -7,6 +7,21 @@ import FontAwesome from 'react-fontawesome'
 import { AllSlotsEmptyEdit } from './checkers/all-slots-empty-edit'
 import { PTyp } from '../../ptyp'
 
+/*
+
+   TODO:
+
+   - fast-fleet
+   - aaci
+   - oasw
+   - has-saiun
+   - has-radar
+   - fighter-power
+   - resupply
+   - health
+
+ */
+
 class AddCheckerPanel extends Component {
   static propTypes = {
     onAddChecker: PTyp.func.isRequired,

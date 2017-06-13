@@ -89,6 +89,17 @@ that user can define.
     - if `ignoreExtra` is `true`, this checker will ignore extra slot while checking.
     - if `ignoreUnlocked` is `true`, this checker will ignore unlocked ships.
 
+- when `type` is `fast-fleet`
+
+    This checker requires all fleet members to be at least fast.
+
+    ```
+    {
+      type: 'fast-fleet',
+      id: <number>,
+    }
+    ```
+
 ## `CheckMethod` structure
 
 - an Object that at least has the following fields:

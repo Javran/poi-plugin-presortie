@@ -14,6 +14,7 @@ import { MapInfo, MapExtra } from '../structs'
 import { modifyArray } from '../utils'
 
 import { SortieAreaPicker } from './sortie-area-picker'
+import { ChecklistPanel } from './checklist-panel'
 import { NotesPanel } from './notes-panel'
 import { LinksPanel } from './links-panel'
 
@@ -173,22 +174,8 @@ class PresortieMain extends Component {
           onDynMapIdChange={onDynMapIdChange}
           style={{marginBottom: 14}}
         />
-        <Panel
-          style={{...panelStyle}}
-          className="main-panel"
-          header={
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{width: 'auto', flex: 1}}>Checklist</div>
-              <Button
-                style={{marginTop: 0}}
-                bsSize="xsmall"
-                bsStyle="success">
-                <FontAwesome name="check" />
-              </Button>
-            </div>
-          }>
-          TODO
-        </Panel>
+        <ChecklistPanel
+          />
         <NotesPanel
           style={panelStyle}
           notes={notes}

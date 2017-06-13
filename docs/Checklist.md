@@ -81,11 +81,13 @@ that user can define.
       type: 'all-slots-empty'
       method: <CheckMethod>, // valid range 0~6
       ignoreExtra: <bool>,
+      ignoreUnlocked: <bool>,
       id: <number>,
     }
     ```
 
-    if `ignoreExtra` is `true`, this checker will ignore extra slot while checking.
+    - if `ignoreExtra` is `true`, this checker will ignore extra slot while checking.
+    - if `ignoreUnlocked` is `true`, this checker will ignore unlocked ships.
 
 ## `CheckMethod` structure
 

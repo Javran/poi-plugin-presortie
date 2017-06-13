@@ -60,6 +60,7 @@ const PartialChecker = {
     type: isValue('all-slots-empty'),
     method: CheckMethod,
     ignoreExtra: PropTypes.bool,
+    ignoreUnlocked: PropTypes.bool,
   })),
 }
 

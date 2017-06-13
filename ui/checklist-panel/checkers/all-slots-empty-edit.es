@@ -17,12 +17,28 @@ class AllSlotsEmptyEdit extends Component {
     style: {},
   }
 
+  static defaultValue = {
+    type: 'all-slots-empty',
+    method: {type: 'eq', value: 0},
+    ignoreExtra: false,
+    ignoreUnlocked: true,
+  }
+
   handleToggleIgnoreExtra = e => {
     const newValue = e.target.checked
     const { onModifyValue } = this.props
     onModifyValue(allSlots => ({
       ...allSlots,
       ignoreExtra: newValue,
+    }))
+  }
+
+  handleToggleIgnoreUnlocked = e => {
+    const newValue = e.target.checked
+    const { onModifyValue } = this.props
+    onModifyValue(allSlots => ({
+      ...allSlots,
+      ignoreUnlocked: newValue,
     }))
   }
 
@@ -55,7 +71,7 @@ class AllSlotsEmptyEdit extends Component {
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
-          <div style={{flex: 3}}>All Slots Equipped</div>
+          <div style={{flex: 3}}>All Slots Are Empty</div>
           <div
             style={{
               flex: 5,
@@ -88,6 +104,9 @@ class AllSlotsEmptyEdit extends Component {
         <Checkbox
           onChange={this.handleToggleIgnoreExtra}
           checked={allSlotsEmpty.ignoreExtra}>Ignore Extra Slots</Checkbox>
+        <Checkbox
+          onChange={this.handleToggleIgnoreUnlocked}
+          checked={allSlotsEmpty.ignoreUnlocked}>Ignore Unlocked Ships</Checkbox>
       </div>
     )
   }

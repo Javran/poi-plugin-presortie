@@ -58,10 +58,7 @@ class ChecklistPanel extends Component {
         header={
           <div style={{display: 'flex', alignItems: 'center'}}>
             <div style={{width: 'auto', flex: 1}}>Checklist</div>
-            <Button
-              style={{marginTop: 0}}
-                    bsSize="xsmall"
-                    bsStyle="success">
+            <Button style={{marginTop: 0}} bsSize="xsmall" bsStyle="success">
               <FontAwesome name="check" />
             </Button>
           </div>

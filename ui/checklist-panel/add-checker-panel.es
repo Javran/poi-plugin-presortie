@@ -7,12 +7,6 @@ import FontAwesome from 'react-fontawesome'
 import { AllSlotsEmptyEdit } from './checkers/all-slots-empty-edit'
 import { PTyp } from '../../ptyp'
 
-const defaultAllSlotsEmpty = {
-  type: 'all-slots-empty',
-  method: {type: 'eq', value: 6},
-  ignoreExtra: false,
-}
-
 class AddCheckerPanel extends Component {
   static propTypes = {
     onAddChecker: PTyp.func.isRequired,
@@ -21,7 +15,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      allSlotsEmpty: defaultAllSlotsEmpty,
+      allSlotsEmpty: AllSlotsEmptyEdit.defaultValue,
     }
   }
 
@@ -35,11 +29,11 @@ class AddCheckerPanel extends Component {
     const partialChecker = this.state.allSlotsEmpty
     const { onAddChecker } = this.props
     onAddChecker(partialChecker)
-    this.setState({ allSlotsEmpty: defaultAllSlotsEmpty })
+    this.setState({ allSlotsEmpty: AllSlotsEmptyEdit.defaultValue })
   }
 
   handleReset = () =>
-    this.setState({ allSlotsEmpty: defaultAllSlotsEmpty })
+    this.setState({ allSlotsEmpty: AllSlotsEmptyEdit.defaultValue })
 
   render() {
     return (

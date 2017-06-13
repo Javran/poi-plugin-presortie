@@ -37,10 +37,8 @@ const mapIdObserver = observer(
   })
 
 const pStateObserver = observer(
-  state => ({ pState: stateToPState(extSelector(state))}),
-  (_dispatch, cur, prev) => {
-    const curPState = cur.pState
-    const prevPState = prev.pState
+  state => stateToPState(extSelector(state)),
+  (_dispatch, curPState, prevPState) => {
     if (curPState === null)
       return
     if (! shallowObjectEqual(curPState,prevPState)) {

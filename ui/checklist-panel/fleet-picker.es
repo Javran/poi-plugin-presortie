@@ -32,21 +32,27 @@ class FleetPicker extends Component {
   render() {
     const { fleetId, allFleetInfo } = this.props
     return (
-      <FormControl
-        style={{flex: 2, marginRight: 5}}
-        value={fleetId}
-        onChange={this.handleFleetIdChange}
-        componentClass="select">
-        {
-          allFleetInfo.map(fleetInfo => (
-            <option
-              value={fleetInfo.id}
-              key={fleetInfo.id}>
-              {fleetInfoToText(fleetInfo)}
-            </option>
-          ))
-        }
-      </FormControl>
+      <div style={{
+        display: 'flex',
+        alignItems: 'baseline',
+      }}>
+        <span style={{flex: 1}}>Sortie Fleet:</span>
+        <FormControl
+          style={{marginLeft: 5, flex: 5}}
+          value={fleetId}
+          onChange={this.handleFleetIdChange}
+          componentClass="select">
+          {
+            allFleetInfo.map(fleetInfo => (
+              <option
+                value={fleetInfo.id}
+                key={fleetInfo.id}>
+                {fleetInfoToText(fleetInfo)}
+              </option>
+            ))
+          }
+        </FormControl>
+      </div>
     )
   }
 }

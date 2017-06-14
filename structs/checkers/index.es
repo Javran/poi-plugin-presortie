@@ -1,3 +1,5 @@
+import { CheckMethod } from './common'
+
 import { AllSlotsEmpty } from './all-slots-empty'
 import { FastFleet } from './fast-fleet'
 import { AACI } from './aaci'
@@ -29,6 +31,8 @@ const registerChecker = checker => {
 ].map(registerChecker)
 
 export {
+  CheckMethod,
+
   Checkers,
   checkerList,
 }

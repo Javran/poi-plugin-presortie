@@ -106,16 +106,18 @@ that user can define.
 
     ```
     {
-      type: 'le' / 'eq' / 'ge',
+      type: 'lt' / 'le' / 'eq' / 'ge' / 'gt',
       value: <number>,
     }
     ```
 
     where `type` means:
 
-    - `le`: less or equal to
+    - `lt`: less than
+    - `le`: less than or equal to
     - `eq`: equal to
-    - `ge`: greater or equal to
+    - `ge`: greater than or equal to
+    - `gt`: greater than
 
 - a `CheckMethod` valid range means the range that `value` can take.
 

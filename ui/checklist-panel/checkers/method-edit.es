@@ -59,9 +59,11 @@ class MethodEdit extends Component {
           onChange={this.handleChangeType}
           value={value.type}
           componentClass="select">
+          <option value="lt">{'<'}</option>
           <option value="le">≤</option>
           <option value="eq">=</option>
           <option value="ge">≥</option>
+          <option value="gt">{'>'}</option>
         </FormControl>
         <FormControl
           style={{flex: 5, marginRight: 5}}

@@ -48,7 +48,7 @@ const Note = PropTypes.shape(allRequired({
 }))
 
 const CheckMethod = PropTypes.shape(allRequired({
-  type: PropTypes.oneOf(['le','eq','ge']),
+  type: PropTypes.oneOf(['lt','le','eq','ge','gt']),
   value: PropTypes.number,
 }))
 

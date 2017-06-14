@@ -9,6 +9,8 @@ class FastFleet {
 
   static isValid = obj =>
     obj.type === FastFleet.type
+
+  static describe = () => "Fast Fleet"
 }
 
 export {

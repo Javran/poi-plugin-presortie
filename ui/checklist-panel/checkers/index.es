@@ -1,3 +1,7 @@
+import React from 'react'
+
+import { PTyp } from '../../../ptyp'
+
 import { AllSlotsEmptyEdit } from './all-slots-empty-edit'
 import { FastFleetEdit } from './fast-fleet-edit'
 import { AACIEdit } from './aaci-edit'
@@ -17,17 +21,38 @@ checkerList.map(checkerClass => {
 // this is the corresponding UI of checkers
 const checkerExtras = {}
 
-const registerCheckerExtra = (type, editor, viewer) => {
+const mkViewer = type => {
+  const checkerClass = Checkers[type]
+
+  const component = props => {
+    const {checker} = props
+    const description =
+      typeof checkerClass.describe === 'function' ?
+        checkerClass.describe(checker) :
+        JSON.stringify(checker)
+    return (
+      <div>
+        {description}
+      </div>
+    )
+  }
+
+  component.propTypes = {
+    checker: PTyp.object.isRequired,
+  }
+
+  return component
+}
+
+const registerCheckerExtra = (type, editor) => {
   const checker = Checkers[type]
   checkerExtras[type] = {
     type,
     checker,
     editor,
-    viewer,
+    viewer: mkViewer(type),
   }
 }
-
-// TODO: viewers
 
 registerCheckerExtra('all-slots-empty', AllSlotsEmptyEdit)
 registerCheckerExtra('fast-fleet', FastFleetEdit)

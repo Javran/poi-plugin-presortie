@@ -16,6 +16,18 @@ class AllSlotsEmpty {
     obj.type === AllSlotsEmpty.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
 
+  static describe = obj => {
+    const {method, ignoreExtra, ignoreUnlocked} = obj
+
+    const ignoreExtraText = ignoreExtra ? "ignoring extra slots" : null
+    const ignoreUnlockedText = ignoreUnlocked ? "ignoring unlocked ships" : null
+
+    return [
+      `Ships wihthout Equipments ${CheckMethod.describe(method)}`,
+      ignoreExtraText, ignoreUnlockedText,
+    ].filter(x => x).join(', ')
+  }
+
 }
 
 export {

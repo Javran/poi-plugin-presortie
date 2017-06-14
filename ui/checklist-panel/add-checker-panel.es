@@ -84,7 +84,10 @@ class AddCheckerPanel extends Component {
     this.setState({ editor })
 
   render() {
-    const {editor} = this.state
+    const {editor, editorStates} = this.state
+    const editorState = editorStates[editor]
+    const checker = Checkers[editor]
+    const isInputValid = checker.isValid(editorState)
     return (
       <div>
         <DropdownButton
@@ -120,6 +123,8 @@ class AddCheckerPanel extends Component {
             <FontAwesome name="undo" />
           </Button>
           <Button
+            disabled={!isInputValid}
+            bsStyle={isInputValid ? 'default' : 'danger'}
             style={{marginLeft: 5, height: 'auto'}}
             bsSize="small"
             onClick={this.handleAddChecker}

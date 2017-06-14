@@ -1,3 +1,5 @@
+import { CheckMethod } from './common'
+
 class FighterPower {
   static type = 'fighter-power'
 
@@ -7,6 +9,10 @@ class FighterPower {
   }
 
   static title = "Fighter Power"
+
+  static isValid = obj =>
+    obj.type === FighterPower.type &&
+    CheckMethod.isValidInRange(0,+Infinity)(obj.method)
 }
 
 export {

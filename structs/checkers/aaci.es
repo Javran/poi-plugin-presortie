@@ -1,3 +1,5 @@
+import { CheckMethod } from './common'
+
 class AACI {
   static type = 'aaci'
 
@@ -7,6 +9,10 @@ class AACI {
   }
 
   static title = "Anti-Air Cut-In"
+
+  static isValid = obj =>
+    obj.type === AACI.type &&
+    CheckMethod.isValidInRange(0,6)(obj.method)
 }
 
 export {

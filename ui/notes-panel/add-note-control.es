@@ -58,7 +58,7 @@ class AddNoteControl extends Component {
         <Button
           disabled={!canSave}
           style={btnStyle}
-          bsStyle={canSave ? 'success' : 'danger'}
+          bsStyle={canSave ? 'default' : 'danger'}
           onClick={this.handleAddContent}
           bsSize="small">
           <FontAwesome name="plus" />

@@ -1,3 +1,5 @@
+import { CheckMethod } from './common'
+
 class OASW {
   static type = 'oasw'
 
@@ -7,6 +9,10 @@ class OASW {
   }
 
   static title = "Opening Anti-Submarine Warfare"
+
+  static isValid = obj =>
+    obj.type === OASW.type &&
+    CheckMethod.isValidInRange(0,6)(obj.method)
 }
 
 export {

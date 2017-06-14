@@ -73,7 +73,7 @@ class AddLinkControl extends Component {
         <Button
           disabled={!canAdd}
           style={btnStyle}
-          bsStyle={canAdd ? 'success' : 'danger'}
+          bsStyle={canAdd ? 'default' : 'danger'}
           onClick={this.handleAddLink}
           bsSize="small">
           <FontAwesome name="plus" />

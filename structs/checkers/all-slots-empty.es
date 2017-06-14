@@ -1,3 +1,5 @@
+import { CheckMethod } from './common'
+
 class AllSlotsEmpty {
   static type = 'all-slots-empty'
 
@@ -9,6 +11,11 @@ class AllSlotsEmpty {
   }
 
   static title = "Ships without Equipments"
+
+  static isValid = obj =>
+    obj.type === AllSlotsEmpty.type &&
+    CheckMethod.isValidInRange(0,6)(obj.method)
+
 }
 
 export {

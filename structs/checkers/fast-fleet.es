@@ -7,6 +7,8 @@ class FastFleet {
 
   static title = "Require Fast Fleet"
 
+  static isValid = obj =>
+    obj.type === FastFleet.type
 }
 
 export {

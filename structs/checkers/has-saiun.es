@@ -1,3 +1,5 @@
+import { CheckMethod } from './common'
+
 class HasSaiun {
   static type = 'has-saiun'
 
@@ -7,6 +9,10 @@ class HasSaiun {
   }
 
   static title = "Require Saiuns"
+
+  static isValid = obj =>
+    obj.type === HasSaiun.type &&
+    CheckMethod.isValidInRange(0,6)(obj.method)
 }
 
 export {

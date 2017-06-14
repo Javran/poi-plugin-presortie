@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../../../ptyp'
+import { MethodEdit } from './method-edit'
 
 class AllSlotsEmptyEdit extends Component {
   static propTypes = {
@@ -59,40 +60,26 @@ class AllSlotsEmptyEdit extends Component {
     }))
   }
 
+  handleModifyMethod = modifier => {
+    const { onModifyValue } = this.props
+    onModifyValue(v => ({
+      ...v,
+      method: modifier(v.method),
+    }))
+  }
+
   render() {
     const {style, value} = this.props
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
           <div style={{flex: 3}}>Ships without Equipments</div>
-          <div
-            style={{
-              flex: 5,
-              display: 'flex',
-              alignItems: 'baseline',
-              marginLeft: 5,
-            }}
-          >
-            <FormControl
-              style={{flex: 2, marginRight: 5}}
-              onChange={this.handleChangeMethodType}
-              value={value.method.type}
-              componentClass="select">
-              <option value="le">≤</option>
-              <option value="eq">=</option>
-              <option value="ge">≥</option>
-            </FormControl>
-            <FormControl
-              style={{flex: 5, marginRight: 5}}
-              onChange={this.handleChangeMethodValue}
-              value={value.method.value}
-              type="number" />
-            <div
-              style={{flex: 2}}
-            >
-              Ship(s)
-            </div>
-          </div>
+          <MethodEdit
+            style={{marginLeft: 5}}
+            value={value.method}
+            onModifyValue={this.handleModifyMethod}
+            postfix="Ship(s)"
+          />
         </div>
         <Checkbox
           onChange={this.handleToggleIgnoreExtra}

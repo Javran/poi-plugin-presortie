@@ -7,6 +7,8 @@ class AllSlotsEmpty {
     ignoreExtra: false,
     ignoreUnlocked: true,
   }
+
+  static title = "Ships without Equipments"
 }
 
 export {

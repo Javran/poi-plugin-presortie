@@ -4,6 +4,9 @@ class FastFleet {
   static defValue = {
     type: FastFleet.type,
   }
+
+  static title = "Require Fast Fleet"
+
 }
 
 export {

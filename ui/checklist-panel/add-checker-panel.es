@@ -7,6 +7,7 @@ import FontAwesome from 'react-fontawesome'
 
 import { AllSlotsEmptyEdit } from './checkers/all-slots-empty-edit'
 import { FastFleetEdit } from './checkers/fast-fleet-edit'
+import { AACIEdit } from './checkers/aaci-edit'
 
 import { PTyp } from '../../ptyp'
 import { Checkers, checkerList } from '../../structs'
@@ -20,13 +21,13 @@ checkerList.map(checkerClass => {
 const checkerControlPairs = [
   ['all-slots-empty', AllSlotsEmptyEdit],
   ['fast-fleet', FastFleetEdit],
+  ['aaci', AACIEdit],
 ]
 
 /*
 
    TODO:
 
-   - fast-fleet
    - aaci
    - oasw
    - has-saiun
@@ -84,13 +85,13 @@ class AddCheckerPanel extends Component {
     return (
       <div>
         <DropdownButton
-          title={editor}
+          title={Checkers[editor].title}
           onSelect={this.handleSwitchEditor}
           id="presortie-add-checker-dropdown">
           {
             checkerList.map(checkerClass => (
               <MenuItem key={checkerClass.type} eventKey={checkerClass.type}>
-                {checkerClass.type}
+                {checkerClass.title}
               </MenuItem>
             ))
           }

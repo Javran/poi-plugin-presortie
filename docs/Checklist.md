@@ -54,7 +54,7 @@ that user can define.
     ```
     {
       type: 'fighter-power',
-      method: <CheckMethod>, // valid range 0~5000
+      method: <CheckMethod>, // valid range 0~Infinity (no upper bound)
       id: <number>,
     }
     ```

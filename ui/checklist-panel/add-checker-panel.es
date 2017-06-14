@@ -8,6 +8,10 @@ import FontAwesome from 'react-fontawesome'
 import { AllSlotsEmptyEdit } from './checkers/all-slots-empty-edit'
 import { FastFleetEdit } from './checkers/fast-fleet-edit'
 import { AACIEdit } from './checkers/aaci-edit'
+import { OASWEdit } from './checkers/oasw-edit'
+import { HasSaiunEdit } from './checkers/has-saiun-edit'
+import { HasRadarEdit } from './checkers/has-radar-edit'
+import { FighterPowerEdit } from './checkers/fighter-power-edit'
 
 import { PTyp } from '../../ptyp'
 import { Checkers, checkerList } from '../../structs'
@@ -22,17 +26,16 @@ const checkerControlPairs = [
   ['all-slots-empty', AllSlotsEmptyEdit],
   ['fast-fleet', FastFleetEdit],
   ['aaci', AACIEdit],
+  ['oasw', OASWEdit],
+  ['has-saiun', HasSaiunEdit],
+  ['has-radar', HasRadarEdit],
+  ['fighter-power', FighterPowerEdit],
 ]
 
 /*
 
    TODO:
 
-   - aaci
-   - oasw
-   - has-saiun
-   - has-radar
-   - fighter-power
    - resupply
    - health
 

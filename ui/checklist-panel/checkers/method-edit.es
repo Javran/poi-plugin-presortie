@@ -18,6 +18,14 @@ class MethodEdit extends Component {
     postfix: null,
   }
 
+  // assumes onModifyValue modifies the whole structure
+  // and the method being modified is under key "method"
+  static defaultHandleModifyMethod = onModifyValue => modifier =>
+    onModifyValue(v => ({
+      ...v,
+      method: modifier(v.method),
+    }))
+
   handleChangeType = e => {
     const newValue = e.target.value
     const { onModifyValue } = this.props
@@ -41,7 +49,6 @@ class MethodEdit extends Component {
     return (
       <div
         style={{
-          flex: 5,
           display: 'flex',
           alignItems: 'baseline',
           ...style,

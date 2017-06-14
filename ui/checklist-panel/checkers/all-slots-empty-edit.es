@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {
-  FormControl,
   Checkbox,
 } from 'react-bootstrap'
 
@@ -60,13 +59,8 @@ class AllSlotsEmptyEdit extends Component {
     }))
   }
 
-  handleModifyMethod = modifier => {
-    const { onModifyValue } = this.props
-    onModifyValue(v => ({
-      ...v,
-      method: modifier(v.method),
-    }))
-  }
+  handleModifyMethod =
+    MethodEdit.defaultHandleModifyMethod(this.props.onModifyValue)
 
   render() {
     const {style, value} = this.props
@@ -75,10 +69,9 @@ class AllSlotsEmptyEdit extends Component {
         <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
           <div style={{flex: 3}}>Ships without Equipments</div>
           <MethodEdit
-            style={{marginLeft: 5}}
+            style={{flex: 3, marginLeft: 5}}
             value={value.method}
             onModifyValue={this.handleModifyMethod}
-            postfix="Ship(s)"
           />
         </div>
         <Checkbox

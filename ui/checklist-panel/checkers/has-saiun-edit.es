@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
-class AACIEdit extends Component {
+class HasSaiunEdit extends Component {
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,
@@ -26,7 +26,7 @@ class AACIEdit extends Component {
         width: '100%',
         ...style,
       }}>
-        <div style={{flex: 3}}>AACI-capable ships</div>
+        <div style={{flex: 3}}>Ships Equipped with Saiuns</div>
         <MethodEdit
           style={{flex: 3, marginLeft: 5}}
           value={value.method}
@@ -38,5 +38,5 @@ class AACIEdit extends Component {
 }
 
 export {
-  AACIEdit,
+  HasSaiunEdit,
 }

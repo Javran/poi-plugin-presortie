@@ -10,6 +10,7 @@ import FontAwesome from 'react-fontawesome'
 import { PTyp } from '../../ptyp'
 import { AddCheckerPanel } from './add-checker-panel'
 import { FleetPicker } from './fleet-picker'
+import { CheckerControl } from './checker-control'
 
 class ChecklistPanel extends Component {
   static propTypes = {
@@ -78,7 +79,7 @@ class ChecklistPanel extends Component {
               <ListGroupItem
                 style={{padding: '8px 15px'}}
                 key={checker.id}>
-                <div>{ JSON.stringify(checker) }</div>
+                <CheckerControl checker={checker} />
               </ListGroupItem>
             ))
           }

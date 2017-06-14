@@ -1,3 +1,5 @@
+import { Checkers, checkerList } from './checkers'
+
 class MapInfo {
   static toString = ({world, area, name}) =>
     `${world}-${area}: ${name}`
@@ -33,4 +35,7 @@ export {
   MapInfo,
   DynMapId,
   MapExtra,
+
+  Checkers,
+  checkerList,
 }

@@ -8,20 +8,13 @@ import { PTyp } from '../../../ptyp'
 
 class AllSlotsEmptyEdit extends Component {
   static propTypes = {
-    allSlotsEmpty: PTyp.PartialChecker.AllSlotsEmpty.isRequired,
+    value: PTyp.PartialChecker.AllSlotsEmpty.isRequired,
     onModifyValue: PTyp.func.isRequired,
     style: PTyp.object,
   }
 
   static defaultProps = {
     style: {},
-  }
-
-  static defaultValue = {
-    type: 'all-slots-empty',
-    method: {type: 'eq', value: 0},
-    ignoreExtra: false,
-    ignoreUnlocked: true,
   }
 
   handleToggleIgnoreExtra = e => {
@@ -67,7 +60,7 @@ class AllSlotsEmptyEdit extends Component {
   }
 
   render() {
-    const {style, allSlotsEmpty} = this.props
+    const {style, value} = this.props
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'center', width: '100%'}}>
@@ -83,7 +76,7 @@ class AllSlotsEmptyEdit extends Component {
             <FormControl
               style={{flex: 2, marginRight: 5}}
               onChange={this.handleChangeMethodType}
-              value={allSlotsEmpty.method.type}
+              value={value.method.type}
               componentClass="select">
               <option value="le">≤</option>
               <option value="eq">=</option>
@@ -92,7 +85,7 @@ class AllSlotsEmptyEdit extends Component {
             <FormControl
               style={{flex: 5, marginRight: 5}}
               onChange={this.handleChangeMethodValue}
-              value={allSlotsEmpty.method.value}
+              value={value.method.value}
               type="number" />
             <div
               style={{flex: 2}}
@@ -103,10 +96,10 @@ class AllSlotsEmptyEdit extends Component {
         </div>
         <Checkbox
           onChange={this.handleToggleIgnoreExtra}
-          checked={allSlotsEmpty.ignoreExtra}>Ignore Extra Slots</Checkbox>
+          checked={value.ignoreExtra}>Ignore Extra Slots</Checkbox>
         <Checkbox
           onChange={this.handleToggleIgnoreUnlocked}
-          checked={allSlotsEmpty.ignoreUnlocked}>Ignore Unlocked Ships</Checkbox>
+          checked={value.ignoreUnlocked}>Ignore Unlocked Ships</Checkbox>
       </div>
     )
   }

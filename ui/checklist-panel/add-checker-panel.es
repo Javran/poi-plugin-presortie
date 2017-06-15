@@ -107,7 +107,7 @@ class AddCheckerPanel extends Component {
             bsSize="small"
             onClick={this.handleReset}
           >
-            <FontAwesome name="undo" />
+            <FontAwesome name="close" />
           </Button>
           <Button
             disabled={!isInputValid}

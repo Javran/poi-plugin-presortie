@@ -90,14 +90,27 @@ class NoteControl extends Component {
         >
           <FontAwesome name="trash" />
         </Button>
-        <Button
-          disabled={!canSave}
-          style={NoteControl.btnStyle}
-          bsStyle={canSave ? 'success' : 'danger'}
-          onClick={this.handleModifyNote}
-          bsSize="small">
-          <FontAwesome name="save" />
-        </Button>
+        <div
+          style={{
+            ...NoteControl.btnStyle,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignSelf: 'stretch',
+          }}>
+          <Button
+            style={{marginBottom: 5}}
+            bsSize="small">
+            <FontAwesome name="undo" />
+          </Button>
+          <Button
+            disabled={!canSave}
+            bsStyle={canSave ? 'success' : 'danger'}
+            onClick={this.handleModifyNote}
+            bsSize="small">
+            <FontAwesome name="save" />
+          </Button>
+        </div>
       </div>
     )
   }

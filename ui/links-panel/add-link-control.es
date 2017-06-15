@@ -68,7 +68,7 @@ class AddLinkControl extends Component {
           bsSize="small"
           onClick={this.handleReset}
         >
-          <FontAwesome name="undo" />
+          <FontAwesome name="close" />
         </Button>
         <Button
           disabled={!canAdd}

@@ -22,13 +22,16 @@ that user can define.
 
 - when `type` is `health`
 
-    This structure checks the percentage of HP for a specific target
+    This structure first count ships that satisfy `filterMethod` in the sortie fleet,
+    then check the result number using `countMethod`.
 
     ```
     {
       type: 'health',
       target: <CheckTarget>,
-      method: <CheckMethod>, // valid range: 0~100
+      filterMethod: <CheckMethod>, // valid range: 0~100
+      countMethod: <CheckMethod>, // valid range: 0~6
+      ignoreUnlocked: <boolean>,
       id: <number>,
     }
     ```
@@ -36,9 +39,12 @@ that user can define.
     where `CheckMethod` structure defines how the value should be checked,
     and `CheckTarget` defines what this checker is checking against.
 
+    For example: `filterMethod: {type: 'eq', value: 100}, countMethod: {type: 'ge', value: 4}`
+    requires at least 4 member of the fleet to be at full health.
+
 - when `type` is `resupply`
 
-    This structure is mostly like `health` but checks resupply statuses.
+    This structure is mostly like `health` but checks resupply statuses. (TODO)
 
     ```
     {

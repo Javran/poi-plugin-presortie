@@ -13,6 +13,11 @@ class AACI {
   static isValid = obj =>
     obj.type === AACI.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
+
+  static describe = obj => {
+    const {method} = obj
+    return `AACI-capable ships ${CheckMethod.describe(method)}`
+  }
 }
 
 export {

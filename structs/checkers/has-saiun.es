@@ -13,6 +13,11 @@ class HasSaiun {
   static isValid = obj =>
     obj.type === HasSaiun.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
+
+  static describe = obj => {
+    const {method} = obj
+    return `Ships Equipped with Saiun ${CheckMethod.describe(method)}`
+  }
 }
 
 export {

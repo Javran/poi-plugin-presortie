@@ -13,6 +13,11 @@ class FighterPower {
   static isValid = obj =>
     obj.type === FighterPower.type &&
     CheckMethod.isValidInRange(0,+Infinity)(obj.method)
+
+  static describe = obj => {
+    const {method} = obj
+    return `Fighter Power ${CheckMethod.describe(method)}`
+  }
 }
 
 export {

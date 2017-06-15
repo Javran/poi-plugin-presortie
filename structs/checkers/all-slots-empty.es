@@ -23,7 +23,7 @@ class AllSlotsEmpty {
     const ignoreUnlockedText = ignoreUnlocked ? "ignoring unlocked ships" : null
 
     return [
-      `Ships wihthout Equipments ${CheckMethod.describe(method)}`,
+      `Ships without Equipments ${CheckMethod.describe(method)}`,
       ignoreExtraText, ignoreUnlockedText,
     ].filter(x => x).join(', ')
   }

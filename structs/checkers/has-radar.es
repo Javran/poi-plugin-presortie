@@ -13,6 +13,12 @@ class HasRadar {
   static isValid = obj =>
     obj.type === HasRadar.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
+
+  static describe = obj => {
+    const {method} = obj
+    return `Ships Equipped with Radar ${CheckMethod.describe(method)}`
+  }
+
 }
 
 export {

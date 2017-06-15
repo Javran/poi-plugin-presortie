@@ -13,6 +13,11 @@ class OASW {
   static isValid = obj =>
     obj.type === OASW.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
+
+  static describe = obj => {
+    const {method} = obj
+    return `OASW-capable ships ${CheckMethod.describe(method)}`
+  }
 }
 
 export {

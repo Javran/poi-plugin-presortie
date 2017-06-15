@@ -12,8 +12,17 @@ class CheckerControl extends Component {
     checker: PTyp.object.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      editing: false,
+      checker: props.checker,
+    }
+  }
+
   render() {
     const { checker } = this.props
+    const { editing } = this.state
     const { type } = checker
     const checkerExtra = checkerExtras[type]
     return (
@@ -21,13 +30,19 @@ class CheckerControl extends Component {
         <div style={{flex: 1}}>
           <checkerExtra.viewer
             checker={checker}
+            style={editing ? {display: 'none'} : {}}
+          />
+          <checkerExtra.editor
+            value={this.state.checker}
+            onModifyValue={() => {}}
+            style={editing ? {} : {display: 'none'}}
           />
         </div>
         <Button
           style={{marginLeft: 5, height: 'auto'}}
           bsSize="small"
         >
-          <FontAwesome name="edit" />
+          <FontAwesome name="pencil" />
         </Button>
         <Button
           style={{marginLeft: 5, height: 'auto'}}

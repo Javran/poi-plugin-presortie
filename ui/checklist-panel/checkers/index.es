@@ -25,13 +25,13 @@ const mkViewer = type => {
   const checkerClass = Checkers[type]
 
   const component = props => {
-    const {checker} = props
+    const {checker, style} = props
     const description =
       typeof checkerClass.describe === 'function' ?
         checkerClass.describe(checker) :
         JSON.stringify(checker)
     return (
-      <div>
+      <div style={style}>
         {description}
       </div>
     )
@@ -39,6 +39,11 @@ const mkViewer = type => {
 
   component.propTypes = {
     checker: PTyp.object.isRequired,
+    style: PTyp.object,
+  }
+
+  component.defaultProps = {
+    style: {},
   }
 
   return component

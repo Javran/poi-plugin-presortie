@@ -99,14 +99,27 @@ class LinkControl extends Component {
         >
           <FontAwesome name="trash" />
         </Button>
-        <Button
-          disabled={!canSave}
-          style={btnStyle}
-          onClick={this.handleSaveLink}
-          bsStyle={canSave ? 'success' : 'danger'}
-          bsSize="small">
-          <FontAwesome name="save" />
-        </Button>
+        <div
+          style={{
+            ...btnStyle,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignSelf: 'stretch',
+          }}>
+          <Button
+            style={{marginBottom: 5}}
+            bsSize="small">
+            <FontAwesome name="undo" />
+          </Button>
+          <Button
+            disabled={!canSave}
+            onClick={this.handleSaveLink}
+            bsStyle={canSave ? 'success' : 'danger'}
+            bsSize="small">
+            <FontAwesome name="save" />
+          </Button>
+        </div>
       </div>
     )
   }

@@ -30,6 +30,9 @@ class LinkControl extends Component {
     })
   }
 
+  handleCancelEditing = () =>
+    this.setState({editing: false})
+
   handleRemoveLink = () => {
     const { linkInfo } = this.props
     const { onModifyLink } = linkInfo
@@ -109,6 +112,7 @@ class LinkControl extends Component {
           }}>
           <Button
             style={{marginBottom: 5}}
+            onClick={this.handleCancelEditing}
             bsSize="small">
             <FontAwesome name="undo" />
           </Button>

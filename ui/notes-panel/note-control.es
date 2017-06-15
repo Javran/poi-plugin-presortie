@@ -37,6 +37,9 @@ class NoteControl extends Component {
     })
   }
 
+  handleCancelEditing = () =>
+    this.setState({editing: false})
+
   handleNoteChange = e =>
     this.setState({content: e.target.value})
 
@@ -100,6 +103,7 @@ class NoteControl extends Component {
           }}>
           <Button
             style={{marginBottom: 5}}
+            onClick={this.handleCancelEditing}
             bsSize="small">
             <FontAwesome name="undo" />
           </Button>

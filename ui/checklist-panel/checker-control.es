@@ -28,6 +28,9 @@ class CheckerControl extends Component {
     })
   }
 
+  handleCancelEditing = () =>
+    this.setState({editing: false})
+
   handleModifyStateChecker = modifier =>
     this.setState(state => ({
       ...state,
@@ -66,6 +69,8 @@ class CheckerControl extends Component {
     const { checker } = this.props
     const { type } = checker
     const checkerExtra = checkerExtras[type]
+    const checkerClass = checkerExtra.checker
+    const isInputValid = checkerClass.isValid(this.state.checker)
     const btnStyle = {
       marginLeft: 5,
       height: 'auto',
@@ -95,10 +100,13 @@ class CheckerControl extends Component {
           }}>
           <Button
             style={{marginBottom: 5}}
+            onClick={this.handleCancelEditing}
             bsSize="small">
             <FontAwesome name="undo" />
           </Button>
           <Button
+            disabled={!isInputValid}
+            bsStyle={isInputValid ? 'success' : 'danger'}
             bsSize="small">
             <FontAwesome name="save" />
           </Button>

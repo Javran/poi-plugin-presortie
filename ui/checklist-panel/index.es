@@ -54,6 +54,10 @@ class ChecklistPanel extends Component {
       ))
   }
 
+  handleRemoveChecker = checkerId => () =>
+    this.handleModifyChecklist(checklist =>
+      checklist.filter(checker => checker.id !== checkerId))
+
   render() {
     const {
       style, checklist,
@@ -88,6 +92,7 @@ class ChecklistPanel extends Component {
                 key={checker.id}>
                 <CheckerControl
                   onModifyChecker={this.handleModifyChecker(checker.id)}
+                  onRemoveChecker={this.handleRemoveChecker(checker.id)}
                   checker={checker} />
               </ListGroupItem>
             ))

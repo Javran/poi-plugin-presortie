@@ -11,6 +11,7 @@ class CheckerControl extends Component {
   static propTypes = {
     checker: PTyp.object.isRequired,
     onModifyChecker: PTyp.func.isRequired,
+    onRemoveChecker: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -73,7 +74,7 @@ class CheckerControl extends Component {
   }
 
   renderEditMode() {
-    const { checker } = this.props
+    const { checker, onRemoveChecker } = this.props
     const { type } = checker
     const checkerExtra = checkerExtras[type]
     const checkerClass = checkerExtra.checker
@@ -92,6 +93,7 @@ class CheckerControl extends Component {
         </div>
         <Button
           style={btnStyle}
+          onClick={onRemoveChecker}
           bsStyle="danger"
           bsSize="small"
         >

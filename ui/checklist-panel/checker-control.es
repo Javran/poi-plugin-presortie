@@ -20,9 +20,22 @@ class CheckerControl extends Component {
     }
   }
 
-  render() {
+  handleStartEditing = () => {
     const { checker } = this.props
-    const { editing } = this.state
+    this.setState({
+      editing: true,
+      checker,
+    })
+  }
+
+  handleModifyStateChecker = modifier =>
+    this.setState(state => ({
+      ...state,
+      checker: modifier(state.checker),
+    }))
+
+  renderViewMode() {
+    const { checker } = this.props
     const { type } = checker
     const checkerExtra = checkerExtras[type]
     return (
@@ -30,17 +43,12 @@ class CheckerControl extends Component {
         <div style={{flex: 1}}>
           <checkerExtra.viewer
             checker={checker}
-            style={editing ? {display: 'none'} : {}}
-          />
-          <checkerExtra.editor
-            value={this.state.checker}
-            onModifyValue={() => {}}
-            style={editing ? {} : {display: 'none'}}
           />
         </div>
         <Button
           style={{marginLeft: 5, height: 'auto'}}
           bsSize="small"
+          onClick={this.handleStartEditing}
         >
           <FontAwesome name="pencil" />
         </Button>
@@ -51,10 +59,62 @@ class CheckerControl extends Component {
           <FontAwesome name="check" />
         </Button>
       </div>
-
     )
   }
+
+  renderEditMode() {
+    const { checker } = this.props
+    const { type } = checker
+    const checkerExtra = checkerExtras[type]
+    const btnStyle = {
+      marginLeft: 5,
+      height: 'auto',
+    }
+    return (
+      <div style={{display: 'flex', alignItems: 'flex-end'}}>
+        <div style={{flex: 1, alignSelf: 'center'}}>
+          <checkerExtra.editor
+            value={this.state.checker}
+            onModifyValue={this.handleModifyStateChecker}
+          />
+        </div>
+        <Button
+          style={btnStyle}
+          bsStyle="danger"
+          bsSize="small"
+        >
+          <FontAwesome name="trash" />
+        </Button>
+        <div
+          style={{
+            ...btnStyle,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignSelf: 'stretch',
+          }}>
+          <Button
+            style={{marginBottom: 5}}
+            bsSize="small">
+            <FontAwesome name="undo" />
+          </Button>
+          <Button
+            bsSize="small">
+            <FontAwesome name="save" />
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const { editing } = this.state
+    return editing ?
+      this.renderEditMode() :
+      this.renderViewMode()
+  }
 }
+
 
 export {
   CheckerControl,

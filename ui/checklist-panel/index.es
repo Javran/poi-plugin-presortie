@@ -47,11 +47,12 @@ class ChecklistPanel extends Component {
       return [...checklist, checker]
     })
 
-  handleModifyChecker = checkerId => modifier =>
+  handleModifyChecker = checkerId => modifier => {
     this.handleModifyChecklist(checklist =>
       checklist.map(checker =>
         checker.id === checkerId ? modifier(checker) : checker
       ))
+  }
 
   render() {
     const {
@@ -86,6 +87,7 @@ class ChecklistPanel extends Component {
                 style={{padding: '8px 15px'}}
                 key={checker.id}>
                 <CheckerControl
+                  onModifyChecker={this.handleModifyChecker(checker.id)}
                   checker={checker} />
               </ListGroupItem>
             ))

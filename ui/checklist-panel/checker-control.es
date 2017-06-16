@@ -10,6 +10,7 @@ import { checkerExtras } from './checkers'
 class CheckerControl extends Component {
   static propTypes = {
     checker: PTyp.object.isRequired,
+    onModifyChecker: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -36,6 +37,12 @@ class CheckerControl extends Component {
       ...state,
       checker: modifier(state.checker),
     }))
+
+  handleSaveChecker = () => {
+    const { onModifyChecker } = this.props
+    onModifyChecker(() => this.state.checker)
+    this.setState({editing: false})
+  }
 
   renderViewMode() {
     const { checker } = this.props
@@ -107,6 +114,7 @@ class CheckerControl extends Component {
           <Button
             disabled={!isInputValid}
             bsStyle={isInputValid ? 'success' : 'danger'}
+            onClick={this.handleSaveChecker}
             bsSize="small">
             <FontAwesome name="save" />
           </Button>

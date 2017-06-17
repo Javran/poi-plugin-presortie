@@ -24,15 +24,11 @@ that user can define.
 
 - when `type` is `health`
 
-    This structure first count ships that satisfy `filterMethod` in the sortie fleet,
-    then check the result number using `countMethod`.
-
     ```
     {
       type: 'health',
-      target: <CheckTarget>,
-      filterMethod: <CheckMethod>, // valid range: 0~100
-      countMethod: <CheckMethod>, // valid range: 0~6
+      healthStates: <an Array of HealthState>
+      qualifyMethod: <CheckMethod>, // valid range: 0~6
       ignoreUnlocked: <boolean>,
       id: <number>,
       enabled: <boolean>,
@@ -40,20 +36,29 @@ that user can define.
     ```
 
     where `CheckMethod` structure defines how the value should be checked,
-    and `CheckTarget` defines what this checker is checking against.
+    and `HealthState` is one of the following:
 
-    For example: `filterMethod: {type: 'eq', value: 100}, countMethod: {type: 'ge', value: 4}`
-    requires at least 4 member of the fleet to be at full health.
+    - `full`: `HP = 100%`
+    - `normal`: `75% < HP < 100%`
+    - `shouha`: `50% < HP <= 75%`
+    - `chuuha`: `25% < HP <= 50`
+    - `taiha`: `0 < HP <= 25%`
+
+    For example: `healthStates: ['full','normal'], qualifyMethod: {type: 'ge', value: 4}`
+    requires at least 4 member of the fleet to have either full or normal health state.
 
 - when `type` is `resupply`
 
-    This structure is mostly like `health` but checks resupply statuses. (TODO)
+    This structure first count ships in the sortie fleet that whose ressupply state
+    satisfy `filterMethod`, then check the result number using `qualifyMethod`.
 
     ```
     {
       type: 'resupply',
-      target: <CheckTarget>,
-      method: <CheckMethod>, // valid range: 0~100
+      filterMethod: <CheckMethod>, // valid range: 0~100
+      qualifyMethod: <CheckMethod>, // valid range: 0~6
+      ignoreUnlocked: <boolean>,
+      resource: 'fuel' / 'ammo' / 'fuel-and-ammo',
       id: <number>,
       enabled: <boolean>,
     }
@@ -148,10 +153,3 @@ that user can define.
     - `gt`: greater than
 
 - a `CheckMethod` valid range means the range that `value` can take.
-
-## `CheckTarget` structure
-
-a `CheckTarget` is one of the following:
-
-- a string `fs` means flagship of the sortie fleet
-- a string `all` means every member of the sortie fleet

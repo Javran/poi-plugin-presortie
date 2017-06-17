@@ -43,6 +43,7 @@ class ChecklistPanel extends Component {
       const checker = {
         ...partialChecker,
         id,
+        enabled: true,
       }
       return [...checklist, checker]
     })

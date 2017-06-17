@@ -64,6 +64,9 @@ class CheckerControl extends Component {
           <FontAwesome name="pencil" />
         </Button>
         <Button
+          bsStyle={/* TODO: consider check results */
+            checker.enabled ? "default" : "warning"
+          }
           style={{marginLeft: 5, height: 'auto'}}
           bsSize="small"
         >

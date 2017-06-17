@@ -15,10 +15,12 @@ that user can define.
     {
       type: <string>,
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
     where every `Checklist` object must have a unique id.
+    also we will only check enabled items in the list
 
 - when `type` is `health`
 
@@ -33,6 +35,7 @@ that user can define.
       countMethod: <CheckMethod>, // valid range: 0~6
       ignoreUnlocked: <boolean>,
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
@@ -52,6 +55,7 @@ that user can define.
       target: <CheckTarget>,
       method: <CheckMethod>, // valid range: 0~100
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
@@ -62,6 +66,7 @@ that user can define.
       type: 'fighter-power',
       method: <CheckMethod>, // valid range 0~Infinity (no upper bound)
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
@@ -75,6 +80,7 @@ that user can define.
       type: <see above>
       method: <CheckMethod>, // valid range 0~6
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
@@ -88,6 +94,7 @@ that user can define.
       type: <see above>
       method: <CheckMethod>, // valid range 0~6
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
@@ -102,6 +109,7 @@ that user can define.
       ignoreExtra: <bool>,
       ignoreUnlocked: <bool>,
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 
@@ -116,6 +124,7 @@ that user can define.
     {
       type: 'fast-fleet',
       id: <number>,
+      enabled: <boolean>,
     }
     ```
 

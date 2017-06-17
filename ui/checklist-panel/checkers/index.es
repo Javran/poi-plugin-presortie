@@ -6,8 +6,8 @@ import { AllSlotsEmptyEdit } from './all-slots-empty-edit'
 import { FastFleetEdit } from './fast-fleet-edit'
 import { AACIEdit } from './aaci-edit'
 import { OASWEdit } from './oasw-edit'
-import { HasSaiunEdit } from './has-saiun-edit'
 import { HasRadarEdit } from './has-radar-edit'
+import { CountSaiunEdit } from './count-saiun-edit'
 import { FighterPowerEdit } from './fighter-power-edit'
 
 import { Checkers, checkerList } from '../../../structs'
@@ -63,8 +63,8 @@ registerCheckerExtra('all-slots-empty', AllSlotsEmptyEdit)
 registerCheckerExtra('fast-fleet', FastFleetEdit)
 registerCheckerExtra('aaci', AACIEdit)
 registerCheckerExtra('oasw', OASWEdit)
-registerCheckerExtra('has-saiun', HasSaiunEdit)
 registerCheckerExtra('has-radar', HasRadarEdit)
+registerCheckerExtra('count-saiun', CountSaiunEdit)
 registerCheckerExtra('fighter-power', FighterPowerEdit)
 
 export {

@@ -1,25 +1,25 @@
 import { CheckMethod } from './common'
 
-class HasSaiun {
-  static type = 'has-saiun'
+class CountSaiun {
+  static type = 'count-saiun'
 
   static defValue = {
-    type: HasSaiun.type,
+    type: CountSaiun.type,
     method: {type: 'ge', value: 1},
   }
 
   static title = "Require Saiuns"
 
   static isValid = obj =>
-    obj.type === HasSaiun.type &&
+    obj.type === CountSaiun.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
 
   static describe = obj => {
     const {method} = obj
-    return `Ships Equipped with Saiun ${CheckMethod.describe(method)}`
+    return `Number of Saiuns in Fleet ${CheckMethod.describe(method)}`
   }
 }
 
 export {
-  HasSaiun,
+  CountSaiun,
 }

@@ -65,10 +65,23 @@ that user can define.
     }
     ```
 
-- when `type` is one of `aaci`, `oasw`, `has-saiun`, `has-radar`
+- when `type` is one of `aaci`, `oasw`, `has-radar`
 
     This checker counts the number of ships that have the specific ability,
     and applies `method` against this number to see if it's satisfied.
+
+    ```
+    {
+      type: <see above>
+      method: <CheckMethod>, // valid range 0~6
+      id: <number>,
+    }
+    ```
+
+- when `type` is `count-saiun`
+
+    This checker counts the total number of Saiuns in a fleet
+    and applies `method` to see if it's satisfied
 
     ```
     {

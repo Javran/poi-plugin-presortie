@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
-class HasSaiunEdit extends Component {
+class CountSaiunEdit extends Component {
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,
@@ -38,5 +38,5 @@ class HasSaiunEdit extends Component {
 }
 
 export {
-  HasSaiunEdit,
+  CountSaiunEdit,
 }

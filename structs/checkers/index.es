@@ -4,7 +4,7 @@ import { AllSlotsEmpty } from './all-slots-empty'
 import { FastFleet } from './fast-fleet'
 import { AACI } from './aaci'
 import { OASW } from './oasw'
-import { HasSaiun } from './has-saiun'
+import { CountSaiun } from './count-saiun'
 import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
 
@@ -25,8 +25,8 @@ const registerChecker = checker => {
   FastFleet,
   AACI,
   OASW,
-  HasSaiun,
   HasRadar,
+  CountSaiun,
   FighterPower,
 ].map(registerChecker)
 

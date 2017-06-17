@@ -54,8 +54,8 @@ const saturate = (min,max) => v =>
   v < min ? min : (v > max ? max : v)
 
 const shallowObjectEqual = (obj1,obj2) => {
-  if (obj1 !== obj2)
-    return false
+  if (obj1 === obj2)
+    return true
   // know: obj1 & obj2 are not strictly equal
   if (typeof obj1 !== typeof obj2 ||
       /*
@@ -63,8 +63,8 @@ const shallowObjectEqual = (obj1,obj2) => {
        */
       typeof obj1 !== 'object')
     return false
-  const keys1 = Object.keys(obj1).sort()
-  const keys2 = Object.keys(obj2).sort()
+  const keys1 = obj1 === null ? [] : Object.keys(obj1).sort()
+  const keys2 = obj2 === null ? [] : Object.keys(obj2).sort()
   if (keys1.length !== keys2.length)
     return false
   return keys1.every( (key1, ind) => {

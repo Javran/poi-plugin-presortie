@@ -56,20 +56,28 @@ const saturate = (min,max) => v =>
 const shallowObjectEqual = (obj1,obj2) => {
   if (obj1 === obj2)
     return true
+
   // know: obj1 & obj2 are not strictly equal
   if (typeof obj1 !== typeof obj2 ||
+      // NOTE: `typeof null`  returns 'object',
+      // we need this extra check to prevent dealing with nulls
+      // in following parts.
+      // since we've know obj1 !== obj2, having either object being
+      // `null` means they are definitely different.
+      (obj1 === null || obj2 === null) ||
       /*
          know: obj1 and obj2 are of the same type
        */
       typeof obj1 !== 'object')
     return false
+
   const keys1 = obj1 === null ? [] : Object.keys(obj1).sort()
   const keys2 = obj2 === null ? [] : Object.keys(obj2).sort()
   if (keys1.length !== keys2.length)
     return false
   return keys1.every( (key1, ind) => {
     const key2 = keys2[ind]
-    return key1 === key2
+    return key1 === key2 && obj1[key1] === obj2[key2]
   })
 }
 

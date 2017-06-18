@@ -22,3 +22,7 @@
 #poi-plugin-presortie .btn-hp-stat:hover {
     color: inherit;
 }
+
+.presortie-checker-tooltip .tooltip-inner {
+    max-width: none;
+}

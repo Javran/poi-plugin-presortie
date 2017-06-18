@@ -1,4 +1,3 @@
-
 class CheckMethod {
   static isValidInRange = (min=-Infinity,max=+Infinity) => obj =>
     ['lt','le','eq','ge','gt'].indexOf(obj.type) !== -1 &&
@@ -36,7 +35,6 @@ class CheckMethod {
       return funcTable[type](value)
     }
   })()
-
 }
 
 export {

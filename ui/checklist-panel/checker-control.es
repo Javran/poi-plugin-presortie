@@ -58,7 +58,9 @@ class CheckerControl extends Component {
     const checkerExtra = checkerExtras[type]
     const satisfied = problems.length === 0
     const tooltip = (
-      <Tooltip id={`presortie-tooltip-checker-${checker.id}`}>
+      <Tooltip
+        className="presortie-checker-tooltip"
+        id={`presortie-tooltip-checker-${checker.id}`}>
         <div key="toggle-hint">Click to {enabled ? 'disable' : 'enable'}</div>
         {
           problems.map( (problem,ind) => (

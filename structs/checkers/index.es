@@ -11,6 +11,22 @@ import { Health } from './health'
 import { Resupply } from './resupply'
 import { LoS } from './los'
 
+/*
+
+   TODO: impl `prepare` for:
+
+   - fast-fleet
+   - aaci
+   - oasw
+   - count-saiun
+   - has-radar
+   - figher-power
+   - health
+   - resupply
+   - los
+
+ */
+
 const Checkers = {}
 // for a fixed checker ordering
 const checkerList = []

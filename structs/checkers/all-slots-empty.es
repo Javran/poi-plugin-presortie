@@ -6,6 +6,9 @@ import {
 } from 'views/utils/selectors'
 
 import { CheckMethod } from './common'
+import {
+  shipTextSelectorFactory,
+} from './selectors'
 
 class AllSlotsEmpty {
   static type = 'all-slots-empty'
@@ -57,7 +60,12 @@ class AllSlotsEmpty {
                   shipEquipDataSelectorFactory(ship.api_id)(checkerContext))),
           }))
       const emptySlotShips = shipsEquips.filter(s => s.allSlotsEmpty)
-      return satisfy(emptySlotShips.length) ? [] : emptySlotShips.map(s => s.rosterId)
+      return satisfy(emptySlotShips.length) ?
+        [] :
+        emptySlotShips.map(s => {
+          const shipText = shipTextSelectorFactory(s.rosterId)(checkerContext)
+          return `${shipText}: all slots are empty`
+        })
     }
   }
 }

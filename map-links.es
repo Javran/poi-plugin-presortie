@@ -66,6 +66,13 @@ defineMapLink(
     link: `http://db.kcwiki.org/drop/map//${mapInfo.id}`,
   }))
 
+defineMapLink(
+  'KanColle OpenDB',
+  mapInfo => ({
+    name: MapInfo.toShortString(mapInfo),
+    link: `http://swaytwig.com/opendb/newdrop.php#w=${mapInfo.world}&m=${mapInfo.area}`,
+  }))
+
 const getLinks = mapInfo => mapLinks.map( ml => {
   const linkInfo = ml.mapInfoToLink(mapInfo)
   if (linkInfo === null)

@@ -85,6 +85,10 @@ const shallowObjectEqual = (obj1,obj2) => {
 const precompose = prj => f => (...args) =>
   f(...args.map(prj))
 
+const mergeResults = (...funcs) => (...args) =>
+  funcs.map(f => f.call(null,...args)).reduce((acc,x) => ({
+    ...acc, ...x}), {})
+
 export {
   enumFromTo,
   ignore,
@@ -101,4 +105,5 @@ export {
 
   shallowObjectEqual,
   precompose,
+  mergeResults,
 }

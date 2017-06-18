@@ -24,7 +24,6 @@ const checkerControlPairs = checkerList.map(checker => [
    TODO:
 
    - resupply
-   - health
 
  */
 
@@ -36,7 +35,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editor: 'health', // 'all-slots-empty',
+      editor: 'all-slots-empty',
       editorStates: initEditorStates,
 
       allSlotsEmpty: Checkers.AllSlotsEmpty.defValue,

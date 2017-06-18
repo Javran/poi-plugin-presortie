@@ -49,7 +49,7 @@ that user can define.
 
 - when `type` is `resupply`
 
-    This structure first count ships in the sortie fleet that whose ressupply state
+    This structure first count ships in the sortie fleet whose ressupply state
     satisfy `filterMethod`, then check the result number using `qualifyMethod`.
 
     ```
@@ -128,6 +128,19 @@ that user can define.
     ```
     {
       type: 'fast-fleet',
+      id: <number>,
+      enabled: <boolean>,
+    }
+    ```
+
+- when `type` is `los` (TODO)
+
+
+    ```
+    {
+      type: 'los',
+      method: <CheckMethod>,
+      nodeFactor: <number>,
       id: <number>,
       enabled: <boolean>,
     }

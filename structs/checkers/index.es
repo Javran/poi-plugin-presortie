@@ -9,7 +9,7 @@ import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
 import { Health } from './health'
 
-// TODO: need more time to think about "health" and "resupply"
+// TODO: need more time to think about "resupply"
 
 const Checkers = {}
 // for a fixed checker ordering

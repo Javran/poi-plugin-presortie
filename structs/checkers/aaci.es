@@ -1,8 +1,6 @@
 import {
   fleetShipsDataSelectorFactory,
-  shipEquipDataSelectorFactory,
 } from 'views/utils/selectors'
-
 
 import { CheckMethod } from './common'
 import { AACISelectorFactory } from './selectors'

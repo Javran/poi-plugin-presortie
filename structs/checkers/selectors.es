@@ -16,6 +16,7 @@ import {
 } from 'views/utils/selectors'
 
 import { getShipAACIs } from 'views/utils/aaci'
+import { isOASW } from 'views/utils/oasw'
 
 // rosterId => <name> Lv.<level> (<rosterId>)
 // assumes rosterId is always valid
@@ -37,7 +38,21 @@ const AACISelectorFactory = memoize(shipId =>
   })
 )
 
+const OASWSelectorFactory = memoize(shipId =>
+  createSelector([
+    shipDataSelectorFactory(shipId),
+    shipEquipDataSelectorFactory(shipId),
+  ], ([_ship = {}, $ship = {}] = [], _equips = []) => {
+    const ship = { ...$ship, ..._ship }
+    const equips = _equips
+      .filter(([_equip, $equip, _onslot] = []) => !!_equip && !!$equip)
+      .map(([_equip, $equip, _onslot]) => ({ ...$equip, ..._equip }))
+    return isOASW(ship, equips)
+  })
+)
+
 export {
   shipTextSelectorFactory,
   AACISelectorFactory,
+  OASWSelectorFactory,
 }

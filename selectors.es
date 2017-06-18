@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 
 import {
+  stateSelector,
   constSelector,
   fleetsSelector,
   shipsSelector,
@@ -10,6 +11,8 @@ import { _ } from 'lodash'
 
 import { DynMapId, MapExtra } from './structs'
 import { initState } from './reducer'
+
+import { Checkers } from './structs/checkers'
 
 const splitMapId = mapId => ({
   world: Math.floor(mapId/10),
@@ -56,6 +59,30 @@ const currentMapExtraSelector = createSelector(
     const mapExtra = extState.mapExtras[curMapId]
     return typeof mapExtra === 'undefined' ? MapExtra.empty : mapExtra
   })
+
+const enabledCheckersSelector = createSelector(
+  currentMapExtraSelector,
+  mapExtra => mapExtra.checklist.filter(c => c.enabled))
+
+// a preparedChecker has an extra field "listProblems",
+// which is a function that returns a list of problems
+// when CheckerContext is applied to it
+const preparedCheckersSelector = createSelector(
+  enabledCheckersSelector,
+  checklist => checklist.map(checker => {
+    const checkerClass = Checkers[checker.type]
+    let listProblems
+    if (typeof checkerClass.prepare === 'function') {
+      listProblems = checkerClass.prepare(checker)
+    } else {
+      console.error(`checker of type ${checker.type} does not have a prepare method`)
+      listProblems = () => ["Checker not prepared"]
+    }
+    return {
+      ...checker,
+      listProblems,
+    }
+  }))
 
 const allFleetInfoSelector = createSelector(
   fleetsSelector,
@@ -105,15 +132,48 @@ const presortieMainUISelector = createSelector(
   }
 )
 
+// a checker context is an Object that stores enough info
+// for checkers to do what they are supposed to do.
+// this module stores related functions
+const checkerContextSelector = createSelector(
+  currentMapIdSelector,
+  currentFleetIdSelector,
+  stateSelector,
+  (mapId, fleetId, st) => ({
+    mapId, fleetId,
+    // "const" and "info" come directly from the store,
+    // so CheckerContext will have exactly the same shape
+    // as the store (given only these two fields are accessed,
+    // which should be a reasonable assumption)
+    // This allows reusing selectors as functions.
+    const: st.const,
+    info: st.info,
+  })
+)
+
+const checkerResultsSelector = createSelector(
+  preparedCheckersSelector,
+  checkerContextSelector,
+  (preparedCheckers, checkerContext) =>
+    preparedCheckers.map(preparedChecker => ({
+      ...preparedChecker,
+      problems: preparedChecker.listProblems(checkerContext),
+    })))
+
 const checklistUISelector = createSelector(
   currentFleetIdSelector,
   allFleetInfoSelector,
-  (fleetId, allFleetInfo) => ({fleetId, allFleetInfo}))
+  checkerResultsSelector,
+  (fleetId, allFleetInfo, checkerResults) =>
+    ({fleetId, allFleetInfo, checkerResults}))
 
 export {
   mapInfoArraySelector,
   extSelector,
   presortieMainUISelector,
+  currentMapIdSelector,
   currentFleetIdSelector,
   checklistUISelector,
+  checkerContextSelector,
+  checkerResultsSelector,
 }

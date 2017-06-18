@@ -1,3 +1,7 @@
+import {
+  fleetShipsDataSelectorFactory,
+} from 'views/utils/selectors'
+
 import { CheckMethod } from './common'
 
 class AllSlotsEmpty {
@@ -28,6 +32,17 @@ class AllSlotsEmpty {
     ].filter(x => x).join(', ')
   }
 
+  static prepare = checker => {
+    const {method, ignoreExtra, ignoreUnlocked} = checker
+    const satisfy = CheckMethod.toFunction(method)
+    return checkerContext => {
+      const {fleetId} = checkerContext
+      const fleetInd = fleetId-1
+      const fleetShipsData =
+        fleetShipsDataSelectorFactory(fleetInd)(checkerContext)
+      return ["TODO"]
+    }
+  }
 }
 
 export {

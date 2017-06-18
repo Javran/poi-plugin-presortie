@@ -1,5 +1,9 @@
 import { CheckMethod } from './common'
 
+import {
+  fleetShipsEquipDataSelectorFactory,
+} from 'views/utils/selectors'
+
 class HasRadar {
   static type = 'has-radar'
 
@@ -19,6 +23,30 @@ class HasRadar {
     return `Ships Equipped with Radar ${CheckMethod.describe(method)}`
   }
 
+  static prepare = checker => {
+    const {method} = checker
+    const satisfy = CheckMethod.toFunction(method)
+    return checkerContext => {
+      const { fleetId } = checkerContext
+      const fleetInd = fleetId-1
+
+      const isRadar = eq => {
+        if (!eq)
+          return false
+        const [_equip, $equip] = eq
+        return [12,13].includes($equip.api_type[2])
+      }
+      const isRadarIncluded = equips =>
+        Array.isArray(equips) &&
+        equips.some(isRadar)
+      const radarCarrierCount = fleetShipsEquipDataSelectorFactory(fleetInd)(checkerContext)
+        .filter(isRadarIncluded)
+        .length
+      return satisfy(radarCarrierCount) ?
+        [] :
+        [`Current Number of Ships with Radar: ${radarCarrierCount}`]
+    }
+  }
 }
 
 export {

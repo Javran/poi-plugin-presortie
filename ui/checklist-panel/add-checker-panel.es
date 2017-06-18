@@ -19,14 +19,6 @@ checkerList.map(checkerClass => {
 const checkerControlPairs = checkerList.map(checker => [
   checker.type, checkerExtras[checker.type].editor])
 
-/*
-
-   TODO:
-
-   - resupply
-
- */
-
 class AddCheckerPanel extends Component {
   static propTypes = {
     onAddChecker: PTyp.func.isRequired,
@@ -35,7 +27,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editor: 'all-slots-empty',
+      editor: 'los', // 'all-slots-empty',
       editorStates: initEditorStates,
 
       allSlotsEmpty: Checkers.AllSlotsEmpty.defValue,

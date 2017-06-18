@@ -133,8 +133,7 @@ that user can define.
     }
     ```
 
-- when `type` is `los` (TODO)
-
+- when `type` is `los`
 
     ```
     {
@@ -145,6 +144,9 @@ that user can define.
       enabled: <boolean>,
     }
     ```
+
+    Please refer to [Formula 33](http://kancolle.wikia.com/wiki/Line_of_Sight#Formula_33)
+    for what `nodeFactor` means.
 
 ## `CheckMethod` structure
 

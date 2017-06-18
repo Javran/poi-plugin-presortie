@@ -9,8 +9,7 @@ import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
 import { Health } from './health'
 import { Resupply } from './resupply'
-
-// TODO: need more time to think about "resupply"
+import { LoS } from './los'
 
 const Checkers = {}
 // for a fixed checker ordering
@@ -32,6 +31,7 @@ const registerChecker = checker => {
   FighterPower,
   Health,
   Resupply,
+  LoS,
 ].map(registerChecker)
 
 export {

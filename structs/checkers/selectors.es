@@ -13,10 +13,14 @@ import { createSelector } from 'reselect'
 import {
   shipDataSelectorFactory,
   shipEquipDataSelectorFactory,
+  fleetShipsEquipDataSelectorFactory,
 } from 'views/utils/selectors'
 
 import { getShipAACIs } from 'views/utils/aaci'
 import { isOASW } from 'views/utils/oasw'
+import {
+  getTyku, getSaku25, getSaku25a, getSaku33,
+} from 'views/utils/game-utils'
 
 // rosterId => <name> Lv.<level> (<rosterId>)
 // assumes rosterId is always valid
@@ -51,8 +55,17 @@ const OASWSelectorFactory = memoize(shipId =>
   })
 )
 
+const tykuSelectorFactory = memoize(fleetInd =>
+  createSelector(
+    fleetShipsEquipDataSelectorFactory(fleetInd),
+    (equipsData=[]) =>
+      getTyku(equipsData)
+  )
+)
+
 export {
   shipTextSelectorFactory,
   AACISelectorFactory,
   OASWSelectorFactory,
+  tykuSelectorFactory,
 }

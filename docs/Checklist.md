@@ -70,6 +70,7 @@ that user can define.
     {
       type: 'fighter-power',
       method: <CheckMethod>, // valid range 0~Infinity (no upper bound)
+      mode: 'min' / 'max' / 'basic',
       id: <number>,
       enabled: <boolean>,
     }

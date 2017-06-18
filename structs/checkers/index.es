@@ -8,6 +8,7 @@ import { CountSaiun } from './count-saiun'
 import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
 import { Health } from './health'
+import { Resupply } from './resupply'
 
 // TODO: need more time to think about "resupply"
 
@@ -30,6 +31,7 @@ const registerChecker = checker => {
   CountSaiun,
   FighterPower,
   Health,
+  Resupply,
 ].map(registerChecker)
 
 export {

@@ -71,13 +71,7 @@ class MethodEdit extends Component {
           value={value.value}
           type="number" />
         {
-          postfix && (
-            <div
-              style={{flex: 2}}
-              >
-              {postfix}
-            </div>
-          )
+          postfix
         }
       </div>
     )

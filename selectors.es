@@ -160,12 +160,18 @@ const checkerResultsSelector = createSelector(
       problems: preparedChecker.listProblems(checkerContext),
     })))
 
+const checkerResultsMapSelector = createSelector(
+  checkerResultsSelector,
+  checkerResults => checkerResults.reduce(
+    (acc,checker) => ({...acc, [checker.id]: checker}),
+    {}))
+
 const checklistUISelector = createSelector(
   currentFleetIdSelector,
   allFleetInfoSelector,
-  checkerResultsSelector,
-  (fleetId, allFleetInfo, checkerResults) =>
-    ({fleetId, allFleetInfo, checkerResults}))
+  checkerResultsMapSelector,
+  (fleetId, allFleetInfo, checkerResultsMap) =>
+    ({fleetId, allFleetInfo, checkerResultsMap}))
 
 export {
   mapInfoArraySelector,

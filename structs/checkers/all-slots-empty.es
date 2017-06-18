@@ -1,5 +1,8 @@
+import { _ } from 'lodash'
+
 import {
   fleetShipsDataSelectorFactory,
+  shipEquipDataSelectorFactory,
 } from 'views/utils/selectors'
 
 import { CheckMethod } from './common'
@@ -34,13 +37,27 @@ class AllSlotsEmpty {
 
   static prepare = checker => {
     const {method, ignoreExtra, ignoreUnlocked} = checker
+    const applyIgnoreExtra = ignoreExtra ? _.initial : _.identity
     const satisfy = CheckMethod.toFunction(method)
     return checkerContext => {
       const {fleetId} = checkerContext
       const fleetInd = fleetId-1
-      const fleetShipsData =
+      const isAllSlotsEmpty = shipEquipData =>
+        shipEquipData.every(e => !e)
+      const shipsEquips =
         fleetShipsDataSelectorFactory(fleetInd)(checkerContext)
-      return ["TODO"]
+          .filter(([ship]) =>
+            typeof ship !== 'undefined' &&
+            (ship.api_locked === 1 || !ignoreUnlocked))
+          .map(([ship]) => ({
+            rosterId: ship.api_id,
+            allSlotsEmpty:
+              isAllSlotsEmpty(
+                applyIgnoreExtra(
+                  shipEquipDataSelectorFactory(ship.api_id)(checkerContext))),
+          }))
+      const emptySlotShips = shipsEquips.filter(s => s.allSlotsEmpty)
+      return satisfy(emptySlotShips.length) ? [] : emptySlotShips.map(s => s.rosterId)
     }
   }
 }

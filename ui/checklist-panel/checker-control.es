@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
   Button,
+  OverlayTrigger, Tooltip,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
@@ -10,8 +11,14 @@ import { checkerExtras } from './checkers'
 class CheckerControl extends Component {
   static propTypes = {
     checker: PTyp.object.isRequired,
+    problems: PTyp.array,
     onModifyChecker: PTyp.func.isRequired,
     onRemoveChecker: PTyp.func.isRequired,
+    onToggleChecker: PTyp.func.isRequired,
+  }
+
+  static defaultProps = {
+    problems: [],
   }
 
   constructor(props) {
@@ -46,9 +53,23 @@ class CheckerControl extends Component {
   }
 
   renderViewMode() {
-    const { checker } = this.props
-    const { type } = checker
+    const { checker, problems, onToggleChecker } = this.props
+    const { type, enabled } = checker
     const checkerExtra = checkerExtras[type]
+    const satisfied = problems.length === 0
+    const tooltip = (
+      <Tooltip id={`presortie-tooltip-checker-${checker.id}`}>
+        <div key="toggle-hint">Click to {enabled ? 'disable' : 'enable'}</div>
+        {
+          problems.map( (problem,ind) => (
+            <div key={
+              // eslint-disable-next-line react/no-array-index-key
+              ind
+            }>{problem}</div>
+          ))
+        }
+      </Tooltip>
+    )
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
         <div style={{flex: 1}}>
@@ -63,15 +84,19 @@ class CheckerControl extends Component {
         >
           <FontAwesome name="pencil" />
         </Button>
-        <Button
-          bsStyle={/* TODO: consider check results */
-            checker.enabled ? "default" : "warning"
-          }
-          style={{marginLeft: 5, height: 'auto'}}
-          bsSize="small"
-        >
-          <FontAwesome name="check" />
-        </Button>
+        <OverlayTrigger placement="left" overlay={tooltip}>
+          <Button
+            bsStyle={
+              enabled ? (satisfied ? "success" : "danger") : "warning"
+            }
+            style={{marginLeft: 5, height: 'auto'}}
+            onClick={onToggleChecker}
+            bsSize="small"
+          >
+            <FontAwesome
+              name={enabled ? (satisfied ? "check" : "close") : "ban"} />
+          </Button>
+        </OverlayTrigger>
       </div>
     )
   }

@@ -18,7 +18,9 @@ class ChecklistPanel extends Component {
     style: PTyp.object,
     fleetId: PTyp.number.isRequired,
     allFleetInfo: PTyp.array.isRequired,
-
+    checkerResultsMap: PTyp.objectOf(PTyp.shape({
+      problems: PTyp.arrayOf(PTyp.node).isRequired,
+    })).isRequired,
     onFleetIdChange: PTyp.func.isRequired,
     onModifyMapExtra: PTyp.func.isRequired,
   }
@@ -59,11 +61,23 @@ class ChecklistPanel extends Component {
     this.handleModifyChecklist(checklist =>
       checklist.filter(checker => checker.id !== checkerId))
 
+  handleToggleChecker = checkerId => curEnabled => () =>
+    this.handleModifyChecklist(checklist =>
+      checklist.map(c =>
+        c.id !== checkerId ?
+          c :
+          {...c, enabled: !curEnabled}))
+
   render() {
     const {
       style, checklist,
+      checkerResultsMap,
       fleetId, allFleetInfo, onFleetIdChange,
     } = this.props
+    const checklistSatisfied =
+      Object.values(checkerResultsMap).every(
+        c => c.problems.length === 0)
+
     return (
       <Panel
         style={style}
@@ -71,8 +85,11 @@ class ChecklistPanel extends Component {
         header={
           <div style={{display: 'flex', alignItems: 'center'}}>
             <div style={{width: 'auto', flex: 1}}>Checklist</div>
-            <Button style={{marginTop: 0}} bsSize="xsmall" bsStyle="success">
-              <FontAwesome name="check" />
+            <Button
+              style={{marginTop: 0}}
+              bsSize="xsmall"
+              bsStyle={checklistSatisfied ? "success" : "danger"}>
+              <FontAwesome name={checklistSatisfied ? "check" : "close"} />
             </Button>
           </div>
         }>
@@ -87,16 +104,22 @@ class ChecklistPanel extends Component {
             />
           </ListGroupItem>
           {
-            checklist.map(checker => (
-              <ListGroupItem
-                style={{padding: '8px 15px'}}
-                key={checker.id}>
-                <CheckerControl
-                  onModifyChecker={this.handleModifyChecker(checker.id)}
-                  onRemoveChecker={this.handleRemoveChecker(checker.id)}
-                  checker={checker} />
-              </ListGroupItem>
-            ))
+            checklist.map(checker => {
+              const {id, enabled} = checker
+              const problems = enabled ? checkerResultsMap[id].problems : []
+              return (
+                <ListGroupItem
+                  style={{padding: '8px 15px'}}
+                  key={id}>
+                  <CheckerControl
+                    onModifyChecker={this.handleModifyChecker(id)}
+                    onRemoveChecker={this.handleRemoveChecker(id)}
+                    onToggleChecker={this.handleToggleChecker(id)(enabled)}
+                    problems={problems}
+                    checker={checker} />
+                </ListGroupItem>
+              )
+            })
           }
           <ListGroupItem
             style={{padding: '8px 15px'}}

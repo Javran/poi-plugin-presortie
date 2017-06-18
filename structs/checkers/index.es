@@ -15,7 +15,6 @@ import { LoS } from './los'
 
    TODO: impl `prepare` for:
 
-   - health
    - resupply
 
  */

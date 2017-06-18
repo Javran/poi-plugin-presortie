@@ -59,6 +59,13 @@ defineMapLink(
   'Kancolle Wiki',
   mkMapInfoToLink('http://en.kancollewiki.net/wiki'))
 
+defineMapLink(
+  'poi-statistics',
+  mapInfo => ({
+    name: MapInfo.toShortString(mapInfo),
+    link: `http://db.kcwiki.org/drop/map//${mapInfo.id}`,
+  }))
+
 const getLinks = mapInfo => mapLinks.map( ml => {
   const linkInfo = ml.mapInfoToLink(mapInfo)
   if (linkInfo === null)

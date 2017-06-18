@@ -15,7 +15,6 @@ import { LoS } from './los'
 
    TODO: impl `prepare` for:
 
-   - count-saiun
    - has-radar
    - figher-power
    - health

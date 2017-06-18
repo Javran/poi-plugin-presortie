@@ -33,14 +33,16 @@ class FighterPower {
   }
 
   static prepare = checker => {
-    const {method} = checker
-    const satisfy = CheckMethod.toFunction(method)
+    const {method, mode} = checker
+    const modeText = FighterPower.describeMode(mode)
+    const satisfy =
+      tyku => CheckMethod.toFunction(method)(tyku[mode])
 
     return checkerContext => {
       const { fleetId } = checkerContext
       const fleetInd = fleetId-1
       const tyku = tykuSelectorFactory(fleetInd)(checkerContext)
-      return ['TODO']
+      return satisfy(tyku) ? [] : [`Current Fighter Power (${modeText}) is ${tyku[mode]}`]
     }
   }
 }

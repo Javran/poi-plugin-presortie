@@ -11,15 +11,17 @@ import { _, memoize } from 'lodash'
 import { createSelector } from 'reselect'
 
 import {
+  basicSelector,
   shipDataSelectorFactory,
   shipEquipDataSelectorFactory,
+  fleetShipsDataSelectorFactory,
   fleetShipsEquipDataSelectorFactory,
 } from 'views/utils/selectors'
 
 import { getShipAACIs } from 'views/utils/aaci'
 import { isOASW } from 'views/utils/oasw'
 import {
-  getTyku, getSaku25, getSaku25a, getSaku33,
+  getTyku, getSaku33,
 } from 'views/utils/game-utils'
 
 // rosterId => <name> Lv.<level> (<rosterId>)
@@ -63,9 +65,23 @@ const tykuSelectorFactory = memoize(fleetInd =>
   )
 )
 
+const admiralLevelSelector = createSelector(
+  basicSelector,
+  basic => basic.api_level
+)
+
+const sakuSelectorFactoryWithNodeFactor = nodeFactor => memoize(fleetInd =>
+  createSelector([
+    fleetShipsDataSelectorFactory(fleetInd),
+    fleetShipsEquipDataSelectorFactory(fleetInd),
+    admiralLevelSelector,
+  ], (shipsData=[], equipsData=[], admiralLevel) =>
+    getSaku33(shipsData, equipsData, admiralLevel, nodeFactor)))
+
 export {
   shipTextSelectorFactory,
   AACISelectorFactory,
   OASWSelectorFactory,
   tykuSelectorFactory,
+  sakuSelectorFactoryWithNodeFactor,
 }

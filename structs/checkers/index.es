@@ -17,7 +17,6 @@ import { LoS } from './los'
 
    - health
    - resupply
-   - los
 
  */
 

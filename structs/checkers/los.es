@@ -1,4 +1,7 @@
 import { CheckMethod } from './common'
+import {
+  sakuSelectorFactoryWithNodeFactor,
+} from './selectors'
 
 class LoS {
   static type = 'los'
@@ -20,6 +23,19 @@ class LoS {
     const {method, nodeFactor} = obj
     return `Line of Sight (node factor: ${nodeFactor})` +
       ` ${CheckMethod.describe(method)}`
+  }
+
+
+  static prepare = checker => {
+    const {method, nodeFactor} = checker
+    const satisfy = CheckMethod.toFunction(method)
+    const sakuSelectorFactory = sakuSelectorFactoryWithNodeFactor(nodeFactor)
+    return checkerContext => {
+      const { fleetId } = checkerContext
+      const fleetInd = fleetId-1
+      const saku = sakuSelectorFactory(fleetInd)(checkerContext)
+      return satisfy(saku.total) ? [] : [`Current LoS is ${saku.total}`]
+    }
   }
 }
 

@@ -71,13 +71,14 @@ const shallowObjectEqual = (obj1,obj2) => {
       typeof obj1 !== 'object')
     return false
 
-  const keys1 = obj1 === null ? [] : Object.keys(obj1).sort()
-  const keys2 = obj2 === null ? [] : Object.keys(obj2).sort()
+  const keys1 = Object.keys(obj1)
+  const keys2 = Object.keys(obj2)
   if (keys1.length !== keys2.length)
     return false
-  return keys1.every( (key1, ind) => {
-    const key2 = keys2[ind]
-    return key1 === key2 && obj1[key1] === obj2[key2]
+  return keys1.every(key => {
+    const val1 = obj1[key]
+    const val2 = obj2[key]
+    return val1 === val2
   })
 }
 

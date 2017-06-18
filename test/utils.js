@@ -17,6 +17,14 @@ describe('utils', () => {
 
     test({a: "aa"},{a: "aa"}, true)
     test({a: "aa", b: "cc"},{b: "cc", a: "aa"}, true)
+    test({a: "aa", b: "cc"},{b: "cc", a: "aa1"}, false)
+    test({a: "aa"},{a: "aa", b: 'cc'}, false)
     test({a: {a: 1}},{a: {a: 1}}, false)
+
+    {
+      const x = {a: 1}
+      test({a: x, b: x}, {b: x, a: x}, true)
+      test({a: {a: 1}, b: x}, {b: x, a: x}, false)
+    }
   })
 })

@@ -28,7 +28,7 @@ that user can define.
     {
       type: 'health',
       healthStates: <an Array of HealthState>
-      qualifyMethod: <CheckMethod>, // valid range: 0~6
+      method: <CheckMethod>, // valid range: 0~6
       ignoreUnlocked: <boolean>,
       id: <number>,
       enabled: <boolean>,
@@ -44,7 +44,7 @@ that user can define.
     - `chuuha`: `25% < HP <= 50`
     - `taiha`: `0 < HP <= 25%`
 
-    For example: `healthStates: ['full','normal'], qualifyMethod: {type: 'ge', value: 4}`
+    For example: `healthStates: ['full','normal'], method: {type: 'ge', value: 4}`
     requires at least 4 member of the fleet to have either full or normal health state.
 
 - when `type` is `resupply`

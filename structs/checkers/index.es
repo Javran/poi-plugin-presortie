@@ -7,6 +7,7 @@ import { OASW } from './oasw'
 import { CountSaiun } from './count-saiun'
 import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
+import { Health } from './health'
 
 // TODO: need more time to think about "health" and "resupply"
 
@@ -28,6 +29,7 @@ const registerChecker = checker => {
   HasRadar,
   CountSaiun,
   FighterPower,
+  Health,
 ].map(registerChecker)
 
 export {

@@ -9,6 +9,7 @@ import { OASWEdit } from './oasw-edit'
 import { HasRadarEdit } from './has-radar-edit'
 import { CountSaiunEdit } from './count-saiun-edit'
 import { FighterPowerEdit } from './fighter-power-edit'
+import { HealthEdit } from './health-edit'
 
 import { Checkers, checkerList } from '../../../structs'
 
@@ -66,6 +67,7 @@ registerCheckerExtra('oasw', OASWEdit)
 registerCheckerExtra('has-radar', HasRadarEdit)
 registerCheckerExtra('count-saiun', CountSaiunEdit)
 registerCheckerExtra('fighter-power', FighterPowerEdit)
+registerCheckerExtra('health', HealthEdit)
 
 export {
   checkerExtras,

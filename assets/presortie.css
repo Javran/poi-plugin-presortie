@@ -1,3 +1,24 @@
 #poi-plugin-presortie .panel.main-panel > .panel-heading {
     padding: 5px 10px;
 }
+
+#poi-plugin-presortie .btn-hp-stat-taiha {
+    background-color: #D50000;
+}
+
+#poi-plugin-presortie .btn-hp-stat-chuuha {
+    background-color: #F57C00;
+}
+
+#poi-plugin-presortie .btn-hp-stat-shouha {
+    background-color: #FBC02D;
+}
+
+#poi-plugin-presortie .btn-hp-stat-normal,
+#poi-plugin-presortie .btn-hp-stat-full {
+    background-color: #4CAF50;
+}
+
+#poi-plugin-presortie .btn-hp-stat:hover {
+    color: inherit;
+}

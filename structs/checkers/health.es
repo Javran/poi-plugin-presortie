@@ -14,7 +14,7 @@ class Health {
     'taiha', 'chuuha', 'shouha', 'normal', 'full',
   ]
 
-  static title = "Health States"
+  static title = "Health"
 
   static isValid = obj =>
     obj.type === Health.type &&
@@ -29,7 +29,7 @@ class Health {
       .filter(hs => healthStates.includes(hs))
       .join('/')
     return [
-      `The number of ships with health state ${healthStateText} ${CheckMethod.describe(method)}`,
+      `# of ships with ${healthStateText} state ${CheckMethod.describe(method)}`,
       ignoreUnlocked ? 'ignoring unlocked ships' : null,
     ].filter(x => x !== null).join(', ')
   }

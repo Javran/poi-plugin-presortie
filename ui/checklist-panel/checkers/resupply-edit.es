@@ -57,7 +57,7 @@ class ResupplyEdit extends Component {
             value={resource}
             onChange={this.handleResourceChange}
             componentClass="select">
-            <option value="fual-and-ammo">Fuel & Ammo</option>
+            <option value="fuel-and-ammo">Fuel & Ammo</option>
             <option value="fuel">Fuel</option>
             <option value="ammo">Ammo</option>
           </FormControl>

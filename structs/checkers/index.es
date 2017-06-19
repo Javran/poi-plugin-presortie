@@ -11,14 +11,6 @@ import { Health } from './health'
 import { Resupply } from './resupply'
 import { LoS } from './los'
 
-/*
-
-   TODO: impl `prepare` for:
-
-   - resupply
-
- */
-
 const Checkers = {}
 // for a fixed checker ordering
 const checkerList = []

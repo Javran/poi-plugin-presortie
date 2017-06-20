@@ -149,7 +149,7 @@ that user can define.
     Please refer to [Formula 33](http://kancolle.wikia.com/wiki/Line_of_Sight#Formula_33)
     for what `nodeFactor` means.
 
-- when `type` is `extra-slots` (TODO)
+- when `type` is `extra-slots`
 
     This checker requires all available (openned) extra slots
     are at least equipped with something.
@@ -162,7 +162,7 @@ that user can define.
     }
     ```
 
-- when `type` is `yasen-equips` (TODO)
+- when `type` is `yasen-equips`
 
     ```
     {

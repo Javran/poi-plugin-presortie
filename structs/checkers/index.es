@@ -17,15 +17,6 @@ const Checkers = {}
 // for a fixed checker ordering
 const checkerList = []
 
-/*
-
-   2 extra checkers:
-
-   - extra-slots: make sure if extra slot is filled if it's available
-   - yasen-equips: make sure yasen(night battle)-related equipments are equipped
-
- */
-
 const registerChecker = checker => {
   Checkers[checker.name] = checker
   Checkers[checker.type] = checker

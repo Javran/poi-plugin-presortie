@@ -11,7 +11,7 @@ class ExtraSlots {
     obj.type === ExtraSlots.type
 
   static describe = () =>
-    "All openned extra slots should be non-empty"
+    "All openned extra slots should be equipped"
 
 }
 

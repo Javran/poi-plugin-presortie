@@ -10,6 +10,8 @@ import { FighterPower } from './fighter-power'
 import { Health } from './health'
 import { Resupply } from './resupply'
 import { LoS } from './los'
+import { ExtraSlots } from './extra-slots'
+import { YasenEquips } from './yasen-equips'
 
 const Checkers = {}
 // for a fixed checker ordering
@@ -41,6 +43,8 @@ const registerChecker = checker => {
   Health,
   Resupply,
   LoS,
+  ExtraSlots,
+  YasenEquips,
 ].map(registerChecker)
 
 export {

@@ -34,7 +34,6 @@ class YasenEquips {
     ].join(', ')
     return `Night battle related equipments: ${eqpReqs}`
   }
-
 }
 
 export {

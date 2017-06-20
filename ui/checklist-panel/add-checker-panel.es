@@ -27,7 +27,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editor: 'los', // 'all-slots-empty',
+      editor: 'los',
       editorStates: initEditorStates,
 
       allSlotsEmpty: Checkers.AllSlotsEmpty.defValue,

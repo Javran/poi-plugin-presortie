@@ -12,6 +12,8 @@ import { FighterPowerEdit } from './fighter-power-edit'
 import { HealthEdit } from './health-edit'
 import { ResupplyEdit } from './resupply-edit'
 import { LoSEdit } from './los-edit'
+import { ExtraSlotsEdit } from './extra-slots-edit'
+import { YasenEquipsEdit } from './yasen-equips-edit'
 
 import { Checkers, checkerList } from '../../../structs'
 
@@ -72,6 +74,8 @@ registerCheckerExtra('fighter-power', FighterPowerEdit)
 registerCheckerExtra('health', HealthEdit)
 registerCheckerExtra('resupply', ResupplyEdit)
 registerCheckerExtra('los', LoSEdit)
+registerCheckerExtra('extra-slots', ExtraSlotsEdit)
+registerCheckerExtra('yasen-equips', YasenEquipsEdit)
 
 export {
   checkerExtras,

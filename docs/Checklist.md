@@ -149,6 +149,33 @@ that user can define.
     Please refer to [Formula 33](http://kancolle.wikia.com/wiki/Line_of_Sight#Formula_33)
     for what `nodeFactor` means.
 
+- when `type` is `extra-slots` (TODO)
+
+    This checker requires all available (openned) extra slots
+    are at least equipped with something.
+
+    ```
+    {
+      type: 'extra-slots',
+      id: <number>,
+      enabled: <boolean>,
+    }
+    ```
+
+- when `type` is `yasen-equips` (TODO)
+
+    ```
+    {
+      type: 'yasen-equips',
+      searchlight: <CheckMethod>,
+      starShell: <CheckMethod>,
+      nightRecon: <CheckMethod>,
+      skilledLookouts: <CheckMethod>,
+      id: <number>,
+      enabled: <boolean>,
+    }
+    ```
+
 ## `CheckMethod` structure
 
 - an Object that at least has the following fields:

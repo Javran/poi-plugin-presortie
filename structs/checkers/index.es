@@ -24,6 +24,44 @@ const registerChecker = checker => {
   checkerList.push(checker)
 }
 
+/*
+   the following is a list of "checker classes", which defines
+   checker data representation and how it should be interpreted.
+   every checker class has the following static fields:
+
+   - type: string. what identifies this checker class / its data representation
+     from other classes
+
+   - defValue: the default data representation without "id", "enabled" fields
+     (we also call data with no guarantee about existency of these two fields "partial checker")
+
+   - title: string. what appears on UI as a simple description of what this checker does
+
+   - isValid(obj): for helping input validation, should return a boolean indicating
+     whether `obj` is a valid checker data representation.
+
+   - describe(obj): (optional) returns a string that describes a valid `obj` data representation.
+     if this method is missing, `JSON.stringify` will be used.
+
+   - prepare(obj)(checkerContext): (optional) returns an array of problems this checker has found.
+
+     this function is a bit complicated, let's break it into two parts:
+
+       - prepare(obj) returns a function, we call this function "listProblems".
+
+       - listProblems(checkerContext) does the actual check, and return a list of problems
+         it has found - so returning an empty array means checker has found no problem.
+
+       - note that some structure can be pre-processed before knowing `checkerContext`,
+         for example a `CheckMethod` can be turned into a function, we can do such thing
+         in `prepare(obj)`, which constructs a function for accepting different `checkerContext`
+         without having to do these pre-processing twice (given that data representation doesn't
+         change)
+
+     when leaving this method not implemented, the checker on UI will always be unsatisfied
+     with problem being something like `checker not prepared`
+ */
+
 [
   AllSlotsEmpty,
   FastFleet,

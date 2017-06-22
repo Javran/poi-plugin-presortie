@@ -6,7 +6,7 @@ import {
 import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
-class ResupplyEdit extends Component {
+class MoraleEdit extends Component {
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,
@@ -15,14 +15,6 @@ class ResupplyEdit extends Component {
 
   static defaultProps = {
     style: {},
-  }
-
-  handleResourceChange = e => {
-    const resource = e.target.value
-    this.props.onModifyValue(v => ({
-      ...v,
-      resource,
-    }))
   }
 
   handleModifyQualifyMethod = modifier =>
@@ -48,24 +40,15 @@ class ResupplyEdit extends Component {
 
   render() {
     const {style, value} = this.props
-    const { qualifyMethod, filterMethod, resource, ignoreUnlocked } = value
+    const { qualifyMethod, filterMethod, ignoreUnlocked } = value
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'baseline'}}>
-          <FormControl
-            style={{flex: 1, padding: 0, marginRight: 5}}
-            value={resource}
-            onChange={this.handleResourceChange}
-            componentClass="select">
-            <option value="fuel-and-ammo">Fuel & Ammo</option>
-            <option value="fuel">Fuel</option>
-            <option value="ammo">Ammo</option>
-          </FormControl>
+          <div style={{flex: 1, marginRight: 5}}>Morale</div>
           <MethodEdit
             style={{flex: 1}}
             value={filterMethod}
             onModifyValue={this.handleModifyFilterMethod}
-            postfix="%"
           />
         </div>
         <div style={{display: 'flex', alignItems: 'baseline'}}>
@@ -85,5 +68,5 @@ class ResupplyEdit extends Component {
 }
 
 export {
-  ResupplyEdit,
+  MoraleEdit,
 }

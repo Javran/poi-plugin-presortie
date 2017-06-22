@@ -9,6 +9,7 @@ import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
 import { Health } from './health'
 import { Resupply } from './resupply'
+import { Morale } from './morale'
 import { LoS } from './los'
 import { ExtraSlots } from './extra-slots'
 import { YasenEquips } from './yasen-equips'
@@ -33,6 +34,7 @@ const registerChecker = checker => {
   FighterPower,
   Health,
   Resupply,
+  Morale,
   LoS,
   ExtraSlots,
   YasenEquips,

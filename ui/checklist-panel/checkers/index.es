@@ -11,6 +11,7 @@ import { CountSaiunEdit } from './count-saiun-edit'
 import { FighterPowerEdit } from './fighter-power-edit'
 import { HealthEdit } from './health-edit'
 import { ResupplyEdit } from './resupply-edit'
+import { MoraleEdit } from './morale-edit'
 import { LoSEdit } from './los-edit'
 import { ExtraSlotsEdit } from './extra-slots-edit'
 import { YasenEquipsEdit } from './yasen-equips-edit'
@@ -73,6 +74,7 @@ registerCheckerExtra('count-saiun', CountSaiunEdit)
 registerCheckerExtra('fighter-power', FighterPowerEdit)
 registerCheckerExtra('health', HealthEdit)
 registerCheckerExtra('resupply', ResupplyEdit)
+registerCheckerExtra('morale',MoraleEdit)
 registerCheckerExtra('los', LoSEdit)
 registerCheckerExtra('extra-slots', ExtraSlotsEdit)
 registerCheckerExtra('yasen-equips', YasenEquipsEdit)

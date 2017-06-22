@@ -64,6 +64,22 @@ that user can define.
     }
     ```
 
+- when `type` is `morale` (TODO)
+
+    This checker is the same as `resupply` without `resource` field.
+    The meaning should be straightforward.
+
+    ```
+    {
+      type: 'morale',
+      filterMethod: <CheckMethod>, // valid range: 0~100
+      qualifyMethod: <CheckMethod>, // valid range: 0~6
+      ignoreUnlocked: <boolean>,
+      id: <number>,
+      enabled: <boolean>,
+    }
+    ```
+
 - when `type` is `fighter-power`
 
     ```

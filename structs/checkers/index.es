@@ -58,6 +58,15 @@ const registerChecker = checker => {
          without having to do these pre-processing twice (given that data representation doesn't
          change)
 
+       - `checkerContext` is a slice of the poi store plus some extra information:
+
+           - property `const` and `info` comes from poi store, so most of the selectors
+             can be used directly on `checkerContext` as if it's a poi main state.
+             (keep in mind that it only contains these two properties so if the selector
+             is accessing other parts there will be a problem)
+
+           - `mapId` and `fleetId` represents what user has chosen for this plugin to check against.
+
      when leaving this method not implemented, the checker on UI will always be unsatisfied
      with problem being something like `checker not prepared`
  */

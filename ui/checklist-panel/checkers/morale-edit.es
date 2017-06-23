@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  FormControl, Checkbox,
+  Checkbox,
 } from 'react-bootstrap'
 
 import { PTyp } from '../../../ptyp'

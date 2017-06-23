@@ -64,7 +64,7 @@ that user can define.
     }
     ```
 
-- when `type` is `morale` (TODO)
+- when `type` is `morale`
 
     This checker is the same as `resupply` without `resource` field.
     The meaning should be straightforward.

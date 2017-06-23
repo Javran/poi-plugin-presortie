@@ -54,7 +54,10 @@ class AddCheckerPanel extends Component {
     const { editor, editorStates } = this.state
     const partialChecker = editorStates[editor]
     const { onAddChecker } = this.props
-    onAddChecker(partialChecker)
+    onAddChecker({
+      ...partialChecker,
+      type: editor,
+    })
     this.handleReset()
   }
 

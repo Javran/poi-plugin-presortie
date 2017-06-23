@@ -9,7 +9,6 @@ class Resupply {
   static type = 'resupply'
 
   static defValue = {
-    type: Resupply.type,
     filterMethod: {type: 'lt', value: 100},
     qualifyMethod: {type: 'eq', value: 0},
     ignoreUnlocked: false,
@@ -19,7 +18,6 @@ class Resupply {
   static title = "Resupply"
 
   static isValid = obj =>
-    obj.type === Resupply.type &&
     CheckMethod.isValidInRange(0,100)(obj.filterMethod) &&
     CheckMethod.isValidInRange(0,6)(obj.qualifyMethod)
 

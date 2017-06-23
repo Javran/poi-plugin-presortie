@@ -10,7 +10,6 @@ class Health {
   static type = 'health'
 
   static defValue = {
-    type: Health.type,
     healthStates: ['taiha','chuuha'],
     ignoreUnlocked: false,
     method: {type: 'eq', value: 0},
@@ -23,7 +22,6 @@ class Health {
   static title = "Health"
 
   static isValid = obj =>
-    obj.type === Health.type &&
     CheckMethod.isValidInRange(0,6)(obj.method)
 
   static describe = obj => {

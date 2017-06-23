@@ -9,7 +9,6 @@ class Morale {
   static type = 'morale'
 
   static defValue = {
-    type: Morale.type,
     filterMethod: {type: 'lt', value: 30},
     qualifyMethod: {type: 'eq', value: 0},
     ignoreUnlocked: true,
@@ -18,7 +17,6 @@ class Morale {
   static title = "Morale"
 
   static isValid = obj =>
-    obj.type === Morale.type &&
     CheckMethod.isValidInRange(0,100)(obj.filterMethod) &&
     CheckMethod.isValidInRange(0,6)(obj.qualifyMethod)
 

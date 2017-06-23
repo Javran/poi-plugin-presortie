@@ -57,7 +57,6 @@ const CheckTarget = PropTypes.oneOf(['fs','all'])
 // Checkers whoes "id" fields could be missing
 const PartialChecker = {
   AllSlotsEmpty: PropTypes.shape(allRequired({
-    type: isValue('all-slots-empty'),
     method: CheckMethod,
     ignoreExtra: PropTypes.bool,
     ignoreUnlocked: PropTypes.bool,

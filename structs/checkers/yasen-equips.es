@@ -9,7 +9,6 @@ class YasenEquips {
   static type = 'yasen-equips'
 
   static defValue = {
-    type: YasenEquips.type,
     searchlight: {type: 'ge', value: 1},
     starShell: {type: 'ge', value: 1},
     nightRecon: {type: 'ge', value: 1},
@@ -34,7 +33,6 @@ class YasenEquips {
   }
 
   static isValid = obj =>
-    obj.type === YasenEquips.type &&
     YasenEquips.methodFieldNames.every(fieldName =>
       CheckMethod.isValidInRange(0,Infinity)(obj[fieldName]))
 

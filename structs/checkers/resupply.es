@@ -52,7 +52,6 @@ class Resupply {
 
   static prepare = checker => {
     const {filterMethod, qualifyMethod, ignoreUnlocked, resource} = checker
-    // TODO: filterMethod => testResupplyStatus
     const filterSatisfy = CheckMethod.toFunction(filterMethod)
     const testResupplyStatus =
       resource === 'fuel-and-ammo' ? (shipInfo =>

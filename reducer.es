@@ -8,10 +8,8 @@ import {
 const initState = {
   ready: false,
   ...emptyPState,
-  curFleetId: 1,
+  fleetId: 1,
 }
-
-// TODO: removing all "cur..." stuff
 
 // keep only parts needed to be persistent
 const stateToPState = state => {
@@ -82,7 +80,7 @@ const reducer = (state = initState, action) => {
     const { fleetId } = action
     return {
       ...state,
-      curFleetId: fleetId,
+      fleetId,
     }
   }
 

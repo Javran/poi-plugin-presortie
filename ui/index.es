@@ -24,8 +24,8 @@ class PresortieMain extends Component {
     mapInfoArray: PTyp.array.isRequired,
     sortieHistory: PTyp.array.isRequired,
     dynMapId: PTyp.DynMapId.isRequired,
-    curMapId: PTyp.MapId.isRequired,
-    curMapExtra: PTyp.object.isRequired,
+    mapId: PTyp.MapId.isRequired,
+    mapExtra: PTyp.object.isRequired,
 
     onInit: PTyp.func.isRequired,
     onDynMapIdChange: PTyp.func.isRequired,
@@ -48,42 +48,35 @@ class PresortieMain extends Component {
   }
 
   handleAddLink = linkInfo => {
-    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
-    onModifyMapExtras( mapExtras => {
-      const mapExtra = curMapExtra
-      return {
-        ...mapExtras,
-        [curMapId]: {
-          ...mapExtra,
-          links: [...mapExtra.links, linkInfo],
-        },
-      }
-    })
+    const { mapId, mapExtra, onModifyMapExtras } = this.props
+    onModifyMapExtras( mapExtras => ({
+      ...mapExtras,
+      [mapId]: {
+        ...mapExtra,
+        links: [...mapExtra.links, linkInfo],
+      },
+    }))
   }
 
   handleModifyLink = linkInfo => modifier => {
     const newLinkInfo = modifier(linkInfo)
-    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
+    const { mapId, mapExtra, onModifyMapExtras } = this.props
     if (! newLinkInfo) {
       // any falsy value removes the link in question
-      onModifyMapExtras( mapExtras => {
-        const mapExtra = curMapExtra
-        return {
-          ...mapExtras,
-          [curMapId]: {
-            ...mapExtra,
-            links: mapExtra.links.filter(x => x.name !== linkInfo.name),
-          },
-        }
-      })
+      onModifyMapExtras( mapExtras => ({
+        ...mapExtras,
+        [mapId]: {
+          ...mapExtra,
+          links: mapExtra.links.filter(x => x.name !== linkInfo.name),
+        },
+      }))
     } else {
       // otherwise replace old one
       onModifyMapExtras( mapExtras => {
-        const mapExtra = curMapExtra
         const ind = mapExtra.links.findIndex(x => x.name === linkInfo.name)
         return {
           ...mapExtras,
-          [curMapId]: {
+          [mapId]: {
             ...mapExtra,
             links: modifyArray(ind,() => newLinkInfo)(mapExtra.links),
           },
@@ -93,16 +86,16 @@ class PresortieMain extends Component {
   }
 
   handleAddNote = content => {
-    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
+    const { mapId, mapExtra, onModifyMapExtras } = this.props
     onModifyMapExtras( mapExtras => {
-      const newId = curMapExtra.notes.length === 0 ?
+      const newId = mapExtra.notes.length === 0 ?
         0 :
-        Math.max(...curMapExtra.notes.map(n => n.id))+1
+        Math.max(...mapExtra.notes.map(n => n.id))+1
       return {
         ...mapExtras,
-        [curMapId]: {
-          ...curMapExtra,
-          notes: [...curMapExtra.notes, {id: newId, content}],
+        [mapId]: {
+          ...mapExtra,
+          notes: [...mapExtra.notes, {id: newId, content}],
         },
       }
     })
@@ -110,31 +103,31 @@ class PresortieMain extends Component {
 
   // TODO: be consistent regarding how handleModifyXxxx is called.
   handleModifyNote = noteId => newContent => {
-    const { curMapId, curMapExtra, onModifyMapExtras } = this.props
+    const { mapId, mapExtra, onModifyMapExtras } = this.props
     if (! newContent) {
       // falsy value, removing this note
       onModifyMapExtras( mapExtras => {
-        const notes = curMapExtra.notes.filter(n => n.id !== noteId)
+        const notes = mapExtra.notes.filter(n => n.id !== noteId)
         return {
           ...mapExtras,
-          [curMapId]: {
-            ...curMapExtra,
+          [mapId]: {
+            ...mapExtra,
             notes,
           },
         }
       })
     } else {
       onModifyMapExtras( mapExtras => {
-        const ind = curMapExtra.notes.findIndex(n => n.id === noteId)
+        const ind = mapExtra.notes.findIndex(n => n.id === noteId)
         return {
           ...mapExtras,
-          [curMapId]: {
-            ...curMapExtra,
+          [mapId]: {
+            ...mapExtra,
             notes:
               modifyArray(ind, () => ({
                 id: noteId,
                 content: newContent,
-              }))(curMapExtra.notes),
+              }))(mapExtra.notes),
           },
         }
       })
@@ -142,10 +135,10 @@ class PresortieMain extends Component {
   }
 
   handleModifyMapExtra = modifier => {
-    const { onModifyMapExtras, curMapExtra, curMapId } = this.props
+    const { onModifyMapExtras, mapExtra, mapId } = this.props
     onModifyMapExtras( mapExtras => ({
       ...mapExtras,
-      [curMapId]: modifier(curMapExtra),
+      [mapId]: modifier(mapExtra),
     }))
   }
 
@@ -155,19 +148,19 @@ class PresortieMain extends Component {
     }
     const {
       mapInfoArray, sortieHistory,
-      curMapExtra, curMapId, dynMapId,
+      mapExtra, mapId, dynMapId,
       onDynMapIdChange,
     } = this.props
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
-    const curMapInfo = findMapInfo(curMapId)
-    const wikiLinks = MapLinks.getLinks(curMapInfo)
+    const mapInfo = findMapInfo(mapId)
+    const wikiLinks = MapLinks.getLinks(mapInfo)
     const extraLinks =
-      curMapExtra.links.map(linkInfo => ({
+      mapExtra.links.map(linkInfo => ({
         ...linkInfo,
         onModifyLink: this.handleModifyLink(linkInfo),
       }))
     const links = [...wikiLinks, ...extraLinks]
-    const { notes, checklist } = curMapExtra
+    const { notes, checklist } = mapExtra
     return (
       <div
         style={{margin: 5}}
@@ -177,7 +170,7 @@ class PresortieMain extends Component {
           mapInfoArray={mapInfoArray}
           sortieHistory={sortieHistory}
           dynMapId={dynMapId}
-          curMapId={curMapId}
+          mapId={mapId}
           onDynMapIdChange={onDynMapIdChange}
           style={{marginBottom: 14}}
         />

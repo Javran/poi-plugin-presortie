@@ -12,7 +12,7 @@ class SortieAreaPicker extends Component {
     mapInfoArray: PTyp.arrayOf(PTyp.MapInfo).isRequired,
     sortieHistory: PTyp.arrayOf(PTyp.MapId).isRequired,
     dynMapId: PTyp.DynMapId.isRequired,
-    curMapId: PTyp.MapId.isRequired,
+    mapId: PTyp.MapId.isRequired,
     style: PTyp.object,
 
     onDynMapIdChange: PTyp.func.isRequired,
@@ -25,20 +25,20 @@ class SortieAreaPicker extends Component {
   render() {
     const {
       mapInfoArray, sortieHistory,
-      curMapId, dynMapId, onDynMapIdChange,
+      mapId, dynMapId, onDynMapIdChange,
       style,
     } = this.props
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
-    const curMapInfo = findMapInfo(curMapId)
+    const mapInfo = findMapInfo(mapId)
     const sortieTextHeader =
       dynMapId === 'last' ? 'Last Sortie' : 'Sortie Area'
-    const sortieText = `${sortieTextHeader}: ${MapInfo.toString(curMapInfo)}`
+    const sortieText = `${sortieTextHeader}: ${MapInfo.toString(mapInfo)}`
     return (
       <DropdownButton
         style={style}
         title={sortieText}
         onSelect={onDynMapIdChange}
-        key={curMapId}
+        key={mapId}
         id={`presortie-dropdown-sortie-area`}>
         {
           ( sortieHistory.length > 0 && (
@@ -49,12 +49,12 @@ class SortieAreaPicker extends Component {
                 {`Last Sortie: ${MapInfo.toString(findMapInfo(sortieHistory[0]))}`}
               </MenuItem>,
               <MenuItem divider key="d1" />,
-              ...sortieHistory.map((mapId,ind) => (
+              ...sortieHistory.map((thisMapId,ind) => (
                 <MenuItem
                   key={
                     // eslint-disable-next-line react/no-array-index-key
-                    `hist-${ind}`} eventKey={mapId}>
-                  {`History #${ind+1}: ${MapInfo.toString(findMapInfo(mapId))}`}
+                    `hist-${ind}`} eventKey={thisMapId}>
+                  {`History #${ind+1}: ${MapInfo.toString(findMapInfo(thisMapId))}`}
                 </MenuItem>)),
               <MenuItem divider key="d2" />,
             ]

@@ -42,26 +42,26 @@ const dynamicMapIdSelector = createSelector(
   extState => extState.dynMapId
 )
 
-const currentMapIdSelector = createSelector(
+const mapIdSelector = createSelector(
   extSelector,
   dynamicMapIdSelector,
   (extState,dynMapId) => DynMapId.toMapId(
     dynMapId, extState.sortieHistory))
 
-const currentFleetIdSelector = createSelector(
+const fleetIdSelector = createSelector(
   extSelector,
-  extState => extState.curFleetId)
+  extState => extState.fleetId)
 
-const currentMapExtraSelector = createSelector(
+const mapExtraSelector = createSelector(
   extSelector,
-  currentMapIdSelector,
-  (extState,curMapId) => {
-    const mapExtra = extState.mapExtras[curMapId]
+  mapIdSelector,
+  (extState,mapId) => {
+    const mapExtra = extState.mapExtras[mapId]
     return typeof mapExtra === 'undefined' ? MapExtra.empty : mapExtra
   })
 
 const enabledCheckersSelector = createSelector(
-  currentMapExtraSelector,
+  mapExtraSelector,
   mapExtra => mapExtra.checklist.filter(c => c.enabled))
 
 // a preparedChecker has an extra field "listProblems",
@@ -116,9 +116,9 @@ const presortieMainUISelector = createSelector(
   mapInfoArraySelector,
   extSelector,
   dynamicMapIdSelector,
-  currentMapIdSelector,
-  currentMapExtraSelector,
-  (mapInfoArray, extState, dynMapId, curMapId, curMapExtra) => {
+  mapIdSelector,
+  mapExtraSelector,
+  (mapInfoArray, extState, dynMapId, mapId, mapExtra) => {
     const {
       ready,
       sortieHistory,
@@ -127,7 +127,7 @@ const presortieMainUISelector = createSelector(
     return {
       mapInfoArray,
       sortieHistory: !ready ? [] : sortieHistory,
-      dynMapId, curMapId, curMapExtra,
+      dynMapId, mapId, mapExtra,
     }
   }
 )
@@ -136,8 +136,8 @@ const presortieMainUISelector = createSelector(
 // for checkers to do what they are supposed to do.
 // this module stores related functions
 const checkerContextSelector = createSelector(
-  currentMapIdSelector,
-  currentFleetIdSelector,
+  mapIdSelector,
+  fleetIdSelector,
   stateSelector,
   (mapId, fleetId, st) => ({
     mapId, fleetId,
@@ -167,7 +167,7 @@ const checkerResultsMapSelector = createSelector(
     {}))
 
 const checklistUISelector = createSelector(
-  currentFleetIdSelector,
+  fleetIdSelector,
   allFleetInfoSelector,
   checkerResultsMapSelector,
   (fleetId, allFleetInfo, checkerResultsMap) =>
@@ -177,8 +177,8 @@ export {
   mapInfoArraySelector,
   extSelector,
   presortieMainUISelector,
-  currentMapIdSelector,
-  currentFleetIdSelector,
+  mapIdSelector,
+  fleetIdSelector,
   checklistUISelector,
   checkerContextSelector,
   checkerResultsSelector,

@@ -35,7 +35,7 @@ const defineMapLink = (
       const worldPart = worldTable[world]
       if (typeof worldPart === 'undefined')
         return null
-      const areaPart = `#area${area}`
+      const areaPart = `area${area}`
       return {
         name: MapInfo.toShortString(mapInfo),
         link: `http://wikiwiki.jp/kancolle/?${worldPart}#${areaPart}`,

@@ -7,7 +7,7 @@ import {
   shipsSelector,
   extensionSelectorFactory,
 } from 'views/utils/selectors'
-import { _ } from 'lodash'
+import _ from 'lodash'
 
 import { DynMapId, MapExtra } from './structs'
 import { initState } from './reducer'

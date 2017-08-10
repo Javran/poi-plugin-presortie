@@ -4,10 +4,9 @@ import {
 } from 'react-bootstrap'
 import Markdown from 'react-remarkable'
 import Textarea from 'react-textarea-autosize'
+import FontAwesome from 'react-fontawesome'
 
 import { PTyp } from '../../ptyp'
-
-const { FontAwesome } = window
 
 class NoteControl extends Component {
   static propTypes = {

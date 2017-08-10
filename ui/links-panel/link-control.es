@@ -3,10 +3,9 @@ import {
   Button,
   FormControl,
 } from 'react-bootstrap'
+import FontAwesome from 'react-fontawesome'
 
 import { PTyp } from '../../ptyp'
-
-const { FontAwesome } = window
 
 class LinkControl extends Component {
   static propTypes = {

@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import {
   Button,
 } from 'react-bootstrap'
+import FontAwesome from 'react-fontawesome'
+
 import Textarea from 'react-textarea-autosize'
 import { PTyp } from '../../ptyp'
-
-const { FontAwesome } = window
 
 class AddNoteControl extends Component {
   static propTypes = {

@@ -6,7 +6,7 @@
 
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
-import { _ } from 'lodash'
+import _ from 'lodash'
 
 const emptyPState = {
   // a list of mapIds

@@ -1,4 +1,4 @@
-import { _ } from 'lodash'
+import _ from 'lodash'
 import {
   fleetShipsEquipDataSelectorFactory,
 } from 'views/utils/selectors'

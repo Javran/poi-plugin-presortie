@@ -1,4 +1,3 @@
-import { _ } from 'lodash'
 import {
   fleetShipsDataSelectorFactory,
 } from 'views/utils/selectors'
@@ -45,10 +44,12 @@ class Health {
     if (curHp === maxHp)
       return 'full'
     const rate = curHp / maxHp
+    /* eslint-disable indent */
     return rate <= 0.25 ? 'taiha' :
       rate <= 0.5 ? 'chuuha' :
       rate <= 0.75 ? 'shouha' :
       'normal'
+    /* eslint-enable indent */
   }
 
   static prepare = checker => {
@@ -75,9 +76,10 @@ class Health {
       const count = qualifiedShips.length
       return satisfy(count)
         ? []
-        : (ships.length === 0 ?
-           ['No ship in this fleet'] :
-           ships.map(s => `${shipTextSelectorFactory(s.rosterId)(checkerContext)}: ${s.healthState}`)
+        : (
+          ships.length === 0 ?
+            ['No ship in this fleet'] :
+            ships.map(s => `${shipTextSelectorFactory(s.rosterId)(checkerContext)}: ${s.healthState}`)
         )
     }
   }

@@ -1,7 +1,5 @@
 import { PropTypes } from 'prop-types'
 
-const _ = require('lodash')
-
 // PTyp is just short for PropTypes.
 // In addition, this allows us to collect validation logic
 // in one place

@@ -12,12 +12,14 @@ class MapInfo {
 }
 
 class DynMapId {
+  /* eslint-disable indent */
   static toMapId = (dynMapId, sortieHistory) =>
     dynMapId === 'last' ?
       (sortieHistory.length === 0 ?
         11 /* 1-1 by def */ :
         sortieHistory[0]) :
     dynMapId
+  /* eslint-enable indent */
 }
 
 class MapExtra {

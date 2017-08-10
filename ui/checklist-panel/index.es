@@ -132,7 +132,6 @@ class ChecklistPanel extends Component {
       </Panel>
     )
   }
-
 }
 
 export {

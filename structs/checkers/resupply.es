@@ -94,9 +94,11 @@ class Resupply {
 
       return satisfy(filteredShips.length) ?
         [] :
-        (ships.length === 0 ?
-         ['No ship in this fleet'] :
-         ships.map(toShipText))
+        (
+          ships.length === 0 ?
+            ['No ship in this fleet'] :
+            ships.map(toShipText)
+        )
     }
   }
 }

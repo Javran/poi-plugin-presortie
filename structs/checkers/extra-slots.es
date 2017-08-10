@@ -33,7 +33,6 @@ class ExtraSlots {
     return shipsWithEmptyExSlot.map(([ship]) =>
       `${shipTextSelectorFactory(ship.api_id)(checkerContext)}: Empty extra slot`)
   }
-
 }
 
 export {

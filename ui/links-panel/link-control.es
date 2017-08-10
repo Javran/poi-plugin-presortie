@@ -64,12 +64,14 @@ class LinkControl extends Component {
         </a>
         {
           editable &&
-          (<Button
-             bsSize="small"
-             onClick={this.handleStartEditing}
+          (
+            <Button
+              bsSize="small"
+              onClick={this.handleStartEditing}
             >
-            <FontAwesome name="pencil" />
-          </Button>)
+              <FontAwesome name="pencil" />
+            </Button>
+          )
         }
       </div>
     )

@@ -7,7 +7,7 @@
      should only depend on 'views/utils/selectors'
  */
 
-import { _, memoize } from 'lodash'
+import { memoize } from 'lodash'
 import { createSelector } from 'reselect'
 
 import {

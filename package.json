@@ -43,6 +43,7 @@
     "path-extra": "^4.1.0"
   },
   "dependencies": {
-    "react-textarea-autosize": "^5.0.6"
+    "react-textarea-autosize": "^5.0.6",
+    "shallowequal": "^1.0.2"
   }
 }

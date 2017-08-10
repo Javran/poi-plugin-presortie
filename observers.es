@@ -1,4 +1,5 @@
 import { observer, observe } from 'redux-observers'
+import shallowEqual from 'shallowequal'
 
 import { store } from 'views/create-store'
 import { sortieMapIdSelector } from 'views/utils/selectors'
@@ -15,10 +16,6 @@ import {
 import {
   savePState,
 } from './p-state'
-
-import {
-  shallowObjectEqual,
-} from './utils'
 
 const mapIdObserver = observer(
   state => {
@@ -45,7 +42,7 @@ const pStateObserver = observer(
         // transition from an uninitialized state
         prevPState === null)
       return
-    if (! shallowObjectEqual(curPState,prevPState)) {
+    if (!shallowEqual(curPState,prevPState)) {
       setTimeout(() => savePState(curPState))
     }
   })

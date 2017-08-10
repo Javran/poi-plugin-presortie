@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "react-textarea-autosize": "^5.0.6",
-    "shallowequal": "^1.0.2"
+    "shallowequal": "^1.0.2",
+    "subtender": "^0.10.1"
   }
 }

@@ -1,12 +1,12 @@
 import { join } from 'path-extra'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { modifyArray } from 'subtender'
 
 import { PTyp } from '../ptyp'
 import { loadPState } from '../p-state'
 import * as MapLinks from '../map-links'
 import { MapInfo } from '../structs'
-import { modifyArray } from '../utils'
 import { mapDispatchToProps } from '../reducer'
 import { checklistUISelector } from '../selectors'
 

@@ -50,13 +50,34 @@ const pStateObserver = observer(
     }
   })
 
-const observeAll = () => observe(
-  store,
-  [
-    mapIdObserver,
-    pStateObserver,
-  ])
+let unsubscribe = null
+
+const globalSubscribe = () => {
+  if (unsubscribe !== null) {
+    console.warn('expecting "unsubscribe" to be null')
+    if (typeof unsubscribe === 'function')
+      unsubscribe()
+    unsubscribe = null
+  }
+
+  unsubscribe = observe(
+    store,
+    [
+      mapIdObserver,
+      pStateObserver,
+    ])
+}
+
+const globalUnsubscribe = () => {
+  if (typeof unsubscribe !== 'function') {
+    console.warn(`unsubscribe is not a function`)
+  } else {
+    unsubscribe()
+    unsubscribe = null
+  }
+}
 
 export {
-  observeAll,
+  globalSubscribe,
+  globalUnsubscribe,
 }

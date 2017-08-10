@@ -34,17 +34,9 @@ class PresortieMain extends Component {
 
   componentDidMount() {
     const { onInit } = this.props
-    this.unsubscribe = observeAll()
     setTimeout(() => {
       onInit(loadPState())
     })
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribe !== null) {
-      this.unsubscribe()
-      this.unsubscribe = null
-    }
   }
 
   handleAddLink = linkInfo => {

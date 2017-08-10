@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { presortieMainUISelector } from './selectors'
 import { PresortieMain } from './ui'
 import { reducer, mapDispatchToProps } from './reducer'
+import { globalSubscribe, globalUnsubscribe } from './observers'
 
 const reactClass = connect(
   presortieMainUISelector,
@@ -14,8 +15,18 @@ const switchPluginPath = [
   },
 ]
 
+const pluginDidLoad = () => {
+  globalSubscribe()
+}
+
+const pluginWillUnload = () => {
+  globalUnsubscribe()
+}
+
 export {
   reactClass,
   switchPluginPath,
   reducer,
+  pluginDidLoad,
+  pluginWillUnload,
 }

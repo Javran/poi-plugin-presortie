@@ -1,3 +1,7 @@
+import _ from 'lodash'
+import { bindActionCreators } from 'redux'
+import { store } from 'views/create-store'
+
 import {
   emptyPState,
   updateSortieHistory,
@@ -85,32 +89,47 @@ const reducer = (state = initState, action) => {
   return state
 }
 
-const mapDispatchToProps = dispatch => ({
-  onInit: pState => dispatch({
+const actionCreator = {
+  onInit: pState => ({
     type: '@poi-plugin-presortie@Init',
     pState,
   }),
   // note that mapId must be a valid mapId
-  onMapIdChange: mapId => dispatch({
+  onMapIdChange: mapId => ({
     type: '@poi-plugin-presortie@MapIdChange',
     mapId}),
-  onDynMapIdChange: dynMapId => dispatch({
+  onDynMapIdChange: dynMapId => ({
     type: '@poi-plugin-presortie@DynMapIdChange',
     dynMapId,
   }),
-  onModifyMapExtras: modifier => dispatch({
+  onModifyMapExtras: modifier => ({
     type: '@poi-plugin-presortie@ModifyMapExtras',
     modifier,
   }),
-  onFleetIdChange: fleetId => dispatch({
+  onFleetIdChange: fleetId => ({
     type: '@poi-plugin-presortie@FleetIdChange',
     fleetId,
   }),
-})
+}
+
+const mapDispatchToProps = _.memoize(dispatch =>
+  bindActionCreators(actionCreator, dispatch))
+
+const withBoundActionCreator = (func, dispatch=store.dispatch) =>
+  func(mapDispatchToProps(dispatch))
+
+const asyncBoundActionCreator = (func, dispatch=store.dispatch) =>
+  dispatch(() => setTimeout(() =>
+    withBoundActionCreator(func, dispatch)))
 
 export {
   reducer,
+
+  actionCreator,
   mapDispatchToProps,
+  withBoundActionCreator,
+  asyncBoundActionCreator,
+
   stateToPState,
   initState,
 }

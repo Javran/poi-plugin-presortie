@@ -1,12 +1,7 @@
-import { connect } from 'react-redux'
-import { presortieMainUISelector } from './selectors'
-import { PresortieMain } from './ui'
-import { reducer, mapDispatchToProps } from './reducer'
+import { PresortieMain as reactClass } from './ui'
+import { reducer, withBoundActionCreator } from './reducer'
 import { globalSubscribe, globalUnsubscribe } from './observers'
-
-const reactClass = connect(
-  presortieMainUISelector,
-  mapDispatchToProps)(PresortieMain)
+import { loadPState } from './p-state'
 
 const switchPluginPath = [
   {
@@ -17,6 +12,11 @@ const switchPluginPath = [
 
 const pluginDidLoad = () => {
   globalSubscribe()
+  setTimeout(() =>
+    withBoundActionCreator(bac =>
+      bac.onInit(loadPState())
+    )
+  )
 }
 
 const pluginWillUnload = () => {

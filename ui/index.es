@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import { modifyArray } from 'subtender'
 
 import { PTyp } from '../ptyp'
-import { loadPState } from '../p-state'
 import * as MapLinks from '../map-links'
 import { MapInfo } from '../structs'
 import { mapDispatchToProps } from '../reducer'
-import { checklistUISelector } from '../selectors'
+import {
+  checklistUISelector,
+  presortieMainUISelector,
+} from '../selectors'
 
 import { SortieAreaPicker } from './sortie-area-picker'
 import { ChecklistPanel } from './checklist-panel'
@@ -18,7 +20,7 @@ import { LinksPanel } from './links-panel'
 const ChecklistPanelInst =
   connect(checklistUISelector,mapDispatchToProps)(ChecklistPanel)
 
-class PresortieMain extends Component {
+class PresortieMainImpl extends Component {
   static propTypes = {
     mapInfoArray: PTyp.array.isRequired,
     sortieHistory: PTyp.array.isRequired,
@@ -26,16 +28,8 @@ class PresortieMain extends Component {
     mapId: PTyp.MapId.isRequired,
     mapExtra: PTyp.object.isRequired,
 
-    onInit: PTyp.func.isRequired,
     onDynMapIdChange: PTyp.func.isRequired,
     onModifyMapExtras: PTyp.func.isRequired,
-  }
-
-  componentDidMount() {
-    const { onInit } = this.props
-    setTimeout(() => {
-      onInit(loadPState())
-    })
   }
 
   handleAddLink = linkInfo => {
@@ -185,6 +179,11 @@ class PresortieMain extends Component {
     )
   }
 }
+
+const PresortieMain = connect(
+  presortieMainUISelector,
+  mapDispatchToProps
+)(PresortieMainImpl)
 
 export {
   PresortieMain,

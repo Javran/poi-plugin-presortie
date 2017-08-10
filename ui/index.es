@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import { PTyp } from '../ptyp'
 import { loadPState } from '../p-state'
-import { observeAll } from '../observers'
 import * as MapLinks from '../map-links'
 import { MapInfo } from '../structs'
 import { modifyArray } from '../utils'

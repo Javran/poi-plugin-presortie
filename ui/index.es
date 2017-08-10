@@ -6,7 +6,7 @@ import { modifyArray } from 'subtender'
 import { PTyp } from '../ptyp'
 import * as MapLinks from '../map-links'
 import { MapInfo } from '../structs'
-import { mapDispatchToProps } from '../reducer'
+import { mapDispatchToProps } from '../store'
 import {
   checklistUISelector,
   presortieMainUISelector,

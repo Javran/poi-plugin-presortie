@@ -10,7 +10,7 @@ import {
 import _ from 'lodash'
 
 import { DynMapId, MapExtra } from './structs'
-import { initState } from './reducer'
+import { initState } from './store'
 
 import { Checkers } from './structs/checkers'
 

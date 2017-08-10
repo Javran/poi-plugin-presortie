@@ -11,7 +11,7 @@ import {
 import {
   mapDispatchToProps,
   stateToPState,
-} from './reducer'
+} from './store'
 
 import {
   savePState,

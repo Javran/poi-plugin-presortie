@@ -1,5 +1,5 @@
 import { PresortieMain as reactClass } from './ui'
-import { reducer, withBoundActionCreator } from './reducer'
+import { reducer, withBoundActionCreator } from './store'
 import { globalSubscribe, globalUnsubscribe } from './observers'
 import { loadPState } from './p-state'
 

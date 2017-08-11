@@ -2,7 +2,7 @@
    this reducer maintains states that requires loading before
    it can accept modifying actions.
  */
-import { mkSimpleReducer } from 'subtender'
+import { mkSimpleReducer, modifyObject } from 'subtender'
 
 const tyMod = '@poi-plugin-presortie@persist@Modify'
 const tyRdy = '@poi-plugin-presortie@persist@Ready'
@@ -48,6 +48,18 @@ const actionCreator = {
     type: tyMod,
     modifier,
   }),
+  fleetIdChange: fleetId =>
+    actionCreator.persistModify(
+      modifyObject('fleetId', () => fleetId)
+    ),
+  selectedMapChange: selectedMap =>
+    actionCreator.persistModify(
+      modifyObject('selectedMap', () => selectedMap)
+    ),
+  mapMemosModify: modifier =>
+    actionCreator.persistModify(
+      modifyObject('mapMemos', modifier)
+    ),
 }
 
 export {

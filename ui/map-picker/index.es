@@ -26,19 +26,16 @@ class MapPickerImpl extends Component {
     selectedMap: PTyp.object.isRequired,
     mapId: PTyp.MapId.isRequired,
 
-    persistModify: PTyp.func.isRequired,
+    selectedMapChange: PTyp.func.isRequired,
   }
 
   handleSelectMap = k => {
     const selectedMap =
-      k === 'last' ? {type: 'last'} :
-      {type: 'id', mapId: k}
+      k === 'last' ?
+        {type: 'last'} :
+        {type: 'id', mapId: k}
 
-    this.props.persistModify(
-      modifyObject(
-        'selectedMap', () => selectedMap
-      )
-    )
+    this.props.selectedMapChange(selectedMap)
   }
 
   render() {

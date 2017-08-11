@@ -27,8 +27,18 @@
    action may set a reducer state to "not-ready", but only "Ready" action
    can set a reducer to back to ready state.
 
+   it's recommended that you should give `modifyActionType` and `readyActionType`
+   as string literals, since a string literal has a better chance of being interned
+   than those generated at runtime.
+
  */
 const mkSimpleReducer = (
+  /*
+     either:
+     - it's a function, which will be called without
+       argument when it needs a initial state
+     - it's an Object, which will be used as initial state
+   */
   initStateValOrThunk,
   modifyActionType,
   readyActionType = null

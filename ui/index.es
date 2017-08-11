@@ -180,10 +180,16 @@ class PresortieMainImpl extends Component {
   }
 }
 
-const PresortieMain = connect(
-  presortieMainUISelector,
-  mapDispatchToProps
-)(PresortieMainImpl)
+/* const PresortieMain = connect(
+ *   presortieMainUISelector,
+ *   mapDispatchToProps
+ * )(PresortieMainImpl)
+ *
+ */
+
+const PresortieMain = _props => (
+  <div>TODO: WIP</div>
+)
 
 export {
   PresortieMain,

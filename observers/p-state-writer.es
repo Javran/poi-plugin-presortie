@@ -5,30 +5,25 @@ import {
   extSelector,
 } from '../selectors'
 
-/* import {
- *   stateToPState,
- * } from '../store'
- *
- */
 import {
   savePState,
+  extStateToPState,
 } from '../p-state'
 
-// TODO
-const stateToPState = () => undefined
-
 const pStateWriter = observer(
-  state => stateToPState(extSelector(state)),
+  state => extStateToPState(extSelector(state)),
   (_dispatch, curPState, prevPState) => {
-    if (curPState === prevPState ||
-        // current state is not initialized
-        curPState === null ||
-        // transition from an uninitialized state
-        prevPState === null)
-      return
-    if (!shallowEqual(curPState,prevPState)) {
+    if (
+      /*
+         ensure that it's a change from ready state to ready state
+         (so we don't save the initial loaded state)
+       */
+      curPState && prevPState &&
+      !shallowEqual(curPState, prevPState)
+    ) {
       setTimeout(() => savePState(curPState))
     }
-  })
+  }
+)
 
 export { pStateWriter }

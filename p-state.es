@@ -83,9 +83,18 @@ const loadPState = () => {
   }
 }
 
+/*
+   get pState from extState.
+   returns null if extState is not ready for saving.
+ */
 const extStateToPState = extState => {
   const {sortieHistory, persist} = extState
-  return {sortieHistory, persist}
+  /*
+     'sortieHistory' is ready as long as 'persist' part is,
+     as 'persist' is always initialized later than `sortieHistory`
+   */
+  const isReady = persist.ready
+  return isReady ? {sortieHistory, persist} : null
 }
 
 /* apply a p-state to current extension state through dispatching actions

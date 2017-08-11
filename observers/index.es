@@ -19,7 +19,7 @@ const globalSubscribe = () => {
     store,
     [
       sortieHistoryUpdater,
-      // pStateWriter,
+      pStateWriter,
     ])
 }
 

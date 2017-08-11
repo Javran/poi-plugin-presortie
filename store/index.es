@@ -5,7 +5,7 @@ import { store } from 'views/create-store'
 import {
   emptyPState,
   updateSortieHistory,
-} from './p-state'
+} from '../p-state'
 
 const initState = {
   ready: false,

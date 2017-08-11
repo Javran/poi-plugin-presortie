@@ -1,11 +1,16 @@
 import _ from 'lodash'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, combineReducers } from 'redux'
 import { store } from 'views/create-store'
 
 import {
   emptyPState,
   updateSortieHistory,
 } from '../p-state'
+
+import {
+  reducer as sortieHistoryReducer,
+  actionCreator as sortieHistoryAC,
+} from './sortie-history'
 
 const initState = {
   ready: false,
@@ -30,6 +35,8 @@ const stateToPState = state => {
   }
 }
 
+const newReducer = combineReducers({sortieHistory: sortieHistoryReducer})
+
 const reducer = (state = initState, action) => {
   if (action.type === '@poi-plugin-presortie@Init') {
     const { pState } = action
@@ -42,20 +49,6 @@ const reducer = (state = initState, action) => {
 
   if (!state.ready)
     return state
-
-  if (action.type === '@poi-plugin-presortie@MapIdChange') {
-    const { sortieHistory } = state
-    const { mapId } = action
-    const newSortieHistory = updateSortieHistory(sortieHistory,mapId)
-    if (newSortieHistory !== sortieHistory) {
-      return {
-        ...state,
-        sortieHistory: newSortieHistory,
-      }
-    } else {
-      return state
-    }
-  }
 
   if (action.type === '@poi-plugin-presortie@DynMapIdChange') {
     const { dynMapId } = action
@@ -86,7 +79,13 @@ const reducer = (state = initState, action) => {
     }
   }
 
-  return state
+  {
+    const {sortieHistory: sh, ...restState} = state
+    return {
+      ...newReducer({sortieHistory: sh}, action),
+      ...restState,
+    }
+  }
 }
 
 const actionCreator = {
@@ -94,10 +93,6 @@ const actionCreator = {
     type: '@poi-plugin-presortie@Init',
     pState,
   }),
-  // note that mapId must be a valid mapId
-  onMapIdChange: mapId => ({
-    type: '@poi-plugin-presortie@MapIdChange',
-    mapId}),
   onDynMapIdChange: dynMapId => ({
     type: '@poi-plugin-presortie@DynMapIdChange',
     dynMapId,
@@ -110,6 +105,7 @@ const actionCreator = {
     type: '@poi-plugin-presortie@FleetIdChange',
     fleetId,
   }),
+  ...sortieHistoryAC,
 }
 
 const mapDispatchToProps = _.memoize(dispatch =>

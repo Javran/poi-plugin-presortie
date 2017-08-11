@@ -2,7 +2,7 @@ import { observer } from 'redux-observers'
 import { sortieMapIdSelector } from 'views/utils/selectors'
 
 import {
-  mapDispatchToProps,
+  withBoundActionCreator,
 } from '../store'
 
 const sortieHistoryUpdater = observer(
@@ -17,7 +17,10 @@ const sortieHistoryUpdater = observer(
     // where we are not returning to port (i.e. not null)
     if (curMapId !== prevMapId &&
         curMapId !== null) {
-      mapDispatchToProps(dispatch).onMapIdChange(curMapId)
+      withBoundActionCreator(
+        bac => bac.sortieHistoryAdd(curMapId),
+        dispatch
+      )
     }
   })
 

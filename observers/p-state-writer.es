@@ -5,13 +5,17 @@ import {
   extSelector,
 } from '../selectors'
 
-import {
-  stateToPState,
-} from '../store'
-
+/* import {
+ *   stateToPState,
+ * } from '../store'
+ *
+ */
 import {
   savePState,
 } from '../p-state'
+
+// TODO
+const stateToPState = () => undefined
 
 const pStateWriter = observer(
   state => stateToPState(extSelector(state)),

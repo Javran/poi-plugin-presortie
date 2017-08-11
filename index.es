@@ -1,7 +1,7 @@
 import { PresortieMain as reactClass } from './ui'
 import { reducer, withBoundActionCreator } from './store'
 import { globalSubscribe, globalUnsubscribe } from './observers'
-import { loadPState } from './p-state'
+import { loadPState, applyPState } from './p-state'
 
 const switchPluginPath = [
   {
@@ -12,11 +12,10 @@ const switchPluginPath = [
 
 const pluginDidLoad = () => {
   globalSubscribe()
-  setTimeout(() =>
-    withBoundActionCreator(bac =>
-      bac.onInit(loadPState())
-    )
-  )
+  setTimeout(() => {
+    const pState = loadPState()
+    applyPState(pState, withBoundActionCreator)
+  })
 }
 
 const pluginWillUnload = () => {

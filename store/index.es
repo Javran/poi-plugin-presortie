@@ -3,92 +3,21 @@ import { bindActionCreators, combineReducers } from 'redux'
 import { store } from 'views/create-store'
 
 import {
-  emptyPState,
-  updateSortieHistory,
-} from '../p-state'
-
-import {
-  reducer as sortieHistoryReducer,
+  reducer as sortieHistory,
   actionCreator as sortieHistoryAC,
 } from './sortie-history'
 
-const initState = {
-  ready: false,
-  ...emptyPState,
-  fleetId: 1,
-}
+import {
+  reducer as persist,
+  actionCreator as persistAC,
+} from './persist'
 
-// keep only parts needed to be persistent
-const stateToPState = state => {
-  const {
-    ready,
-    sortieHistory,
-    dynMapId,
-    mapExtras,
-  } = state
-  if (!ready)
-    return null
-  return {
-    sortieHistory,
-    dynMapId,
-    mapExtras,
-  }
-}
+const reducer = combineReducers({sortieHistory, persist})
 
-const newReducer = combineReducers({sortieHistory: sortieHistoryReducer})
-
-const reducer = (state = initState, action) => {
-  if (action.type === '@poi-plugin-presortie@Init') {
-    const { pState } = action
-    return {
-      ...state,
-      ...pState,
-      ready: true,
-    }
-  }
-
-  if (!state.ready)
-    return state
-
-  if (action.type === '@poi-plugin-presortie@DynMapIdChange') {
-    const { dynMapId } = action
-    return {
-      ...state,
-      dynMapId,
-    }
-  }
-
-  if (action.type === '@poi-plugin-presortie@ModifyMapExtras') {
-    const { ready, mapExtras } = state
-    if (!ready) {
-      console.error('attempted to modify map extras while initializing')
-      return state
-    }
-    const { modifier } = action
-    return {
-      ...state,
-      mapExtras: modifier(mapExtras),
-    }
-  }
-
-  if (action.type === '@poi-plugin-presortie@FleetIdChange') {
-    const { fleetId } = action
-    return {
-      ...state,
-      fleetId,
-    }
-  }
-
-  {
-    const {sortieHistory: sh, ...restState} = state
-    return {
-      ...newReducer({sortieHistory: sh}, action),
-      ...restState,
-    }
-  }
-}
+const initState = reducer(undefined, {type: '@@INIT'})
 
 const actionCreator = {
+  // TODO: onXXX cleanup
   onInit: pState => ({
     type: '@poi-plugin-presortie@Init',
     pState,
@@ -106,6 +35,7 @@ const actionCreator = {
     fleetId,
   }),
   ...sortieHistoryAC,
+  ...persistAC,
 }
 
 const mapDispatchToProps = _.memoize(dispatch =>
@@ -126,6 +56,5 @@ export {
   withBoundActionCreator,
   asyncBoundActionCreator,
 
-  stateToPState,
   initState,
 }

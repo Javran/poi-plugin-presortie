@@ -1,4 +1,6 @@
 import { createSelector } from 'reselect'
+import { projectorToComparator } from 'subtender'
+import _ from 'lodash'
 
 import {
   stateSelector,
@@ -7,21 +9,66 @@ import {
   shipsSelector,
   extensionSelectorFactory,
 } from 'views/utils/selectors'
-import _ from 'lodash'
 
-import { DynMapId, MapExtra } from './structs'
+
+import { DynMapId, MapExtra, SelectedMap } from './structs'
 import { initState } from './store'
 
 import { Checkers } from './structs/checkers'
 
+/*
+
+   TODO: be consistent about wording:
+
+   - use `area` and `num` (e.g. area=5, num=4 for mapId=54)
+
+ */
 const splitMapId = mapId => ({
-  world: Math.floor(mapId/10),
-  area: mapId % 10,
+  area: Math.floor(mapId/10),
+  num: mapId % 10,
 })
 
 const extSelector = createSelector(
   extensionSelectorFactory('poi-plugin-presortie'),
-  extStore => _.isEmpty(extStore) ? initState : extStore)
+  extStore => _.isEmpty(extStore) ? initState : extStore
+)
+
+const mkExtPropSelector = _.memoize(propName =>
+  createSelector(extSelector, ext => ext[propName]))
+
+const sortieHistorySelector =
+  mkExtPropSelector('sortieHistory')
+const persistSelector =
+  mkExtPropSelector('persist')
+
+const fleetIdSelector = createSelector(
+  persistSelector,
+  p => p.fleetId
+)
+
+const mapMemosSelector = createSelector(
+  persistSelector,
+  p => p.mapMemos
+)
+
+const selectedMapSelector = createSelector(
+  persistSelector,
+  p => p.selectedMap
+)
+
+const mapIdSelector = createSelector(
+  selectedMapSelector,
+  sortieHistorySelector,
+  (selectedMap, sortieHistory) =>
+    SelectedMap.destruct({
+      id: mapId => mapId,
+      last: () =>
+        sortieHistory.length > 0 ?
+          sortieHistory[0] :
+          // 1-1, if no history can be found
+          11,
+    })(selectedMap)
+)
 
 const mapInfoArraySelector = createSelector(
   constSelector,
@@ -29,28 +76,21 @@ const mapInfoArraySelector = createSelector(
     const transform = raw => {
       const id = raw.api_id
       const name = raw.api_name
-      const {world, area} = splitMapId(id)
-      return {id, name, world, area}
+      const {area, num} = splitMapId(id)
+      return {id, name, area, num}
     }
     return Object.values($maps)
       .map(transform)
-      .sort((x,y) => x.id - y.id)
-  })
+      .sort(projectorToComparator(x => x.id))
+  }
+)
+
+// TODO.
 
 const dynamicMapIdSelector = createSelector(
   extSelector,
   extState => extState.dynMapId
 )
-
-const mapIdSelector = createSelector(
-  extSelector,
-  dynamicMapIdSelector,
-  (extState,dynMapId) => DynMapId.toMapId(
-    dynMapId, extState.sortieHistory))
-
-const fleetIdSelector = createSelector(
-  extSelector,
-  extState => extState.fleetId)
 
 const mapExtraSelector = createSelector(
   extSelector,
@@ -174,11 +214,18 @@ const checklistUISelector = createSelector(
     ({fleetId, allFleetInfo, checkerResultsMap}))
 
 export {
-  mapInfoArraySelector,
   extSelector,
-  presortieMainUISelector,
-  mapIdSelector,
+
+  sortieHistorySelector,
+
   fleetIdSelector,
+  mapMemosSelector,
+  selectedMapSelector,
+  mapIdSelector,
+
+  mapInfoArraySelector,
+
+  presortieMainUISelector,
   checklistUISelector,
   checkerContextSelector,
   checkerResultsSelector,

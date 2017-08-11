@@ -1,43 +1,65 @@
+import { createStructuredSelector } from 'reselect'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   DropdownButton,
   MenuItem,
 } from 'react-bootstrap'
+import { modifyObject } from 'subtender'
 
-import { PTyp } from '../ptyp'
-import { MapInfo } from '../structs'
+import { PTyp } from '../../ptyp'
+import { MapInfo, SelectedMap } from '../../structs'
+import { mapDispatchToProps } from '../../store'
+import {
+  mapInfoArraySelector,
+  sortieHistorySelector,
+  selectedMapSelector,
+  mapIdSelector,
+} from '../../selectors'
 
-class SortieAreaPicker extends Component {
+class MapPickerImpl extends Component {
   static propTypes = {
-    mapInfoArray: PTyp.arrayOf(PTyp.MapInfo).isRequired,
-    sortieHistory: PTyp.arrayOf(PTyp.MapId).isRequired,
-    dynMapId: PTyp.DynMapId.isRequired,
-    mapId: PTyp.MapId.isRequired,
-    style: PTyp.object,
+    style: PTyp.object.isRequired,
 
-    onDynMapIdChange: PTyp.func.isRequired,
+    mapInfoArray: PTyp.array.isRequired,
+    sortieHistory: PTyp.array.isRequired,
+    selectedMap: PTyp.object.isRequired,
+    mapId: PTyp.MapId.isRequired,
+
+    persistModify: PTyp.func.isRequired,
   }
 
-  static defaultProps = {
-    style: {},
+  handleSelectMap = k => {
+    const selectedMap =
+      k === 'last' ? {type: 'last'} :
+      {type: 'id', mapId: k}
+
+    this.props.persistModify(
+      modifyObject(
+        'selectedMap', () => selectedMap
+      )
+    )
   }
 
   render() {
     const {
       mapInfoArray, sortieHistory,
-      mapId, dynMapId, onDynMapIdChange,
+      mapId, selectedMap,
       style,
     } = this.props
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
     const mapInfo = findMapInfo(mapId)
     const sortieTextHeader =
-      dynMapId === 'last' ? 'Last Sortie' : 'Sortie Area'
+      SelectedMap.destruct({
+        id: () => 'Sortie Area',
+        last: () => 'Last Sortie',
+      })(selectedMap)
     const sortieText = `${sortieTextHeader}: ${MapInfo.toString(mapInfo)}`
     return (
       <DropdownButton
         style={style}
         title={sortieText}
-        onSelect={onDynMapIdChange}
+        onSelect={this.handleSelectMap}
         key={mapId}
         id={`presortie-dropdown-sortie-area`}>
         {
@@ -73,6 +95,16 @@ class SortieAreaPicker extends Component {
   }
 }
 
+const MapPicker = connect(
+  createStructuredSelector({
+    mapInfoArray: mapInfoArraySelector,
+    sortieHistory: sortieHistorySelector,
+    selectedMap: selectedMapSelector,
+    mapId: mapIdSelector,
+  }),
+  mapDispatchToProps,
+)(MapPickerImpl)
+
 export {
-  SortieAreaPicker,
+  MapPicker,
 }

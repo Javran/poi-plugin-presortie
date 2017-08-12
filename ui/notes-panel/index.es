@@ -3,26 +3,63 @@ import {
   Panel,
   ListGroup, ListGroupItem,
 } from 'react-bootstrap'
+import { createStructuredSelector } from 'reselect'
+import { connect } from 'react-redux'
+import { modifyObject, modifyArray } from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import { AddNoteControl } from './add-note-control'
 import { NoteControl } from './note-control'
+import { notesSelector, mapIdSelector } from '../../selectors'
+import { mapDispatchToProps } from '../../store'
 
-class NotesPanel extends Component {
+class NotesPanelImpl extends Component {
   static propTypes = {
     notes: PTyp.arrayOf(PTyp.Note).isRequired,
-    style: PTyp.object,
-
-    onAddNote: PTyp.func.isRequired,
-    onModifyNote: PTyp.func.isRequired,
+    style: PTyp.object.isRequired,
+    mapId: PTyp.number.isRequired,
+    mapMemoModify: PTyp.func.isRequired,
   }
 
-  static defaultProps = {
-    style: {},
+  modifyNotes = modifier =>
+    this.props.mapMemoModify(
+      this.props.mapId,
+      modifyObject('notes', modifier)
+    )
+
+  handleReplaceNote = noteId => contentOrNull =>
+    this.modifyNotes(notes => {
+      if (contentOrNull === null) {
+        // "null" causes removal of this note
+        return notes.filter(n => n.id !== noteId)
+      } else {
+        const ind = notes.findIndex(n => n.id === noteId)
+        if (ind === -1) {
+          // should not happen, but anyways
+          return notes
+        } else {
+          const content = contentOrNull
+          return modifyArray(ind, () => ({
+            id: noteId,
+            content}))(notes)
+        }
+      }
+    })
+
+  handleAddNote = content => {
+    this.modifyNotes(
+      notes => {
+        const newId =
+          notes.length === 0 ?
+            0 :
+            Math.max(...notes.map(n => n.id)) + 1
+        return [...notes, {id: newId, content}]
+      }
+    )
   }
 
   render() {
-    const { style, notes, onAddNote, onModifyNote } = this.props
+    const {style, notes} = this.props
     return (
       <Panel
         style={style}
@@ -33,7 +70,7 @@ class NotesPanel extends Component {
             notes.map(note => (
               <ListGroupItem key={note.id}>
                 <NoteControl
-                  onModifyNote={onModifyNote(note.id)}
+                  onReplaceNote={this.handleReplaceNote(note.id)}
                   note={note}
                 />
               </ListGroupItem>
@@ -41,7 +78,7 @@ class NotesPanel extends Component {
           }
           <ListGroupItem style={{padding: '8px 15px'}}>
             <AddNoteControl
-              onAddNote={onAddNote}
+              onAddNote={this.handleAddNote}
             />
           </ListGroupItem>
         </ListGroup>
@@ -49,6 +86,14 @@ class NotesPanel extends Component {
     )
   }
 }
+
+const NotesPanel = connect(
+  createStructuredSelector({
+    notes: notesSelector,
+    mapId: mapIdSelector,
+  }),
+  mapDispatchToProps
+)(NotesPanelImpl)
 
 export {
   NotesPanel,

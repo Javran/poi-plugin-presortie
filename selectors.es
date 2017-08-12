@@ -11,7 +11,7 @@ import {
 } from 'views/utils/selectors'
 
 
-import { DynMapId, MapExtra, SelectedMap } from './structs'
+import { DynMapId, MapExtra, SelectedMap, emptyMemo } from './structs'
 import { initState } from './store'
 
 import { Checkers } from './structs/checkers'
@@ -83,6 +83,28 @@ const mapInfoArraySelector = createSelector(
       .map(transform)
       .sort(projectorToComparator(x => x.id))
   }
+)
+
+const mapMemoSelector = createSelector(
+  mapMemosSelector,
+  mapIdSelector,
+  (mapMemos, mapId) =>
+    mapMemos[mapId] || emptyMemo
+)
+
+const checklistSelector = createSelector(
+  mapMemoSelector,
+  m => m.checklist
+)
+
+const notesSelector = createSelector(
+  mapMemoSelector,
+  m => m.notes
+)
+
+const linksSelector = createSelector(
+  mapMemoSelector,
+  m => m.links
 )
 
 // TODO.
@@ -224,6 +246,11 @@ export {
   mapIdSelector,
 
   mapInfoArraySelector,
+
+  mapMemoSelector,
+  checklistSelector,
+  notesSelector,
+  linksSelector,
 
   presortieMainUISelector,
   checklistUISelector,

@@ -11,7 +11,7 @@ import { PTyp } from '../../ptyp'
 class NoteControl extends Component {
   static propTypes = {
     note: PTyp.Note.isRequired,
-    onModifyNote: PTyp.func.isRequired,
+    onReplaceNote: PTyp.func.isRequired,
   }
 
   static btnStyle = {
@@ -44,14 +44,14 @@ class NoteControl extends Component {
 
   handleModifyNote = () => {
     const { content } = this.state
-    const { onModifyNote } = this.props
-    onModifyNote(content)
+    const { onReplaceNote } = this.props
+    onReplaceNote(content)
     this.setState({editing: false, content})
   }
 
   handleRemoveNote = () => {
-    const { onModifyNote } = this.props
-    onModifyNote(null)
+    const {onReplaceNote} = this.props
+    onReplaceNote(null)
   }
 
   renderViewMode = () => {

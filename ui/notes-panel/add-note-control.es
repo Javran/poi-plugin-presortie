@@ -26,8 +26,8 @@ class AddNoteControl extends Component {
     this.setState({content: ''})
 
   handleAddContent = () => {
-    const { content } = this.state
-    const { onAddNote } = this.props
+    const {content} = this.state
+    const {onAddNote} = this.props
     onAddNote(content.trimRight())
     this.setState({content: ''})
   }

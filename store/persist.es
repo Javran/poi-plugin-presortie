@@ -3,6 +3,7 @@
    it can accept modifying actions.
  */
 import { mkSimpleReducer, modifyObject } from 'subtender'
+import { emptyMemo } from '../structs'
 
 const tyMod = '@poi-plugin-presortie@persist@Modify'
 const tyRdy = '@poi-plugin-presortie@persist@Ready'
@@ -59,6 +60,15 @@ const actionCreator = {
   mapMemosModify: modifier =>
     actionCreator.persistModify(
       modifyObject('mapMemos', modifier)
+    ),
+  mapMemoModify: (mapId, modifier) =>
+    actionCreator.mapMemosModify(
+      modifyObject(
+        mapId,
+        // provide an empty memo so modifiers don't
+        // have to worry about it.
+        (memo=emptyMemo) => modifier(memo)
+      )
     ),
 }
 

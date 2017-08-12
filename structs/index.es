@@ -51,6 +51,12 @@ class MapExtra {
   }
 }
 
+const emptyMemo = {
+  checklist: [],
+  notes: [],
+  links: [],
+}
+
 export {
   MapInfo,
   DynMapId,
@@ -59,4 +65,6 @@ export {
 
   Checkers,
   checkerList,
+
+  emptyMemo,
 }

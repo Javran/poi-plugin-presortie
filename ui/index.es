@@ -69,55 +69,6 @@ class PresortieMain extends Component {
    *   }
    * }
 
-   * handleAddNote = content => {
-   *   const { mapId, mapExtra, onModifyMapExtras } = this.props
-   *   onModifyMapExtras( mapExtras => {
-   *     const newId = mapExtra.notes.length === 0 ?
-   *       0 :
-   *       Math.max(...mapExtra.notes.map(n => n.id))+1
-   *     return {
-   *       ...mapExtras,
-   *       [mapId]: {
-   *         ...mapExtra,
-   *         notes: [...mapExtra.notes, {id: newId, content}],
-   *       },
-   *     }
-   *   })
-   * }
-
-   * // TODO: be consistent regarding how handleModifyXxxx is called.
-   * handleModifyNote = noteId => newContent => {
-   *   const { mapId, mapExtra, onModifyMapExtras } = this.props
-   *   if (! newContent) {
-   *     // falsy value, removing this note
-   *     onModifyMapExtras( mapExtras => {
-   *       const notes = mapExtra.notes.filter(n => n.id !== noteId)
-   *       return {
-   *         ...mapExtras,
-   *         [mapId]: {
-   *           ...mapExtra,
-   *           notes,
-   *         },
-   *       }
-   *     })
-   *   } else {
-   *     onModifyMapExtras( mapExtras => {
-   *       const ind = mapExtra.notes.findIndex(n => n.id === noteId)
-   *       return {
-   *         ...mapExtras,
-   *         [mapId]: {
-   *           ...mapExtra,
-   *           notes:
-   *             modifyArray(ind, () => ({
-   *               id: noteId,
-   *               content: newContent,
-   *             }))(mapExtra.notes),
-   *         },
-   *       }
-   *     })
-   *   }
-   * }
-
    * handleModifyMapExtra = modifier => {
    *   const { onModifyMapExtras, mapExtra, mapId } = this.props
    *   onModifyMapExtras( mapExtras => ({
@@ -127,10 +78,10 @@ class PresortieMain extends Component {
    * }
    */
   render() {
-    /* const panelStyle = {
-     *   marginBottom: 14,
-     * }
-     * const {
+    const panelStyle = {
+      marginBottom: 14,
+    }
+    /* const {
      *   mapInfoArray, sortieHistory,
      *   mapExtra, mapId, dynMapId,
      *   onDynMapIdChange,
@@ -158,13 +109,11 @@ class PresortieMain extends Component {
           style={panelStyle}
           checklist={checklist}
           onModifyMapExtra={this.handleModifyMapExtra}
-        />
+        />*/}
         <NotesPanel
           style={panelStyle}
-          notes={notes}
-          onAddNote={this.handleAddNote}
-          onModifyNote={this.handleModifyNote}
         />
+        {/*
         <LinksPanel
           style={panelStyle}
           links={links}

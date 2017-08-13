@@ -3,7 +3,6 @@ import { projectorToComparator } from 'subtender'
 import _ from 'lodash'
 
 import {
-  stateSelector,
   constSelector,
   fleetsSelector,
   shipsSelector,
@@ -11,10 +10,8 @@ import {
 } from 'views/utils/selectors'
 
 
-import { DynMapId, MapExtra, SelectedMap, emptyMemo } from './structs'
+import { SelectedMap, emptyMemo } from './structs'
 import { initState } from './store'
-
-import { Checkers } from './structs/checkers'
 
 /*
 
@@ -142,106 +139,6 @@ const allFleetInfoSelector = createSelector(
     return nonEmptyFleets.map(transformFleet)
   })
 
-// TODO.
-
-const dynamicMapIdSelector = createSelector(
-  extSelector,
-  extState => extState.dynMapId
-)
-
-const mapExtraSelector = createSelector(
-  extSelector,
-  mapIdSelector,
-  (extState,mapId) => {
-    const mapExtra = extState.mapExtras[mapId]
-    return typeof mapExtra === 'undefined' ? MapExtra.empty : mapExtra
-  })
-
-const enabledCheckersSelector = createSelector(
-  mapExtraSelector,
-  mapExtra => mapExtra.checklist.filter(c => c.enabled))
-
-// a preparedChecker has an extra field "listProblems",
-// which is a function that returns a list of problems
-// when CheckerContext is applied to it
-const preparedCheckersSelector = createSelector(
-  enabledCheckersSelector,
-  checklist => checklist.map(checker => {
-    const checkerClass = Checkers[checker.type]
-    let listProblems
-    if (typeof checkerClass.prepare === 'function') {
-      listProblems = checkerClass.prepare(checker)
-    } else {
-      console.error(`checker of type ${checker.type} does not have a prepare method`)
-      listProblems = () => ["Checker not prepared"]
-    }
-    return {
-      ...checker,
-      listProblems,
-    }
-  }))
-
-const presortieMainUISelector = createSelector(
-  mapInfoArraySelector,
-  extSelector,
-  dynamicMapIdSelector,
-  mapIdSelector,
-  mapExtraSelector,
-  (mapInfoArray, extState, dynMapId, mapId, mapExtra) => {
-    const {
-      ready,
-      sortieHistory,
-    } = extState
-
-    return {
-      mapInfoArray,
-      sortieHistory: !ready ? [] : sortieHistory,
-      dynMapId, mapId, mapExtra,
-    }
-  }
-)
-
-// a checker context is an Object that stores enough info
-// for checkers to do what they are supposed to do.
-// this module stores related functions
-const checkerContextSelector = createSelector(
-  mapIdSelector,
-  fleetIdSelector,
-  stateSelector,
-  (mapId, fleetId, st) => ({
-    mapId, fleetId,
-    // "const" and "info" come directly from the store,
-    // so CheckerContext will have exactly the same shape
-    // as the store (given only these two fields are accessed,
-    // which should be a reasonable assumption)
-    // This allows reusing selectors as functions.
-    const: st.const,
-    info: st.info,
-  })
-)
-
-const checkerResultsSelector = createSelector(
-  preparedCheckersSelector,
-  checkerContextSelector,
-  (preparedCheckers, checkerContext) =>
-    preparedCheckers.map(preparedChecker => ({
-      ...preparedChecker,
-      problems: preparedChecker.listProblems(checkerContext),
-    })))
-
-const checkerResultsMapSelector = createSelector(
-  checkerResultsSelector,
-  checkerResults => checkerResults.reduce(
-    (acc,checker) => ({...acc, [checker.id]: checker}),
-    {}))
-
-const checklistUISelector = createSelector(
-  fleetIdSelector,
-  allFleetInfoSelector,
-  checkerResultsMapSelector,
-  (fleetId, allFleetInfo, checkerResultsMap) =>
-    ({fleetId, allFleetInfo, checkerResultsMap}))
-
 export {
   extSelector,
 
@@ -261,9 +158,4 @@ export {
   linksSelector,
 
   allFleetInfoSelector,
-
-  presortieMainUISelector,
-  checklistUISelector,
-  checkerContextSelector,
-  checkerResultsSelector,
 }

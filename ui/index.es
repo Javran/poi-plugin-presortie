@@ -13,9 +13,6 @@ import { ChecklistPanel } from './checklist-panel'
 import { NotesPanel } from './notes-panel'
 import { LinksPanel } from './links-panel'
 
-const ChecklistPanelInst =
-  connect(checklistUISelector,mapDispatchToProps)(ChecklistPanel)
-
 class PresortieMain extends Component {
   /* static propTypes = {
    *   mapInfoArray: PTyp.array.isRequired,
@@ -44,12 +41,9 @@ class PresortieMain extends Component {
         <MapPicker
           style={{marginBottom: 14}}
         />
-        {/*
-        <ChecklistPanelInst
+        <ChecklistPanel
           style={panelStyle}
-          checklist={checklist}
-          onModifyMapExtra={this.handleModifyMapExtra}
-        />*/}
+        />
         <NotesPanel
           style={panelStyle}
         />

@@ -114,6 +114,34 @@ const linksSelector = createSelector(
   m => m.links
 )
 
+const allFleetInfoSelector = createSelector(
+  fleetsSelector,
+  shipsSelector,
+  constSelector,
+  (fleets,ships,{$ships}) => {
+    const nonEmptyFleets = fleets.filter(fleet =>
+      Array.isArray(fleet.api_ship) &&
+      fleet.api_ship.length > 0 &&
+      !fleet.api_ship.every(rid => rid < 0))
+
+    const getShip = rosterId => {
+      const ship = ships[rosterId]
+      const $ship = $ships[ship.api_ship_id]
+      return {
+        rosterId,
+        level: ship.api_lv,
+        name: $ship.api_name,
+      }
+    }
+
+    const transformFleet = rawFleet => ({
+      id: rawFleet.api_id,
+      name: rawFleet.api_name,
+      flagship: getShip(rawFleet.api_ship[0]),
+    })
+    return nonEmptyFleets.map(transformFleet)
+  })
+
 // TODO.
 
 const dynamicMapIdSelector = createSelector(
@@ -152,34 +180,6 @@ const preparedCheckersSelector = createSelector(
       listProblems,
     }
   }))
-
-const allFleetInfoSelector = createSelector(
-  fleetsSelector,
-  shipsSelector,
-  constSelector,
-  (fleets,ships,{$ships}) => {
-    const nonEmptyFleets = fleets.filter(fleet =>
-      Array.isArray(fleet.api_ship) &&
-      fleet.api_ship.length > 0 &&
-      !fleet.api_ship.every(rid => rid < 0))
-
-    const getShip = rosterId => {
-      const ship = ships[rosterId]
-      const $ship = $ships[ship.api_ship_id]
-      return {
-        rosterId,
-        level: ship.api_lv,
-        name: $ship.api_name,
-      }
-    }
-
-    const transformFleet = rawFleet => ({
-      id: rawFleet.api_id,
-      name: rawFleet.api_name,
-      flagship: getShip(rawFleet.api_ship[0]),
-    })
-    return nonEmptyFleets.map(transformFleet)
-  })
 
 const presortieMainUISelector = createSelector(
   mapInfoArraySelector,
@@ -259,6 +259,8 @@ export {
   checklistSelector,
   notesSelector,
   linksSelector,
+
+  allFleetInfoSelector,
 
   presortieMainUISelector,
   checklistUISelector,

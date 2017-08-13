@@ -9,43 +9,43 @@ import { PTyp } from '../../ptyp'
 
 class LinkControl extends Component {
   static propTypes = {
-    linkInfo: PTyp.LinkInfo.isRequired,
+    link: PTyp.string.isRequired,
+    name: PTyp.string.isRequired,
+    onReplaceLink: PTyp.func,
+  }
+
+  static defaultProps = {
+    onReplaceLink: null,
   }
 
   constructor(props) {
     super(props)
-    const { linkInfo } = props
+    const {link} = props
     this.state = {
       editing: false,
-      link: linkInfo.link,
+      // only link is editable,
+      // as we are using name as id of link structure.
+      link,
     }
   }
 
   handleStartEditing = () => {
-    const { linkInfo } = this.props
+    const {link} = this.props
     this.setState({
       editing: true,
-      link: linkInfo.link,
+      link,
     })
   }
 
   handleCancelEditing = () =>
     this.setState({editing: false})
 
-  handleRemoveLink = () => {
-    const { linkInfo } = this.props
-    const { onModifyLink } = linkInfo
-    onModifyLink(() => null)
-  }
+  handleRemoveLink = () =>
+    this.props.onReplaceLink(null)
 
   handleSaveLink = () => {
-    const { linkInfo } = this.props
-    const { link } = this.state
-    const { name, onModifyLink } = linkInfo
-    onModifyLink(() => ({
-      name,
-      link: link.trim(),
-    }))
+    const {link} = this.state
+    this.props.onReplaceLink(link.trim())
     this.setState({ editing: false })
   }
 
@@ -53,9 +53,8 @@ class LinkControl extends Component {
     this.setState({link: e.target.value})
 
   renderViewMode = () => {
-    const { linkInfo } = this.props
-    const { name, link, onModifyLink } = linkInfo
-    const editable = typeof onModifyLink === 'function'
+    const {name, link, onReplaceLink} = this.props
+    const editable = typeof onReplaceLink === 'function'
     return (
       <div style={{display: 'flex', alignItems: 'center'}}>
         <a href={link} style={{flex: 1}}>
@@ -81,9 +80,8 @@ class LinkControl extends Component {
       marginLeft: 5,
       height: 'auto',
     }
-    const { linkInfo } = this.props
-    const { name } = linkInfo
-    const { link } = this.state
+    const {name} = this.props
+    const {link} = this.state
     const canSave = link.trim().length > 0
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
@@ -130,7 +128,7 @@ class LinkControl extends Component {
   }
 
   render() {
-    const { editing } = this.state
+    const {editing} = this.state
     return editing ?
       this.renderEditMode() :
       this.renderViewMode()

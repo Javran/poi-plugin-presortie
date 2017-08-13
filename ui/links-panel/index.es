@@ -5,13 +5,13 @@ import {
   Panel,
   ListGroup, ListGroupItem,
 } from 'react-bootstrap'
-import { modifyObject } from 'subtender'
+import { modifyObject, modifyArray } from 'subtender'
 
 import { mapDispatchToProps } from '../../store'
 import {
-  linksSelector,
   mapIdSelector,
 } from '../../selectors'
+import { allLinksSelector } from './selectors'
 import { PTyp } from '../../ptyp'
 import { AddLinkControl } from './add-link-control'
 import { LinkControl } from './link-control'
@@ -19,9 +19,8 @@ import { LinkControl } from './link-control'
 class LinksPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object.isRequired,
-    links: PTyp.arrayOf(PTyp.LinkInfo).isRequired,
+    allLinks: PTyp.array.isRequired,
 
-    // onAddLink: PTyp.func.isRequired,
     mapId: PTyp.number.isRequired,
     mapMemoModify: PTyp.func.isRequired,
   }
@@ -35,18 +34,44 @@ class LinksPanelImpl extends Component {
   handleAddLink = linkInfo =>
     this.modifyLinks(links => [...links, linkInfo])
 
-  // TODO: remove
+
+  handleReplaceLink = linkName => contentOrNull =>
+    this.modifyLinks(links => {
+      if (contentOrNull === null) {
+        return links.filter(l => l.name !== linkName)
+      } else {
+        const ind = links.findIndex(l => l.name === linkName)
+        if (ind === -1) {
+          // should not happen, just in case.
+          return links
+        } else {
+          const content = contentOrNull
+          return modifyArray(ind, () => ({
+            name: linkName,
+            link: content,
+          }))(links)
+        }
+      }
+    })
+
+  /*
+     check whether a link name is valid:
+
+     - should be a non-empty string
+     - should not have the same name as an existing one.
+       (this includes preset-links as I don't think it makes sense anyways)
+   */
   checkLinkName = linkNameRaw => {
     const linkName = linkNameRaw.trim()
     if (linkName.length === 0)
       return false
-    const { links } = this.props
-    return links
+    const {allLinks} = this.props
+    return allLinks
       .every(linkInfo => linkInfo.name !== linkName)
   }
 
   render() {
-    const {style, links} = this.props
+    const {style, allLinks} = this.props
     return (
       <Panel
         style={style}
@@ -54,12 +79,18 @@ class LinksPanelImpl extends Component {
         header="Links">
         <ListGroup fill>
           {
-            links.map( linkInfo => (
+            allLinks.map(({name, link, type}) => (
               <ListGroupItem
                 style={{padding: '8px 15px'}}
-                key={linkInfo.name}>
+                key={name}>
                 <LinkControl
-                  linkInfo={linkInfo}
+                  link={link}
+                  name={name}
+                  onReplaceLink={
+                    type === 'custom' ?
+                      this.handleReplaceLink(name) :
+                      null
+                  }
                 />
               </ListGroupItem>
             ))
@@ -78,7 +109,7 @@ class LinksPanelImpl extends Component {
 
 const LinksPanel = connect(
   createStructuredSelector({
-    links: linksSelector,
+    allLinks: allLinksSelector,
     mapId: mapIdSelector,
   }),
   mapDispatchToProps,

@@ -85,6 +85,13 @@ const mapInfoArraySelector = createSelector(
   }
 )
 
+const mapInfoSelector = createSelector(
+  mapInfoArraySelector,
+  mapIdSelector,
+  (mapInfoArray, mapId) =>
+    mapInfoArray.find(x => x.id === mapId)
+)
+
 const mapMemoSelector = createSelector(
   mapMemosSelector,
   mapIdSelector,
@@ -246,6 +253,7 @@ export {
   mapIdSelector,
 
   mapInfoArraySelector,
+  mapInfoSelector,
 
   mapMemoSelector,
   checklistSelector,

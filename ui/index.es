@@ -31,17 +31,6 @@ class PresortieMain extends Component {
    *   onModifyMapExtras: PTyp.func.isRequired,
    * }
 
-   * handleAddLink = linkInfo => {
-   *   const { mapId, mapExtra, onModifyMapExtras } = this.props
-   *   onModifyMapExtras( mapExtras => ({
-   *     ...mapExtras,
-   *     [mapId]: {
-   *       ...mapExtra,
-   *       links: [...mapExtra.links, linkInfo],
-   *     },
-   *   }))
-   * }
-
    * handleModifyLink = linkInfo => modifier => {
    *   const newLinkInfo = modifier(linkInfo)
    *   const { mapId, mapExtra, onModifyMapExtras } = this.props

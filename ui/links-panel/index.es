@@ -1,21 +1,41 @@
+import { createStructuredSelector } from 'reselect'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Panel,
   ListGroup, ListGroupItem,
 } from 'react-bootstrap'
+import { modifyObject } from 'subtender'
 
+import { mapDispatchToProps } from '../../store'
+import {
+  linksSelector,
+  mapIdSelector,
+} from '../../selectors'
 import { PTyp } from '../../ptyp'
 import { AddLinkControl } from './add-link-control'
 import { LinkControl } from './link-control'
 
-class LinksPanel extends Component {
+class LinksPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object.isRequired,
-    // links: PTyp.arrayOf(PTyp.LinkInfo).isRequired,
+    links: PTyp.arrayOf(PTyp.LinkInfo).isRequired,
 
     // onAddLink: PTyp.func.isRequired,
+    mapId: PTyp.number.isRequired,
+    mapMemoModify: PTyp.func.isRequired,
   }
 
+  modifyLinks = modifier =>
+    this.props.mapMemoModify(
+      this.props.mapId,
+      modifyObject('links', modifier)
+    )
+
+  handleAddLink = linkInfo =>
+    this.modifyLinks(links => [...links, linkInfo])
+
+  // TODO: remove
   checkLinkName = linkNameRaw => {
     const linkName = linkNameRaw.trim()
     if (linkName.length === 0)
@@ -26,8 +46,7 @@ class LinksPanel extends Component {
   }
 
   render() {
-    const {style} = this.props
-    const links = []
+    const {style, links} = this.props
     return (
       <Panel
         style={style}
@@ -47,7 +66,7 @@ class LinksPanel extends Component {
           }
           <ListGroupItem style={{padding: '8px 15px'}}>
             <AddLinkControl
-              onAddLink={() => undefined}
+              onAddLink={this.handleAddLink}
               checkLinkName={this.checkLinkName}
             />
           </ListGroupItem>
@@ -56,6 +75,14 @@ class LinksPanel extends Component {
     )
   }
 }
+
+const LinksPanel = connect(
+  createStructuredSelector({
+    links: linksSelector,
+    mapId: mapIdSelector,
+  }),
+  mapDispatchToProps,
+)(LinksPanelImpl)
 
 export {
   LinksPanel,

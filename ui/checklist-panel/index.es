@@ -8,7 +8,7 @@ import {
   ListGroupItem,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
-import { mergeMapStateToProps } from 'subtender'
+import { mergeMapStateToProps, modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import { mapDispatchToProps } from '../../store'
@@ -16,37 +16,34 @@ import { AddCheckerPanel } from './add-checker-panel'
 import { FleetPicker } from './fleet-picker'
 import { CheckerControl } from './checker-control'
 import { checklistUISelector } from './selectors'
-import { checklistSelector } from '../../selectors'
+import { checklistSelector, mapIdSelector } from '../../selectors'
 
 class ChecklistPanelImpl extends Component {
   static propTypes = {
     checklist: PTyp.array.isRequired,
     style: PTyp.object,
     fleetId: PTyp.number.isRequired,
+    mapId: PTyp.number.isRequired,
     allFleetInfo: PTyp.array.isRequired,
     checkerResultsMap: PTyp.objectOf(PTyp.shape({
       problems: PTyp.arrayOf(PTyp.node).isRequired,
     })).isRequired,
-    // onFleetIdChange: PTyp.func.isRequired,
-    // onModifyMapExtra: PTyp.func.isRequired,
+    fleetIdChange: PTyp.func.isRequired,
+    mapMemoModify: PTyp.func.isRequired,
   }
 
   static defaultProps = {
     style: {},
   }
 
-  handleModifyChecklist = _modifier => {
-    // TODO
-    return
-    /* const { onModifyMapExtra } = this.props
-     * onModifyMapExtra(mapExtra => ({
-     *   ...mapExtra,
-     *   checklist: modifier(mapExtra.checklist),
-     * }))*/
-  }
+  modifyChecklist = modifier =>
+    this.props.mapMemoModify(
+      this.props.mapId,
+      modifyObject('checklist', modifier)
+    )
 
   handleAddChecker = partialChecker =>
-    this.handleModifyChecklist(checklist => {
+    this.modifyChecklist(checklist => {
       const id = checklist.length === 0 ?
         0 :
         Math.max(...checklist.map(c => c.id))+1
@@ -59,18 +56,18 @@ class ChecklistPanelImpl extends Component {
     })
 
   handleModifyChecker = checkerId => modifier => {
-    this.handleModifyChecklist(checklist =>
+    this.modifyChecklist(checklist =>
       checklist.map(checker =>
         checker.id === checkerId ? modifier(checker) : checker
       ))
   }
 
   handleRemoveChecker = checkerId => () =>
-    this.handleModifyChecklist(checklist =>
+    this.modifyChecklist(checklist =>
       checklist.filter(checker => checker.id !== checkerId))
 
   handleToggleChecker = checkerId => curEnabled => () =>
-    this.handleModifyChecklist(checklist =>
+    this.modifyChecklist(checklist =>
       checklist.map(c =>
         c.id !== checkerId ?
           c :
@@ -80,7 +77,8 @@ class ChecklistPanelImpl extends Component {
     const {
       style, checklist,
       checkerResultsMap,
-      fleetId, allFleetInfo, // onFleetIdChange,
+      fleetId, allFleetInfo,
+      fleetIdChange,
     } = this.props
     const checklistSatisfied =
       Object.values(checkerResultsMap).every(
@@ -108,7 +106,7 @@ class ChecklistPanelImpl extends Component {
             <FleetPicker
               fleetId={fleetId}
               allFleetInfo={allFleetInfo}
-              onFleetIdChange={_TODO => undefined}
+              onFleetIdChange={fleetIdChange}
             />
           </ListGroupItem>
           {
@@ -146,6 +144,7 @@ const ChecklistPanel = connect(
   mergeMapStateToProps(
     checklistUISelector,
     createStructuredSelector({
+      mapId: mapIdSelector,
       checklist: checklistSelector,
     })),
   mapDispatchToProps

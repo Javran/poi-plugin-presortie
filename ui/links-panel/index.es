@@ -10,14 +10,10 @@ import { LinkControl } from './link-control'
 
 class LinksPanel extends Component {
   static propTypes = {
-    style: PTyp.object,
-    links: PTyp.arrayOf(PTyp.LinkInfo).isRequired,
+    style: PTyp.object.isRequired,
+    // links: PTyp.arrayOf(PTyp.LinkInfo).isRequired,
 
-    onAddLink: PTyp.func.isRequired,
-  }
-
-  static defaultProps = {
-    style: {},
+    // onAddLink: PTyp.func.isRequired,
   }
 
   checkLinkName = linkNameRaw => {
@@ -30,7 +26,8 @@ class LinksPanel extends Component {
   }
 
   render() {
-    const { style, links, onAddLink } = this.props
+    const {style} = this.props
+    const links = []
     return (
       <Panel
         style={style}
@@ -50,7 +47,7 @@ class LinksPanel extends Component {
           }
           <ListGroupItem style={{padding: '8px 15px'}}>
             <AddLinkControl
-              onAddLink={onAddLink}
+              onAddLink={() => undefined}
               checkLinkName={this.checkLinkName}
             />
           </ListGroupItem>

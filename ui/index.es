@@ -113,13 +113,9 @@ class PresortieMain extends Component {
         <NotesPanel
           style={panelStyle}
         />
-        {/*
         <LinksPanel
           style={panelStyle}
-          links={links}
-          onAddLink={this.handleAddLink}
         />
-        */}
       </div>
     )
   }

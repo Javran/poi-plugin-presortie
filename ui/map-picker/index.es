@@ -5,7 +5,6 @@ import {
   DropdownButton,
   MenuItem,
 } from 'react-bootstrap'
-import { modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import { MapInfo, SelectedMap } from '../../structs'

@@ -109,8 +109,6 @@ const applyPState = (pStateOrNull, withBoundActionCreator) =>
       /*
          expicitly passing undefined to indicate the reducer
          that initial state should be used instead
-
-         TODO: subtender version bump needed.
        */
       bac.persistReady(undefined)
     } else {

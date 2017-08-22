@@ -45,6 +45,6 @@
   "dependencies": {
     "react-textarea-autosize": "^5.0.6",
     "shallowequal": "^1.0.2",
-    "subtender": "^0.11.0"
+    "subtender": "^0.12.0"
   }
 }

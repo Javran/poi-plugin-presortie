@@ -21,8 +21,8 @@ const isValue = expectedValue =>
 const MapInfo = PropTypes.shape(allRequired({
   id: PropTypes.number,
   name: PropTypes.string,
-  world: PropTypes.number,
   area: PropTypes.number,
+  num: PropTypes.number,
 }))
 
 const MapId = PropTypes.number

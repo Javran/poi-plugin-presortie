@@ -5,9 +5,9 @@ const mapLinks = []
 
 const mkMapInfoToLink = (prefix, mapInfoToLinkName=MapInfo.toShortString) =>
   mapInfo => {
-    const {world, area} = mapInfo
+    const {area, num} = mapInfo
     const name = mapInfoToLinkName(mapInfo)
-    const link = `${prefix}/${world}-${area}`
+    const link = `${prefix}/${area}-${num}`
     return {name, link}
   }
 
@@ -31,11 +31,15 @@ const defineMapLink = (
   defineMapLink(
     'wikiwiki',
     mapInfo => {
-      const { world, area } = mapInfo
-      const worldPart = worldTable[world]
+      /*
+         a bit confusing, but wikiwiki is using 'area' for the sub-index
+         while we are using 'area' to stand for worlds
+       */
+      const {area, num} = mapInfo
+      const worldPart = worldTable[area]
       if (typeof worldPart === 'undefined')
         return null
-      const areaPart = `area${area}`
+      const areaPart = `area${num}`
       return {
         name: MapInfo.toShortString(mapInfo),
         link: `http://wikiwiki.jp/kancolle/?${worldPart}#${areaPart}`,

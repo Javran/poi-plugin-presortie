@@ -17,23 +17,6 @@ const reducer = combineReducers({sortieHistory, persist})
 const initState = reducer(undefined, {type: '@@INIT'})
 
 const actionCreator = {
-  // TODO: onXXX cleanup
-  onInit: pState => ({
-    type: '@poi-plugin-presortie@Init',
-    pState,
-  }),
-  onDynMapIdChange: dynMapId => ({
-    type: '@poi-plugin-presortie@DynMapIdChange',
-    dynMapId,
-  }),
-  onModifyMapExtras: modifier => ({
-    type: '@poi-plugin-presortie@ModifyMapExtras',
-    modifier,
-  }),
-  onFleetIdChange: fleetId => ({
-    type: '@poi-plugin-presortie@FleetIdChange',
-    fleetId,
-  }),
   ...sortieHistoryAC,
   ...persistAC,
 }

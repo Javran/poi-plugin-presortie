@@ -80,7 +80,7 @@ class CheckerControl extends Component {
           />
         </div>
         <Button
-          style={{marginLeft: 5, height: 'auto'}}
+          style={{marginLeft: 5, width: '2.7em'}}
           bsSize="small"
           onClick={this.handleStartEditing}
         >
@@ -91,7 +91,7 @@ class CheckerControl extends Component {
             bsStyle={
               enabled ? (satisfied ? "success" : "danger") : "warning"
             }
-            style={{marginLeft: 5, height: 'auto'}}
+            style={{marginLeft: 5, width: '2.7em'}}
             onClick={onToggleChecker}
             bsSize="small"
           >
@@ -111,7 +111,7 @@ class CheckerControl extends Component {
     const isInputValid = checkerClass.isValid(this.state.checker)
     const btnStyle = {
       marginLeft: 5,
-      height: 'auto',
+      width: '2.7em',
     }
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
@@ -131,14 +131,16 @@ class CheckerControl extends Component {
         </Button>
         <div
           style={{
-            ...btnStyle,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
           }}>
           <Button
-            style={{marginBottom: 5}}
+            style={{
+              ...btnStyle,
+              marginBottom: 5,
+            }}
             onClick={this.handleCancelEditing}
             bsSize="small">
             <FontAwesome name="undo" />
@@ -147,6 +149,7 @@ class CheckerControl extends Component {
             disabled={!isInputValid}
             bsStyle={isInputValid ? 'success' : 'danger'}
             onClick={this.handleSaveChecker}
+            style={btnStyle}
             bsSize="small">
             <FontAwesome name="save" />
           </Button>

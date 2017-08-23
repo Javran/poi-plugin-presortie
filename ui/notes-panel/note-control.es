@@ -16,7 +16,7 @@ class NoteControl extends Component {
 
   static btnStyle = {
     marginLeft: 5,
-    height: 'auto',
+    width: '2.7em',
   }
 
   constructor(props) {
@@ -94,14 +94,16 @@ class NoteControl extends Component {
         </Button>
         <div
           style={{
-            ...NoteControl.btnStyle,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
           }}>
           <Button
-            style={{marginBottom: 5}}
+            style={{
+              ...NoteControl.btnStyle,
+              marginBottom: 5,
+            }}
             onClick={this.handleCancelEditing}
             bsSize="small">
             <FontAwesome name="undo" />
@@ -110,6 +112,7 @@ class NoteControl extends Component {
             disabled={!canSave}
             bsStyle={canSave ? 'success' : 'danger'}
             onClick={this.handleModifyNote}
+            style={NoteControl.btnStyle}
             bsSize="small">
             <FontAwesome name="save" />
           </Button>

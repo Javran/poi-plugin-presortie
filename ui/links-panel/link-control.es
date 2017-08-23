@@ -66,6 +66,10 @@ class LinkControl extends Component {
             <Button
               bsSize="small"
               onClick={this.handleStartEditing}
+              style={{
+                marginLeft: 5,
+                width: '2.7em',
+              }}
             >
               <FontAwesome name="pencil" />
             </Button>
@@ -78,7 +82,7 @@ class LinkControl extends Component {
   renderEditMode = () => {
     const btnStyle = {
       marginLeft: 5,
-      height: 'auto',
+      width: '2.7em',
     }
     const {name} = this.props
     const {link} = this.state
@@ -103,20 +107,20 @@ class LinkControl extends Component {
         </Button>
         <div
           style={{
-            ...btnStyle,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
           }}>
           <Button
-            style={{marginBottom: 5}}
+            style={{...btnStyle, marginBottom: 5}}
             onClick={this.handleCancelEditing}
             bsSize="small">
             <FontAwesome name="undo" />
           </Button>
           <Button
             disabled={!canSave}
+            style={btnStyle}
             onClick={this.handleSaveLink}
             bsStyle={canSave ? 'success' : 'danger'}
             bsSize="small">

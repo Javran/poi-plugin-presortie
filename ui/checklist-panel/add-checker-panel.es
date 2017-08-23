@@ -97,7 +97,7 @@ class AddCheckerPanel extends Component {
             }
           </div>
           <Button
-            style={{marginLeft: 5, height: 'auto'}}
+            style={{marginLeft: 5, width: '2.7em'}}
             bsSize="small"
             onClick={this.handleReset}
           >
@@ -106,7 +106,7 @@ class AddCheckerPanel extends Component {
           <Button
             disabled={!isInputValid}
             bsStyle={isInputValid ? 'default' : 'danger'}
-            style={{marginLeft: 5, height: 'auto'}}
+            style={{marginLeft: 5, width: '2.7em'}}
             bsSize="small"
             onClick={this.handleAddChecker}
           >

@@ -35,7 +35,7 @@ class AddNoteControl extends Component {
   render() {
     const btnStyle = {
       marginLeft: 5,
-      height: 'auto',
+      width: '2.7em',
     }
     const { content } = this.state
     const canSave = content.trimRight().length > 0

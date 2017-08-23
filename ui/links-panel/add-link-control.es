@@ -43,7 +43,7 @@ class AddLinkControl extends Component {
   render() {
     const btnStyle = {
       marginLeft: 5,
-      height: 'auto',
+      width: '2.7em',
     }
     const { name, link } = this.state
     const { checkLinkName } = this.props

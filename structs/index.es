@@ -42,7 +42,6 @@ class SelectedMap {
 
 class MapExtra {
   static empty = {
-    // TODO
     checklist: [],
     // array of strings in Markdown
     notes: [],

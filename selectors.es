@@ -15,8 +15,6 @@ import { initState } from './store'
 
 /*
 
-   TODO: be consistent about wording:
-
    - use `area` and `num` (e.g. area=5, num=4 for mapId=54)
 
  */

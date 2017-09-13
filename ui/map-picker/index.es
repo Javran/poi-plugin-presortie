@@ -46,14 +46,12 @@ class MapPickerImpl extends Component {
     } = this.props
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
     const mapInfo = findMapInfo(mapId)
-    if (!mapInfo)
-      return (<div />)
     const sortieTextHeader =
       SelectedMap.destruct({
         id: () => 'Sortie Area',
         last: () => 'Last Sortie',
       })(selectedMap)
-    const sortieText = `${sortieTextHeader}: ${MapInfo.toString(mapInfo)}`
+    const sortieText = `${sortieTextHeader}: ${mapInfo ? MapInfo.toString(mapInfo) : '-'}`
     return (
       <DropdownButton
         style={style}

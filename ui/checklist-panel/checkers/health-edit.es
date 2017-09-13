@@ -88,12 +88,11 @@ class HealthEdit extends Component {
                 </Tooltip>
               )
               return (
-                <OverlayTrigger placement="top" overlay={tooltip}>
+                <OverlayTrigger placement="top" overlay={tooltip} key={healthState}>
                   <Button
                     className="btn-hp-stat"
                     bsStyle={isActive ? `hp-stat-${healthState}` : 'default'}
                     onClick={this.handleToggleHealthState(healthState)(isActive)}
-                    key={healthState}
                     style={{flex: 1, margin: '5px 2px'}}>
                     {healthState}
                   </Button>

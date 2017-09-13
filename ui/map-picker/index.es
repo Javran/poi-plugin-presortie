@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { createStructuredSelector } from 'reselect'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -45,6 +46,8 @@ class MapPickerImpl extends Component {
     } = this.props
     const findMapInfo = MapInfo.findMapInfo(mapInfoArray)
     const mapInfo = findMapInfo(mapId)
+    if (!mapInfo)
+      return (<div />)
     const sortieTextHeader =
       SelectedMap.destruct({
         id: () => 'Sortie Area',
@@ -61,19 +64,26 @@ class MapPickerImpl extends Component {
         {
           ( sortieHistory.length > 0 && (
             [
-              <MenuItem
-                key="last-sortie"
-                eventKey="last">
-                {`Last Sortie: ${MapInfo.toString(findMapInfo(sortieHistory[0]))}`}
-              </MenuItem>,
-              <MenuItem divider key="d1" />,
-              ...sortieHistory.map((thisMapId,ind) => (
+              findMapInfo(sortieHistory[0]) && (
                 <MenuItem
-                  key={
-                    // eslint-disable-next-line react/no-array-index-key
-                    `hist-${ind}`} eventKey={thisMapId}>
-                  {`History #${ind+1}: ${MapInfo.toString(findMapInfo(thisMapId))}`}
-                </MenuItem>)),
+                  key="last-sortie"
+                  eventKey="last">
+                  {`Last Sortie: ${MapInfo.toString(findMapInfo(sortieHistory[0]))}`}
+                </MenuItem>
+              ),
+              <MenuItem divider key="d1" />,
+              ..._.flatMap(sortieHistory,(thisMapId,ind) => {
+                const thisMapInfo = findMapInfo(thisMapId)
+                if (!thisMapInfo) return []
+                return [(
+                  <MenuItem
+                    key={
+                      // eslint-disable-next-line react/no-array-index-key
+                      `hist-${ind}`} eventKey={thisMapId}>
+                    {`History #${ind+1}: ${MapInfo.toString(thisMapInfo)}`}
+                  </MenuItem>
+                )]
+              }),
               <MenuItem divider key="d2" />,
             ]
           ))

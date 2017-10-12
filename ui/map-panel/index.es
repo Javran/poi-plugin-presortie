@@ -13,16 +13,23 @@ import {
 import { projectorToComparator } from 'subtender'
 
 import { PTyp } from '../../ptyp'
-import { mapInfoArraySelector } from '../../selectors'
+import {
+  splitMapId,
+  mapInfoArraySelector,
+  getMapNameFuncSelector,
+  validSortieHistorySelector,
+} from '../../selectors'
 
 class MapPanelImpl extends PureComponent {
   static propTypes = {
     style: PTyp.object.isRequired,
     mapInfoArr: PTyp.array.isRequired,
+    getMapName: PTyp.func.isRequired,
+    sortieHistory: PTyp.array.isRequired,
   }
 
   render() {
-    const {style,mapInfoArr} = this.props
+    const {style,mapInfoArr,getMapName,sortieHistory} = this.props
     const btnStyle = {marginTop: 0}
     const mapInfoGroups = _.toPairs(
       _.groupBy(mapInfoArr,'area')
@@ -51,8 +58,37 @@ class MapPanelImpl extends PureComponent {
             <Dropdown.Menu>
               <MenuItem>Last Sortie: ???</MenuItem>
               <MenuItem divider />
-              <MenuItem>History 1</MenuItem>
-              <MenuItem>History 2</MenuItem>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
+                }}>
+                {
+                  _.take(sortieHistory,7*4).map((id,ind) => {
+                    const {area,num} = splitMapId(id)
+                    return (
+                      <OverlayTrigger
+                        placement="right"
+                        overlay={(
+                          <Tooltip
+                            id={`presortie-map-panel-tooltip-map-${id}`}>
+                            {getMapName(id)}
+                          </Tooltip>
+                        )}
+                        key={_.identity(ind)}>
+                        <MenuItem
+                          style={{
+                            fontSize: '1.2em',
+                            margin: '.5em',
+                          }}>
+                          {`${area}-${num}`}
+                        </MenuItem>
+                      </OverlayTrigger>
+                    )
+                  })
+                }
+              </div>
               <MenuItem divider />
               <div
                 style={{
@@ -65,13 +101,13 @@ class MapPanelImpl extends PureComponent {
                     <div
                       key={world}>
                       {
-                        ms.map(({area,num,name,id}) => (
+                        ms.map(({area,num,id}) => (
                           <OverlayTrigger
                             placement="right"
                             overlay={(
                               <Tooltip
                                 id={`presortie-map-panel-tooltip-map-${id}`}>
-                                {name}
+                                {getMapName(id)}
                               </Tooltip>
                             )}
                             key={id}>
@@ -105,6 +141,8 @@ class MapPanelImpl extends PureComponent {
 const MapPanel = connect(
   createStructuredSelector({
     mapInfoArr: mapInfoArraySelector,
+    getMapName: getMapNameFuncSelector,
+    sortieHistory: validSortieHistorySelector,
   }),
 )(MapPanelImpl)
 

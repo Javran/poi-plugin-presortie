@@ -16,11 +16,15 @@ that user can define.
       type: <string>,
       id: <number>,
       enabled: <boolean>,
+      fleet: <fleet>,
     }
     ```
 
     where every `Checklist` object must have a unique id.
-    also we will only check enabled items in the list
+    also we will only check enabled items in the list.
+
+    (TODO) `fleet` is one of `id-1`, `id-2`, `id-3`, `id-4`, `combined` to
+    indicate which fleet it's checking against
 
 - when `type` is `health`
 

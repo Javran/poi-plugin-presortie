@@ -1,0 +1,1 @@
+import { mapInfoArraySelector } from '../../selectors'

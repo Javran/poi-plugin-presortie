@@ -18,24 +18,34 @@ import {
   mapInfoArraySelector,
   getMapNameFuncSelector,
   validSortieHistorySelector,
+  mapIdSelector,
 } from '../../selectors'
 
 class MapPanelImpl extends PureComponent {
   static propTypes = {
     style: PTyp.object.isRequired,
+    mapId: PTyp.number.isRequired,
     mapInfoArr: PTyp.array.isRequired,
     getMapName: PTyp.func.isRequired,
     sortieHistory: PTyp.array.isRequired,
   }
 
   render() {
-    const {style,mapInfoArr,getMapName,sortieHistory} = this.props
+    const {style,mapInfoArr,getMapName,sortieHistory,mapId} = this.props
     const btnStyle = {marginTop: 0}
     const mapInfoGroups = _.toPairs(
       _.groupBy(mapInfoArr,'area')
     ).sort(
       projectorToComparator(([k,_v]) => Number(k))
     )
+
+    const curMapInfo = {
+      ...splitMapId(mapId),
+      name: getMapName(mapId),
+    }
+
+    const lastSortieInfo =
+      splitMapId(sortieHistory.length > 0 ? sortieHistory[0] : 11)
 
     return (
       <Panel style={style}>
@@ -45,7 +55,11 @@ class MapPanelImpl extends PureComponent {
             fontSize: '2em',
             marginBottom: '.5em',
           }}>
-          3-3
+          {
+            // eslint-disable-next-line prefer-template
+            `${curMapInfo.area}-${curMapInfo.num}` +
+            (curMapInfo.name ? `: ${curMapInfo.name}` : '')
+          }
         </div>
         <ButtonToolbar style={{display: 'flex', justifyContent: 'center'}}>
           <Dropdown
@@ -56,7 +70,9 @@ class MapPanelImpl extends PureComponent {
               Maps
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <MenuItem>Last Sortie: ???</MenuItem>
+              <MenuItem>
+                {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
+              </MenuItem>
               <MenuItem divider />
               <div
                 style={{
@@ -143,6 +159,7 @@ const MapPanel = connect(
     mapInfoArr: mapInfoArraySelector,
     getMapName: getMapNameFuncSelector,
     sortieHistory: validSortieHistorySelector,
+    mapId: mapIdSelector,
   }),
 )(MapPanelImpl)
 

@@ -80,6 +80,35 @@ const mapInfoArraySelector = createSelector(
   }
 )
 
+const getMapInfoFuncSelector = createSelector(
+  mapInfoArraySelector,
+  mapInfoArray =>
+    _.memoize(
+      mapId => mapInfoArray.find(x => x.id === mapId) || null
+    )
+)
+
+const getMapNameFuncSelector = createSelector(
+  getMapInfoFuncSelector,
+  getMapInfoFunc =>
+    mapId => {
+      const info = getMapInfoFunc(mapId)
+      return info ? info.name : null
+    }
+)
+
+/*
+   some maps, for example, event maps, will disappear
+   after server maintenance. to account for this case properly,
+   only those appears in master data will be considered "valid"
+ */
+const validSortieHistorySelector = createSelector(
+  sortieHistorySelector,
+  getMapInfoFuncSelector,
+  (sortieHistory, getMapInfoFunc) =>
+    sortieHistory.map(id => getMapInfoFunc(id))
+)
+
 const mapInfoSelector = createSelector(
   mapInfoArraySelector,
   mapIdSelector,
@@ -156,4 +185,6 @@ export {
   linksSelector,
 
   allFleetInfoSelector,
+  getMapNameFuncSelector,
+  validSortieHistorySelector,
 }

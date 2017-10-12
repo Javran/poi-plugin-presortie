@@ -106,7 +106,7 @@ const validSortieHistorySelector = createSelector(
   sortieHistorySelector,
   getMapInfoFuncSelector,
   (sortieHistory, getMapInfoFunc) =>
-    sortieHistory.map(id => getMapInfoFunc(id))
+    sortieHistory.filter(getMapInfoFunc)
 )
 
 const mapInfoSelector = createSelector(
@@ -168,6 +168,7 @@ const allFleetInfoSelector = createSelector(
 
 export {
   extSelector,
+  splitMapId,
 
   sortieHistorySelector,
 

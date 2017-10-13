@@ -10,7 +10,9 @@ import {
   MenuItem,
   OverlayTrigger, Tooltip,
 } from 'react-bootstrap'
-import { projectorToComparator } from 'subtender'
+import {
+  modifyObject, not,
+  projectorToComparator } from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import {
@@ -35,9 +37,24 @@ class MapPanelImpl extends PureComponent {
     selectedMapChange: PTyp.func.isRequired,
   }
 
-  handleSelectMap = k => {
-    console.log(k)
+  constructor(props) {
+    super(props)
+    this.state = {
+      menuOpened: false,
+    }
   }
+
+  handleSelectMap = k => {
+    const selectedMap =
+      k === 'last' ?
+        {type: 'last'} :
+        {type: 'id', mapId: k}
+    this.props.selectedMapChange(selectedMap)
+    this.setState({menuOpened: false})
+  }
+
+  handleToggleMenu = () =>
+    this.setState(modifyObject('menuOpened',not))
 
   render() {
     const {style,mapInfoArr,getMapName,sortieHistory,mapId} = this.props
@@ -72,16 +89,18 @@ class MapPanelImpl extends PureComponent {
         </div>
         <ButtonToolbar style={{display: 'flex', justifyContent: 'center'}}>
           <Dropdown
+            open={this.state.menuOpened}
+            onToggle={this.handleToggleMenu}
             id="presortie-map-panel-select-map">
             <Dropdown.Toggle
               style={btnStyle}
             >
               Maps
             </Dropdown.Toggle>
-            <Dropdown.Menu
-              onSelect={this.handleSelectMap}
-            >
-              <MenuItem eventKey="last">
+            <Dropdown.Menu>
+              <MenuItem
+                onSelect={this.handleSelectMap}
+                eventKey="last">
                 {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
               </MenuItem>
               <MenuItem divider />
@@ -105,6 +124,7 @@ class MapPanelImpl extends PureComponent {
                         )}
                         key={_.identity(ind)}>
                         <MenuItem
+                          onSelect={this.handleSelectMap}
                           eventKey={id}
                           style={{
                             fontSize: '1.2em',
@@ -127,6 +147,7 @@ class MapPanelImpl extends PureComponent {
                 {
                   mapInfoGroups.map(([world,ms]) => (
                     <div
+                      role="menu"
                       key={world}>
                       {
                         ms.map(({area,num,id}) => (

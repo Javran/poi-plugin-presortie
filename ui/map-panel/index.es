@@ -20,6 +20,9 @@ import {
   validSortieHistorySelector,
   mapIdSelector,
 } from '../../selectors'
+import {
+  mapDispatchToProps,
+} from '../../store'
 
 class MapPanelImpl extends PureComponent {
   static propTypes = {
@@ -28,6 +31,12 @@ class MapPanelImpl extends PureComponent {
     mapInfoArr: PTyp.array.isRequired,
     getMapName: PTyp.func.isRequired,
     sortieHistory: PTyp.array.isRequired,
+
+    selectedMapChange: PTyp.func.isRequired,
+  }
+
+  handleSelectMap = k => {
+    console.log(k)
   }
 
   render() {
@@ -69,8 +78,10 @@ class MapPanelImpl extends PureComponent {
             >
               Maps
             </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <MenuItem>
+            <Dropdown.Menu
+              onSelect={this.handleSelectMap}
+            >
+              <MenuItem eventKey="last">
                 {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
               </MenuItem>
               <MenuItem divider />
@@ -94,6 +105,7 @@ class MapPanelImpl extends PureComponent {
                         )}
                         key={_.identity(ind)}>
                         <MenuItem
+                          eventKey={id}
                           style={{
                             fontSize: '1.2em',
                             margin: '.5em',
@@ -128,6 +140,8 @@ class MapPanelImpl extends PureComponent {
                             )}
                             key={id}>
                             <MenuItem
+                              onSelect={this.handleSelectMap}
+                              eventKey={id}
                               style={{
                                 fontSize: '1.2em',
                                 margin: '.5em',
@@ -161,6 +175,7 @@ const MapPanel = connect(
     sortieHistory: validSortieHistorySelector,
     mapId: mapIdSelector,
   }),
+  mapDispatchToProps,
 )(MapPanelImpl)
 
 export { MapPanel }

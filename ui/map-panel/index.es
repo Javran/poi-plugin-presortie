@@ -26,6 +26,22 @@ import {
   mapDispatchToProps,
 } from '../../store'
 
+/*
+
+   TODO: now that we've introduced "General", which is considered a map that always exist
+   for users to keep track of things that doesn't fit into any specific map:
+
+   - when "last" is selected but nothing valid in the history list, we will instead
+     use "General".
+     Note that we intentionally don't switch the actual focus,
+     this is because later user might sortie
+     and history will start to have valid items.
+
+   - by doing so we'll always have a focus so don't need to use "1-1" a default map,
+     which is kind of "magical"
+
+ */
+
 class MapPanelImpl extends PureComponent {
   static propTypes = {
     style: PTyp.object.isRequired,

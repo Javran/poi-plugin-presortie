@@ -1,7 +1,6 @@
 import { join } from 'path-extra'
 import React, { PureComponent } from 'react'
 
-import { MapPicker } from './map-picker'
 import { MapPanel } from './map-panel'
 import { ChecklistPanel } from './checklist-panel'
 import { NotesPanel } from './notes-panel'
@@ -19,9 +18,6 @@ class PresortieMain extends PureComponent {
         <link rel="stylesheet" href={join(__dirname, '..', 'assets', 'presortie.css')} />
         <MapPanel
           style={panelStyle}
-        />
-        <MapPicker
-          style={{marginBottom: 14}}
         />
         <ChecklistPanel
           style={panelStyle}

@@ -7,7 +7,7 @@
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
 
-const $dataVersion = 'initial'
+const $dataVersion = 'initial-a'
 
 const getPStateFilePath = () => {
   const { APPDATA_PATH } = window
@@ -48,19 +48,14 @@ const updatePState = (oldPState, forceSave = false) => {
   /*
      version-to-version p-state updating logics
    */
-  if (!('$dataVersion' in newPState)) {
-    const {sortieHistory, dynMapId, mapExtras} = newPState
-    const selectedMap =
-      dynMapId === 'last' ? {type: 'last'} : {type: 'id', mapId: dynMapId}
-    const persist = {
-      fleetId: 1,
-      selectedMap,
-      mapMemos: mapExtras,
-    }
+  if (newPState.$dataVersion === 'initial') {
+    const {sortieHistory,persist} = newPState
+    const {fleetId, selectedMap, mapMemos} = persist
+
     newPState = {
       sortieHistory,
-      persist,
-      $dataVersion: 'initial',
+      persist: {fleetId, selectedMap, memos: mapMemos},
+      $dataVersion: 'initial-a',
     }
   }
 
@@ -108,7 +103,7 @@ const applyPState = (pStateOrNull, withBoundActionCreator) =>
       bac.sortieHistoryMergeOld([])
       /*
          expicitly passing undefined to indicate the reducer
-         that initial state should be used instead
+         that the initial state should be used instead
        */
       bac.persistReady(undefined)
     } else {

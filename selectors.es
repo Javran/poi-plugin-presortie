@@ -41,9 +41,9 @@ const fleetIdSelector = createSelector(
   p => p.fleetId
 )
 
-const mapMemosSelector = createSelector(
+const memosSelector = createSelector(
   persistSelector,
-  p => p.mapMemos
+  p => p.memos
 )
 
 const selectedMapSelector = createSelector(
@@ -117,10 +117,10 @@ const mapInfoSelector = createSelector(
 )
 
 const mapMemoSelector = createSelector(
-  mapMemosSelector,
+  memosSelector,
   mapIdSelector,
-  (mapMemos, mapId) =>
-    mapMemos[mapId] || emptyMemo
+  (memos, mapId) =>
+    memos[mapId] || emptyMemo
 )
 
 const checklistSelector = createSelector(
@@ -173,7 +173,7 @@ export {
   sortieHistorySelector,
 
   fleetIdSelector,
-  mapMemosSelector,
+  memosSelector,
   selectedMapSelector,
   mapIdSelector,
 

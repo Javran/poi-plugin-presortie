@@ -30,7 +30,7 @@ const initState = {
      - key: <mapId>
      - value: {checklist, notes, links}
    */
-  mapMemos: {},
+  memos: {},
   /*
      a ready flag will be present
      once the reducer takes over.
@@ -57,12 +57,12 @@ const actionCreator = {
     actionCreator.persistModify(
       modifyObject('selectedMap', () => selectedMap)
     ),
-  mapMemosModify: modifier =>
+  memosModify: modifier =>
     actionCreator.persistModify(
-      modifyObject('mapMemos', modifier)
+      modifyObject('memos', modifier)
     ),
   mapMemoModify: (mapId, modifier) =>
-    actionCreator.mapMemosModify(
+    actionCreator.memosModify(
       modifyObject(
         mapId,
         // provide an empty memo so modifiers don't

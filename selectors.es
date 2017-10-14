@@ -9,8 +9,7 @@ import {
   extensionSelectorFactory,
 } from 'views/utils/selectors'
 
-
-import { SelectedMap, emptyMemo } from './structs'
+import { emptyMemo } from './structs'
 import { initState } from './store'
 
 /*
@@ -51,24 +50,6 @@ const userPreferredMemoFocusSelector = createSelector(
   p => p.userPreferredMemoFocus
 )
 
-const memoFocusSelector = createSelector(
-  userPreferredMemoFocusSelector,
-  // TODO: use effective one
-  sortieHistorySelector,
-  (userPreferredMemoFocus, sortieHistory) => {
-    if (userPreferredMemoFocus === 'last') {
-      return (sortieHistory.length > 0) ? String(sortieHistory[0]) : 'general'
-    }
-    return userPreferredMemoFocus
-  }
-)
-
-// TODO: this needs to be eliminated
-const mapIdSelector = createSelector(
-  memoFocusSelector,
-  memoFocus =>
-    memoFocus === 'general' ? 11 : Number(memoFocus)
-)
 
 const mapInfoArraySelector = createSelector(
   constSelector,
@@ -102,6 +83,24 @@ const getMapNameFuncSelector = createSelector(
     }
 )
 
+const memoIdToDescFuncSelector = createSelector(
+  getMapNameFuncSelector,
+  getMapName =>
+    memoFocus => {
+      if (memoFocus === 'general') {
+        return 'General'
+      }
+
+      const mapId = Number(memoFocus)
+      const {area,num} = splitMapId(mapId)
+      const mapIdDesc = `${area}-${num}`
+      const mayName = getMapName(mapId)
+      return mayName ?
+        `${mapIdDesc}: ${mayName}` :
+        mapIdDesc
+    }
+)
+
 /*
    some maps, for example, event maps, will disappear
    after server maintenance. to account for this case properly,
@@ -114,6 +113,24 @@ const validSortieHistorySelector = createSelector(
     sortieHistory.filter(getMapInfoFunc)
 )
 
+const memoFocusSelector = createSelector(
+  userPreferredMemoFocusSelector,
+  validSortieHistorySelector,
+  (userPreferredMemoFocus, sortieHistory) => {
+    if (userPreferredMemoFocus === 'last') {
+      return (sortieHistory.length > 0) ? String(sortieHistory[0]) : 'general'
+    }
+    return userPreferredMemoFocus
+  }
+)
+
+// TODO: this needs to be eliminated
+const mapIdSelector = createSelector(
+  memoFocusSelector,
+  memoFocus =>
+    memoFocus === 'general' ? 11 : Number(memoFocus)
+)
+
 // TODO: fix this later
 const mapInfoSelector = createSelector(
   mapInfoArraySelector,
@@ -121,7 +138,6 @@ const mapInfoSelector = createSelector(
   (mapInfoArray, memoFocus) => {
     if (memoFocus === 'general')
       return null
-
     const {mapId} = Number(memoFocus)
     return mapInfoArray.find(x => x.id === mapId) || null
   }
@@ -200,4 +216,5 @@ export {
   allFleetInfoSelector,
   getMapNameFuncSelector,
   validSortieHistorySelector,
+  memoIdToDescFuncSelector,
 }

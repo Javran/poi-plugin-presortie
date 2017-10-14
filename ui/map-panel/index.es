@@ -12,7 +12,8 @@ import {
 } from 'react-bootstrap'
 import {
   modifyObject, not,
-  projectorToComparator } from 'subtender'
+  projectorToComparator,
+} from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import {
@@ -20,34 +21,20 @@ import {
   mapInfoArraySelector,
   getMapNameFuncSelector,
   validSortieHistorySelector,
-  mapIdSelector,
+  memoFocusSelector,
+  memoIdToDescFuncSelector,
 } from '../../selectors'
 import {
   mapDispatchToProps,
 } from '../../store'
 
-/*
-
-   TODO: now that we've introduced "General", which is considered a map that always exist
-   for users to keep track of things that doesn't fit into any specific map:
-
-   - when "last" is selected but nothing valid in the history list, we will instead
-     use "General".
-     Note that we intentionally don't switch the actual focus,
-     this is because later user might sortie
-     and history will start to have valid items.
-
-   - by doing so we'll always have a focus so don't need to use "1-1" a default map,
-     which is kind of "magical"
-
- */
-
 class MapPanelImpl extends PureComponent {
   static propTypes = {
     style: PTyp.object.isRequired,
-    mapId: PTyp.number.isRequired,
+    memoFocus: PTyp.string.isRequired,
     mapInfoArr: PTyp.array.isRequired,
     getMapName: PTyp.func.isRequired,
+    memoIdToDesc: PTyp.func.isRequired,
     sortieHistory: PTyp.array.isRequired,
 
     userPreferredMemoFocusChange: PTyp.func.isRequired,
@@ -60,29 +47,32 @@ class MapPanelImpl extends PureComponent {
     }
   }
 
-  handleSelectMap = k => {
+  handleSelectMap = (k,e) => {
+    e.stopPropagation()
     const userPreferredMemoFocus =
       k === 'last' ? k : String(k)
     this.props.userPreferredMemoFocusChange(userPreferredMemoFocus)
     this.setState({menuOpened: false})
   }
 
+  handleClickGeneral = () =>
+    this.props.userPreferredMemoFocusChange('general')
+
   handleToggleMenu = () =>
     this.setState(modifyObject('menuOpened',not))
 
   render() {
-    const {style,mapInfoArr,getMapName,sortieHistory,mapId} = this.props
+    const {
+      style,mapInfoArr,
+      getMapName,sortieHistory,
+      memoFocus, memoIdToDesc,
+    } = this.props
     const btnStyle = {marginTop: 0}
     const mapInfoGroups = _.toPairs(
       _.groupBy(mapInfoArr,'area')
     ).sort(
       projectorToComparator(([k,_v]) => Number(k))
     )
-
-    const curMapInfo = {
-      ...splitMapId(mapId),
-      name: getMapName(mapId),
-    }
 
     const lastSortieInfo =
       splitMapId(sortieHistory.length > 0 ? sortieHistory[0] : 11)
@@ -95,11 +85,7 @@ class MapPanelImpl extends PureComponent {
             fontSize: '2em',
             marginBottom: '.5em',
           }}>
-          {
-            // eslint-disable-next-line prefer-template
-            `${curMapInfo.area}-${curMapInfo.num}` +
-            (curMapInfo.name ? `: ${curMapInfo.name}` : '')
-          }
+          {memoIdToDesc(memoFocus)}
         </div>
         <ButtonToolbar style={{display: 'flex', justifyContent: 'center'}}>
           <Dropdown
@@ -112,11 +98,21 @@ class MapPanelImpl extends PureComponent {
               Maps
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <MenuItem
-                onSelect={this.handleSelectMap}
-                eventKey="last">
-                {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
-              </MenuItem>
+              <div style={{marginLeft: '2em', marginTop: '.3em'}}>
+                <MenuItem
+                  onSelect={this.handleSelectMap}
+                  eventKey="last">
+                  {
+                    /*
+                       having this extra layer of div prevents
+                       unintended triggering of "handleToggleMenu"
+                     */
+                    <div style={{display: 'block', fontSize: '1.1em'}}>
+                      {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
+                    </div>
+                  }
+                </MenuItem>
+              </div>
               <MenuItem divider />
               <div
                 style={{
@@ -192,7 +188,11 @@ class MapPanelImpl extends PureComponent {
               </div>
             </Dropdown.Menu>
           </Dropdown>
-          <Button style={btnStyle}>General</Button>
+          <Button
+            onClick={this.handleClickGeneral}
+            style={btnStyle}>
+            General
+          </Button>
           {
             // TODO: past maps are only shown when there are records present.
             <Button style={btnStyle}>Past Maps...</Button>
@@ -208,7 +208,8 @@ const MapPanel = connect(
     mapInfoArr: mapInfoArraySelector,
     getMapName: getMapNameFuncSelector,
     sortieHistory: validSortieHistorySelector,
-    mapId: mapIdSelector,
+    memoFocus: memoFocusSelector,
+    memoIdToDesc: memoIdToDescFuncSelector,
   }),
   mapDispatchToProps,
 )(MapPanelImpl)

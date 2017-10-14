@@ -50,7 +50,7 @@ class MapPanelImpl extends PureComponent {
     getMapName: PTyp.func.isRequired,
     sortieHistory: PTyp.array.isRequired,
 
-    selectedMapChange: PTyp.func.isRequired,
+    userPreferredMemoFocusChange: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -61,11 +61,9 @@ class MapPanelImpl extends PureComponent {
   }
 
   handleSelectMap = k => {
-    const selectedMap =
-      k === 'last' ?
-        {type: 'last'} :
-        {type: 'id', mapId: k}
-    this.props.selectedMapChange(selectedMap)
+    const userPreferredMemoFocus =
+      k === 'last' ? k : String(k)
+    this.props.userPreferredMemoFocusChange(userPreferredMemoFocus)
     this.setState({menuOpened: false})
   }
 

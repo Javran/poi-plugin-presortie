@@ -18,17 +18,22 @@ const initState = {
    */
   fleetId: 1,
   /*
-     user selected map could be one of the following:
-
-     - {type: 'id', mapId: <number>}
-     - {type: 'last'}: select map id of last sortie
-
+     userPreferredMemoFocus is either 'last', or MemoId (see below).
+     the idea is that:
+     - if it's MemoId, we simply use that as the effective memo focus.
+     - if it's 'last', we take the latest sortied map as the focus,
+       and when this is not possible (either because the map no longer exists or
+       we simply don't have a history), the effective memo focus falls back to 'general'.
    */
-  selectedMap: {type: 'last'},
+  userPreferredMemoFocus: 'last',
   /*
      an Object of:
-     - key: <mapId>
+     - key: <MemoId>
      - value: {checklist, notes, links}
+
+     a MemoId is a string equal to either of the following
+     - string 'general'
+     - String(mapId)
    */
   memos: {},
   /*
@@ -53,9 +58,9 @@ const actionCreator = {
     actionCreator.persistModify(
       modifyObject('fleetId', () => fleetId)
     ),
-  selectedMapChange: selectedMap =>
+  userPreferredMemoFocusChange: lastOrMemoId =>
     actionCreator.persistModify(
-      modifyObject('selectedMap', () => selectedMap)
+      modifyObject('userPreferredMemoFocus', () => lastOrMemoId)
     ),
   memosModify: modifier =>
     actionCreator.persistModify(

@@ -7,7 +7,7 @@
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
 
-const $dataVersion = 'initial-a'
+const $dataVersion = 'initial-b'
 
 const getPStateFilePath = () => {
   const { APPDATA_PATH } = window
@@ -48,14 +48,18 @@ const updatePState = (oldPState, forceSave = false) => {
   /*
      version-to-version p-state updating logics
    */
-  if (newPState.$dataVersion === 'initial') {
+  if (newPState.$dataVersion === 'initial-a') {
     const {sortieHistory,persist} = newPState
-    const {fleetId, selectedMap, mapMemos} = persist
+    const {fleetId, selectedMap, memos} = persist
+
+    const userPreferredMemoFocus =
+      selectedMap.type === 'last' ? 'last' :
+      String(selectedMap.id)
 
     newPState = {
       sortieHistory,
-      persist: {fleetId, selectedMap, memos: mapMemos},
-      $dataVersion: 'initial-a',
+      persist: {fleetId, userPreferredMemoFocus, memos},
+      $dataVersion: 'initial-b',
     }
   }
 

@@ -46,23 +46,28 @@ const memosSelector = createSelector(
   p => p.memos
 )
 
-const selectedMapSelector = createSelector(
+const userPreferredMemoFocusSelector = createSelector(
   persistSelector,
-  p => p.selectedMap
+  p => p.userPreferredMemoFocus
 )
 
-const mapIdSelector = createSelector(
-  selectedMapSelector,
+const memoFocusSelector = createSelector(
+  userPreferredMemoFocusSelector,
+  // TODO: use effective one
   sortieHistorySelector,
-  (selectedMap, sortieHistory) =>
-    SelectedMap.destruct({
-      id: mapId => mapId,
-      last: () =>
-        sortieHistory.length > 0 ?
-          sortieHistory[0] :
-          // 1-1, if no history can be found
-          11,
-    })(selectedMap)
+  (userPreferredMemoFocus, sortieHistory) => {
+    if (userPreferredMemoFocus === 'last') {
+      return (sortieHistory.length > 0) ? String(sortieHistory[0]) : 'general'
+    }
+    return userPreferredMemoFocus
+  }
+)
+
+// TODO: this needs to be eliminated
+const mapIdSelector = createSelector(
+  memoFocusSelector,
+  memoFocus =>
+    memoFocus === 'general' ? 11 : Number(memoFocus)
 )
 
 const mapInfoArraySelector = createSelector(
@@ -109,32 +114,38 @@ const validSortieHistorySelector = createSelector(
     sortieHistory.filter(getMapInfoFunc)
 )
 
+// TODO: fix this later
 const mapInfoSelector = createSelector(
   mapInfoArraySelector,
-  mapIdSelector,
-  (mapInfoArray, mapId) =>
-    mapInfoArray.find(x => x.id === mapId)
+  memoFocusSelector,
+  (mapInfoArray, memoFocus) => {
+    if (memoFocus === 'general')
+      return null
+
+    const {mapId} = Number(memoFocus)
+    return mapInfoArray.find(x => x.id === mapId) || null
+  }
 )
 
-const mapMemoSelector = createSelector(
+const memoSelector = createSelector(
   memosSelector,
-  mapIdSelector,
-  (memos, mapId) =>
-    memos[mapId] || emptyMemo
+  memoFocusSelector,
+  (memos, memoFocus) =>
+    memos[memoFocus] || emptyMemo
 )
 
 const checklistSelector = createSelector(
-  mapMemoSelector,
+  memoSelector,
   m => m.checklist
 )
 
 const notesSelector = createSelector(
-  mapMemoSelector,
+  memoSelector,
   m => m.notes
 )
 
 const linksSelector = createSelector(
-  mapMemoSelector,
+  memoSelector,
   m => m.links
 )
 
@@ -174,13 +185,14 @@ export {
 
   fleetIdSelector,
   memosSelector,
-  selectedMapSelector,
+  userPreferredMemoFocusSelector,
+  memoFocusSelector,
   mapIdSelector,
 
   mapInfoArraySelector,
   mapInfoSelector,
 
-  mapMemoSelector,
+  memoSelector,
   checklistSelector,
   notesSelector,
   linksSelector,

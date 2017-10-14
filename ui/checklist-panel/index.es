@@ -16,20 +16,20 @@ import { AddCheckerPanel } from './add-checker-panel'
 import { FleetPicker } from './fleet-picker'
 import { CheckerControl } from './checker-control'
 import { checklistUISelector } from './selectors'
-import { checklistSelector, mapIdSelector } from '../../selectors'
+import { checklistSelector, memoFocusSelector } from '../../selectors'
 
 class ChecklistPanelImpl extends Component {
   static propTypes = {
     checklist: PTyp.array.isRequired,
     style: PTyp.object,
     fleetId: PTyp.number.isRequired,
-    mapId: PTyp.number.isRequired,
+    memoFocus: PTyp.string.isRequired,
     allFleetInfo: PTyp.array.isRequired,
     checkerResultsMap: PTyp.objectOf(PTyp.shape({
       problems: PTyp.arrayOf(PTyp.node).isRequired,
     })).isRequired,
     fleetIdChange: PTyp.func.isRequired,
-    mapMemoModify: PTyp.func.isRequired,
+    memoModify: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -37,8 +37,8 @@ class ChecklistPanelImpl extends Component {
   }
 
   modifyChecklist = modifier =>
-    this.props.mapMemoModify(
-      this.props.mapId,
+    this.props.memoModify(
+      this.props.memoFocus,
       modifyObject('checklist', modifier)
     )
 
@@ -144,7 +144,7 @@ const ChecklistPanel = connect(
   mergeMapStateToProps(
     checklistUISelector,
     createStructuredSelector({
-      mapId: mapIdSelector,
+      memoFocus: memoFocusSelector,
       checklist: checklistSelector,
     })),
   mapDispatchToProps

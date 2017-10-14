@@ -10,20 +10,20 @@ import { modifyObject, modifyArray } from 'subtender'
 import { PTyp } from '../../ptyp'
 import { AddNoteControl } from './add-note-control'
 import { NoteControl } from './note-control'
-import { notesSelector, mapIdSelector } from '../../selectors'
+import { notesSelector, memoFocusSelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store'
 
 class NotesPanelImpl extends Component {
   static propTypes = {
     notes: PTyp.arrayOf(PTyp.Note).isRequired,
     style: PTyp.object.isRequired,
-    mapId: PTyp.number.isRequired,
-    mapMemoModify: PTyp.func.isRequired,
+    memoFocus: PTyp.string.isRequired,
+    memoModify: PTyp.func.isRequired,
   }
 
   modifyNotes = modifier =>
-    this.props.mapMemoModify(
-      this.props.mapId,
+    this.props.memoModify(
+      this.props.memoFocus,
       modifyObject('notes', modifier)
     )
 
@@ -90,7 +90,7 @@ class NotesPanelImpl extends Component {
 const NotesPanel = connect(
   createStructuredSelector({
     notes: notesSelector,
-    mapId: mapIdSelector,
+    memoFocus: memoFocusSelector,
   }),
   mapDispatchToProps
 )(NotesPanelImpl)

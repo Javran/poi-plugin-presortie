@@ -66,10 +66,10 @@ const actionCreator = {
     actionCreator.persistModify(
       modifyObject('memos', modifier)
     ),
-  mapMemoModify: (mapId, modifier) =>
+  memoModify: (memoId, modifier) =>
     actionCreator.memosModify(
       modifyObject(
-        mapId,
+        memoId,
         // provide an empty memo so modifiers don't
         // have to worry about it.
         (memo=emptyMemo) => modifier(memo)

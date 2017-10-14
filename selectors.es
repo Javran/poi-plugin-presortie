@@ -124,14 +124,7 @@ const memoFocusSelector = createSelector(
   }
 )
 
-// TODO: this needs to be eliminated
-const mapIdSelector = createSelector(
-  memoFocusSelector,
-  memoFocus =>
-    memoFocus === 'general' ? 11 : Number(memoFocus)
-)
-
-// TODO: fix this later
+// TODO: fix this later: provide a "general" link
 const mapInfoSelector = createSelector(
   mapInfoArraySelector,
   memoFocusSelector,
@@ -203,7 +196,6 @@ export {
   memosSelector,
   userPreferredMemoFocusSelector,
   memoFocusSelector,
-  mapIdSelector,
 
   mapInfoArraySelector,
   mapInfoSelector,

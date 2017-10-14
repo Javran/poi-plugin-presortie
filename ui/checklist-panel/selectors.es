@@ -7,7 +7,7 @@ import {
 import {
   fleetIdSelector,
   allFleetInfoSelector,
-  mapIdSelector,
+  memoFocusSelector,
   checklistSelector,
 } from '../../selectors'
 
@@ -22,11 +22,11 @@ const enabledCheckersSelector = createSelector(
 // for checkers to do what they are supposed to do.
 // this module stores related functions
 const checkerContextSelector = createSelector(
-  mapIdSelector,
+  memoFocusSelector,
   fleetIdSelector,
   stateSelector,
-  (mapId, fleetId, st) => ({
-    mapId, fleetId,
+  (memoId, fleetId, st) => ({
+    memoId, fleetId,
     // "const" and "info" come directly from the store,
     // so CheckerContext will have exactly the same shape
     // as the store (given only these two fields are accessed,

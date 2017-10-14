@@ -65,7 +65,8 @@ const registerChecker = checker => {
              (keep in mind that it only contains these two properties so if the selector
              is accessing other parts there will be a problem)
 
-           - `mapId` and `fleetId` represents what user has chosen for this plugin to check against.
+           - `memoId` and `fleetId` represents what user has chosen
+             for this plugin to check against.
 
      when leaving this method not implemented, the checker on UI will always be unsatisfied
      with problem being something like `checker not prepared`

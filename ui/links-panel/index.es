@@ -9,7 +9,7 @@ import { modifyObject, modifyArray } from 'subtender'
 
 import { mapDispatchToProps } from '../../store'
 import {
-  mapIdSelector,
+  memoFocusSelector,
 } from '../../selectors'
 import { allLinksSelector } from './selectors'
 import { PTyp } from '../../ptyp'
@@ -21,13 +21,13 @@ class LinksPanelImpl extends Component {
     style: PTyp.object.isRequired,
     allLinks: PTyp.array.isRequired,
 
-    mapId: PTyp.number.isRequired,
-    mapMemoModify: PTyp.func.isRequired,
+    memoFocus: PTyp.string.isRequired,
+    memoModify: PTyp.func.isRequired,
   }
 
   modifyLinks = modifier =>
-    this.props.mapMemoModify(
-      this.props.mapId,
+    this.props.memoModify(
+      this.props.memoFocus,
       modifyObject('links', modifier)
     )
 
@@ -110,7 +110,7 @@ class LinksPanelImpl extends Component {
 const LinksPanel = connect(
   createStructuredSelector({
     allLinks: allLinksSelector,
-    mapId: mapIdSelector,
+    memoFocus: memoFocusSelector,
   }),
   mapDispatchToProps,
 )(LinksPanelImpl)

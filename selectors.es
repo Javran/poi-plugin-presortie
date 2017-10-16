@@ -186,6 +186,21 @@ const allFleetInfoSelector = createSelector(
     return nonEmptyFleets.map(transformFleet)
   })
 
+/*
+   an Array of map ids for those that the memo exists
+   but we can no longer find the map from master
+   (most likely an event map)
+ */
+const pastMapIdsSelector = createSelector(
+  memosSelector,
+  getMapInfoFuncSelector,
+  (memos, getMapInfo) =>
+    Object.keys(memos)
+      .filter(x => x !== 'general').map(Number)
+      .filter(mapId => !getMapInfo(mapId))
+      .sort((x,y) => x-y)
+)
+
 export {
   extSelector,
   splitMapId,
@@ -209,4 +224,5 @@ export {
   getMapNameFuncSelector,
   validSortieHistorySelector,
   memoIdToDescFuncSelector,
+  pastMapIdsSelector,
 }

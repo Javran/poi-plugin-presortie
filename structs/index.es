@@ -19,27 +19,6 @@ class MapInfo {
     mapInfoArray.find(x => x.id === mapId)
 }
 
-class DynMapId {
-  /* eslint-disable indent */
-  static toMapId = (dynMapId, sortieHistory) =>
-    dynMapId === 'last' ?
-      (sortieHistory.length === 0 ?
-        11 /* 1-1 by def */ :
-        sortieHistory[0]) :
-    dynMapId
-  /* eslint-enable indent */
-}
-
-class SelectedMap {
-  /* eslint-disable indent */
-  static destruct = ({id, last}) => expectObject(obj =>
-    obj.type === 'id' ? id(obj.mapId,obj) :
-    obj.type === 'last' ? last(obj) :
-    reportTypeError(SelectedMap, obj.type)
-  )
-  /* eslint-enable indent */
-}
-
 class MapExtra {
   static empty = {
     checklist: [],
@@ -57,10 +36,11 @@ const emptyMemo = {
 }
 
 export {
+  expectObject,
+  reportTypeError,
+
   MapInfo,
-  DynMapId,
   MapExtra,
-  SelectedMap,
 
   Checkers,
   checkerList,

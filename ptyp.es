@@ -27,10 +27,6 @@ const MapInfo = PropTypes.shape(allRequired({
 
 const MapId = PropTypes.number
 
-const DynMapId = PropTypes.oneOfType([
-  isValue('last'),
-  MapId])
-
 const LinkInfo = PropTypes.shape({
   ...allRequired({
     name: PropTypes.string,
@@ -80,7 +76,6 @@ const PTyp = {
 
   MapInfo,
   MapId,
-  DynMapId,
   LinkInfo,
 
   Note,

@@ -3,6 +3,15 @@ import { MapInfo } from './structs'
 
 const mapLinks = []
 
+/*
+   TODO Refactor plan:
+   due to the introduction of "general", the concept of
+   a "map link" is now more of a "memo link", we'll change things
+   so MemoId instead of MapId is used.
+   We have been relying on map id too much here.
+ */
+
+// TODO: not feeling readable
 const mkMapInfoToLink = (prefix, mapInfoToLinkName=MapInfo.toShortString) =>
   mapInfo => {
     const {area, num} = mapInfo
@@ -77,7 +86,7 @@ defineMapLink(
     link: `http://swaytwig.com/opendb/newdrop.php#w=${mapInfo.world}&m=${mapInfo.area}`,
   }))
 
-const getLinks = mapInfo => mapLinks.map( ml => {
+const getLinks = mapInfo => mapLinks.map(ml => {
   const linkInfo = ml.mapInfoToLink(mapInfo)
   if (linkInfo === null)
     return null

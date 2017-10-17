@@ -131,7 +131,7 @@ const mapInfoSelector = createSelector(
   (mapInfoArray, memoFocus) => {
     if (memoFocus === 'general')
       return null
-    const {mapId} = Number(memoFocus)
+    const mapId = Number(memoFocus)
     return mapInfoArray.find(x => x.id === mapId) || null
   }
 )

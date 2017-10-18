@@ -83,7 +83,7 @@ defineMapLink(
   'KanColle OpenDB',
   mapInfo => ({
     name: MapInfo.toShortString(mapInfo),
-    link: `http://swaytwig.com/opendb/newdrop.php#w=${mapInfo.world}&m=${mapInfo.area}`,
+    link: `http://swaytwig.com/opendb/ship_drop.php#w=${mapInfo.area}&m=${mapInfo.num}`,
   }))
 
 const getLinks = mapInfo => mapLinks.map(ml => {

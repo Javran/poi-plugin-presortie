@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { Checkers, checkerList } from './checkers'
 
 const expectObject = f => x =>
@@ -19,6 +20,17 @@ class MapInfo {
     mapInfoArray.find(x => x.id === mapId)
 }
 
+class MemoId {
+  static destruct = ({mapId, general}) => x => {
+    if (x === 'general')
+      return general()
+    const parsed = Number(x)
+    if (_.isInteger(parsed))
+      return mapId(parsed)
+    console.error(`expecting a MemoId while getting ${x}`)
+  }
+}
+
 const emptyMemo = {
   checklist: [],
   notes: [],
@@ -30,6 +42,7 @@ export {
   reportTypeError,
 
   MapInfo,
+  MemoId,
   Checkers,
   checkerList,
 

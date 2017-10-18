@@ -19,16 +19,6 @@ class MapInfo {
     mapInfoArray.find(x => x.id === mapId)
 }
 
-class MapExtra {
-  static empty = {
-    checklist: [],
-    // array of strings in Markdown
-    notes: [],
-    // array of LinkInfo, require names to be unique
-    links: [],
-  }
-}
-
 const emptyMemo = {
   checklist: [],
   notes: [],
@@ -40,8 +30,6 @@ export {
   reportTypeError,
 
   MapInfo,
-  MapExtra,
-
   Checkers,
   checkerList,
 

@@ -18,13 +18,6 @@ const allRequired = shapeObj => {
 const isValue = expectedValue =>
   PropTypes.oneOf([expectedValue])
 
-const MapInfo = PropTypes.shape(allRequired({
-  id: PropTypes.number,
-  name: PropTypes.string,
-  area: PropTypes.number,
-  num: PropTypes.number,
-}))
-
 const MapId = PropTypes.number
 
 const LinkInfo = PropTypes.shape({
@@ -74,7 +67,6 @@ const PTyp = {
   allRequired,
   isValue,
 
-  MapInfo,
   MapId,
   LinkInfo,
 

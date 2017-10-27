@@ -4,10 +4,12 @@
    - for avoiding cyclic imports, there is no use of store and selectors
 
  */
+import _ from 'lodash'
+import { modifyObject } from 'subtender'
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
 
-const $dataVersion = 'initial-b'
+const $dataVersion = 'initial-c'
 
 const getPStateFilePath = () => {
   const { APPDATA_PATH } = window
@@ -35,7 +37,6 @@ const updatePState = (oldPState, forceSave = false) => {
      and being re-bound constantly
    */
   let newPState = oldPState
-
   if (newPState.$dataVersion === $dataVersion) {
     // remove "$dataVersion" as it's not needed at runtime
     const {$dataVersion: _ignored, ...pState} = newPState
@@ -61,6 +62,30 @@ const updatePState = (oldPState, forceSave = false) => {
       persist: {fleetId, userPreferredMemoFocus, memos},
       $dataVersion: 'initial-b',
     }
+  }
+
+  if (newPState.$dataVersion === 'initial-b') {
+    const {
+      sortieHistory,
+      persist: {memos, ready, userPreferredMemoFocus},
+    } = newPState
+
+    const updatedPState = {
+      sortieHistory,
+      persist: {
+        memos: _.mapValues(
+          memos,
+          modifyObject(
+            'checklist',
+            xs => xs.map(x => ({...x, fleet: 'id-1'}))
+          )
+        ),
+        ready,
+        userPreferredMemoFocus,
+      },
+      $dataVersion: 'initial-c',
+    }
+    newPState = updatedPState
   }
 
   if (newPState.$dataVersion === $dataVersion) {

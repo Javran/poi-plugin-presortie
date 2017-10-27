@@ -35,13 +35,6 @@ const sortieHistorySelector =
 const persistSelector =
   mkExtPropSelector('persist')
 
-// TODO: remove fleetId
-const fleetIdSelector = createSelector(
-  persistSelector,
-  // TODO: remove hack
-  _p => 1
-)
-
 const memosSelector = createSelector(
   persistSelector,
   p => p.memos
@@ -209,7 +202,6 @@ export {
 
   sortieHistorySelector,
 
-  fleetIdSelector,
   memosSelector,
   userPreferredMemoFocusSelector,
   memoFocusSelector,

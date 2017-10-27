@@ -22,7 +22,6 @@ class ChecklistPanelImpl extends Component {
   static propTypes = {
     checklist: PTyp.array.isRequired,
     style: PTyp.object,
-    fleetId: PTyp.number.isRequired,
     memoFocus: PTyp.string.isRequired,
     allFleetInfo: PTyp.array.isRequired,
     checkerResultsMap: PTyp.objectOf(PTyp.shape({
@@ -77,7 +76,7 @@ class ChecklistPanelImpl extends Component {
     const {
       style, checklist,
       checkerResultsMap,
-      fleetId, allFleetInfo,
+      allFleetInfo,
       fleetIdChange,
     } = this.props
     const checklistSatisfied =
@@ -100,6 +99,8 @@ class ChecklistPanelImpl extends Component {
           </div>
         }>
         <ListGroup fill>
+          {
+            /*
           <ListGroupItem
             style={{padding: '8px 15px'}}
             key="fleet-picker">
@@ -109,6 +110,9 @@ class ChecklistPanelImpl extends Component {
               onFleetIdChange={fleetIdChange}
             />
           </ListGroupItem>
+            */
+            false
+          }
           {
             checklist.map(checker => {
               const {id, enabled} = checker

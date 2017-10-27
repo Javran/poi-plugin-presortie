@@ -5,7 +5,6 @@ import {
 } from 'views/utils/selectors'
 
 import {
-  fleetIdSelector,
   allFleetInfoSelector,
   memoFocusSelector,
   checklistSelector,
@@ -23,10 +22,11 @@ const enabledCheckersSelector = createSelector(
 // this module stores related functions
 const checkerContextSelector = createSelector(
   memoFocusSelector,
-  fleetIdSelector,
   stateSelector,
-  (memoId, fleetId, st) => ({
-    memoId, fleetId,
+  (memoId, st) => ({
+    memoId,
+    // TODO: remove this
+    fleetId: 1,
     // "const" and "info" come directly from the store,
     // so CheckerContext will have exactly the same shape
     // as the store (given only these two fields are accessed,
@@ -73,10 +73,9 @@ const checkerResultsMapSelector = createSelector(
     {}))
 
 const checklistUISelector = createSelector(
-  fleetIdSelector,
   allFleetInfoSelector,
   checkerResultsMapSelector,
-  (fleetId, allFleetInfo, checkerResultsMap) =>
-    ({fleetId, allFleetInfo, checkerResultsMap}))
+  (allFleetInfo, checkerResultsMap) =>
+    ({allFleetInfo, checkerResultsMap}))
 
 export { checklistUISelector }

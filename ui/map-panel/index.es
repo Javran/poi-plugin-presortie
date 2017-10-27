@@ -201,6 +201,7 @@ class MapPanelImpl extends PureComponent {
             // past maps are only shown only if records exist
             pastMapIds.length > 0 && (
               <DropdownButton
+                onSelect={this.handleSelectMap}
                 style={btnStyle}
                 title="Past Maps ..."
                 id="presortie-map-panel-past"

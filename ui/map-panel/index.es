@@ -6,6 +6,7 @@ import {
   Panel,
   Button,
   ButtonToolbar,
+  DropdownButton,
   Dropdown,
   MenuItem,
   OverlayTrigger, Tooltip,
@@ -23,6 +24,7 @@ import {
   validSortieHistorySelector,
   memoFocusSelector,
   memoIdToDescFuncSelector,
+  pastMapIdsSelector,
 } from '../../selectors'
 import {
   mapDispatchToProps,
@@ -36,6 +38,7 @@ class MapPanelImpl extends PureComponent {
     getMapName: PTyp.func.isRequired,
     memoIdToDesc: PTyp.func.isRequired,
     sortieHistory: PTyp.array.isRequired,
+    pastMapIds: PTyp.array.isRequired,
 
     userPreferredMemoFocusChange: PTyp.func.isRequired,
   }
@@ -66,6 +69,7 @@ class MapPanelImpl extends PureComponent {
       style,mapInfoArr,
       getMapName,sortieHistory,
       memoFocus, memoIdToDesc,
+      pastMapIds,
     } = this.props
     const btnStyle = {marginTop: 0}
     const mapInfoGroups = _.toPairs(
@@ -194,8 +198,28 @@ class MapPanelImpl extends PureComponent {
             General
           </Button>
           {
-            // TODO: past maps are only shown when there are records present.
-            <Button style={btnStyle}>Past Maps...</Button>
+            // past maps are only shown only if records exist
+            pastMapIds.length > 0 && (
+              <DropdownButton
+                style={btnStyle}
+                title="Past Maps ..."
+                id="presortie-map-panel-past"
+              >
+                {
+                  pastMapIds.map(mapId => {
+                    const {area,num} = splitMapId(mapId)
+                    return (
+                      <MenuItem
+                        key={mapId}
+                        eventKey={mapId}
+                      >
+                        {`${area}-${num}`}
+                      </MenuItem>
+                    )
+                  })
+                }
+              </DropdownButton>
+            )
           }
         </ButtonToolbar>
       </Panel>
@@ -210,6 +234,7 @@ const MapPanel = connect(
     sortieHistory: validSortieHistorySelector,
     memoFocus: memoFocusSelector,
     memoIdToDesc: memoIdToDescFuncSelector,
+    pastMapIds: pastMapIdsSelector,
   }),
   mapDispatchToProps,
 )(MapPanelImpl)

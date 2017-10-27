@@ -47,7 +47,7 @@ const registerChecker = checker => {
 
      this function is a bit complicated, let's break it into two parts:
 
-       - prepare(obj) returns a function, we call this function "listProblems".
+       - prepare(obj) returns a function, which we call "listProblems".
 
        - listProblems(checkerContext) does the actual check, and return a list of problems
          it has found - so returning an empty array means checker has found no problem.

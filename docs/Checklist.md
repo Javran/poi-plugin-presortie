@@ -26,6 +26,9 @@ that user can define.
     (TODO) `fleet` is one of `id-1`, `id-2`, `id-3`, `id-4`, `combined` to
     indicate which fleet it's checking against
 
+    (TODO) in future we might change `fleet` to `target` so that
+    we can support checking against LBAS or something else
+
 - when `type` is `health`
 
     ```

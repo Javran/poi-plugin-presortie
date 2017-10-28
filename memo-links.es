@@ -41,8 +41,7 @@ const defineMemoLink = (name, memoIdToLink) => {
   )
 }
 
-{
-  const website = 'http://kancolle.wikia.com/wiki'
+const defineSimpleMemoLink = (lName, website) => {
   const memoIdToLink = MemoId.destruct({
     general: () =>
       ({name: 'General', link: website}),
@@ -56,10 +55,30 @@ const defineMemoLink = (name, memoIdToLink) => {
   })
 
   defineMemoLink(
-    'Wikia',
+    lName,
     memoIdToLink,
   )
 }
+
+defineSimpleMemoLink(
+  'Wikia',
+  'http://kancolle.wikia.com/wiki'
+)
+
+defineSimpleMemoLink(
+  'KCWiki',
+  'http://zh.kcwiki.org/wiki'
+)
+
+defineSimpleMemoLink(
+  'moegirlpedia',
+  'https://zh.moegirl.org/舰队Collection'
+)
+
+defineSimpleMemoLink(
+  'Kancolle Wiki',
+  'http://en.kancollewiki.net/wiki'
+)
 
 export {
   memoLinks,

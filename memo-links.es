@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { MemoId } from './structs'
 import { splitMapId } from './selectors'
 
@@ -80,6 +81,67 @@ defineSimpleMemoLink(
   'http://en.kancollewiki.net/wiki'
 )
 
+{
+  const website = 'http://db.kcwiki.org/drop'
+  const memoIdToLink = MemoId.destruct({
+    general: () => ({
+      name: 'General',
+      link: website,
+    }),
+    mapId: mapId => {
+      const {area, num} = splitMapId(mapId)
+      return {
+        name: `${area}-${num}`,
+        link: `${website}/map/${mapId}/`,
+      }
+    },
+  })
+
+  defineMemoLink(
+    'poi-statistics',
+    memoIdToLink,
+  )
+}
+
+{
+  const website = 'http://swaytwig.com/opendb'
+  const memoIdToLink = MemoId.destruct({
+    general: () => ({
+      name: 'General',
+      link: website,
+    }),
+    mapId: mapId => {
+      const {area, num} = splitMapId(mapId)
+      return {
+        name: `${area}-${num}`,
+        link: `${website}/ship_drop.php#w=${area}&m=${num}`,
+      }
+    },
+  })
+
+  defineMemoLink(
+    'KanColle OpenDB',
+    memoIdToLink,
+  )
+}
+
+const getLinks = memoId => _.flatMap(
+  memoLinks,
+  ml => {
+    const {name,memoIdToLink} = ml
+    const linkInfo = memoIdToLink(memoId)
+    if (linkInfo) {
+      return [{
+        name: `${name}: ${linkInfo.name}`,
+        link: linkInfo.link,
+      }]
+    } else {
+      return []
+    }
+  }
+)
+
 export {
   memoLinks,
+  getLinks,
 }

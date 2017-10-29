@@ -2,14 +2,14 @@ import { createSelector } from 'reselect'
 
 import {
   mapInfoSelector,
+  memoFocusSelector,
   linksSelector,
 } from '../../selectors'
-import { getLinks } from '../../map-links'
+import { getLinks } from '../../memo-links'
 
 const wikiLinksSelector = createSelector(
-  mapInfoSelector,
-  mapInfo =>
-    mapInfo ? getLinks(mapInfo) : []
+  memoFocusSelector,
+  getLinks
 )
 
 /*

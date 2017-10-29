@@ -119,18 +119,6 @@ const memoFocusSelector = createSelector(
   }
 )
 
-// TODO: fix this later: provide a "general" link
-const mapInfoSelector = createSelector(
-  mapInfoArraySelector,
-  memoFocusSelector,
-  (mapInfoArray, memoFocus) => {
-    if (memoFocus === 'general')
-      return null
-    const mapId = Number(memoFocus)
-    return mapInfoArray.find(x => x.id === mapId) || null
-  }
-)
-
 const memoSelector = createSelector(
   memosSelector,
   memoFocusSelector,
@@ -207,7 +195,6 @@ export {
   memoFocusSelector,
 
   mapInfoArraySelector,
-  mapInfoSelector,
 
   memoSelector,
   checklistSelector,

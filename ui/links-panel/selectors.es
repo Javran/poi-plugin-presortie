@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 
 import {
-  mapInfoSelector,
   memoFocusSelector,
   linksSelector,
 } from '../../selectors'

@@ -49,20 +49,6 @@ const updatePState = (oldPState, forceSave = false) => {
   /*
      version-to-version p-state updating logics
    */
-  if (newPState.$dataVersion === 'initial-a') {
-    const {sortieHistory,persist} = newPState
-    const {fleetId, selectedMap, memos} = persist
-
-    const userPreferredMemoFocus =
-      selectedMap.type === 'last' ? 'last' :
-      String(selectedMap.id)
-
-    newPState = {
-      sortieHistory,
-      persist: {fleetId, userPreferredMemoFocus, memos},
-      $dataVersion: 'initial-b',
-    }
-  }
 
   if (newPState.$dataVersion === 'initial-b') {
     const {

@@ -16,18 +16,21 @@ that user can define.
       type: <string>,
       id: <number>,
       enabled: <boolean>,
-      fleet: <fleet>,
+      target: <target>,
     }
     ```
 
     where every `Checklist` object must have a unique id.
     also we will only check enabled items in the list.
 
-    (TODO) `fleet` is one of `id-1`, `id-2`, `id-3`, `id-4`, `combined` to
-    indicate which fleet it's checking against
+    `target` is one of `fleet-1`, `fleet-2`, `fleet-3`, `fleet-4`, `combined` to
+    indicate which target we are checking against.
 
-    (TODO) in future we might change `fleet` to `target` so that
-    we can support checking against LBAS or something else
+    (TODO) In future we might make it possible to check against LBAS
+    or even some other things.
+
+    Potential plan: implement target checkers for each checker to figure out
+    which target they are capable of checking.
 
 - when `type` is `health`
 

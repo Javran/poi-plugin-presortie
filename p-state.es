@@ -9,7 +9,7 @@ import { modifyObject } from 'subtender'
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
 
-const $dataVersion = 'initial-c'
+const $dataVersion = 'initial-d'
 
 const getPStateFilePath = () => {
   const { APPDATA_PATH } = window
@@ -37,7 +37,9 @@ const updatePState = (oldPState, forceSave = false) => {
      and being re-bound constantly
    */
   let newPState = oldPState
-  if (newPState.$dataVersion === $dataVersion) {
+  // the commented part is for testing data update without
+  // actually having it saved
+  if (/* forceSave && */newPState.$dataVersion === $dataVersion) {
     // remove "$dataVersion" as it's not needed at runtime
     const {$dataVersion: _ignored, ...pState} = newPState
     if (forceSave) {
@@ -70,6 +72,33 @@ const updatePState = (oldPState, forceSave = false) => {
         userPreferredMemoFocus,
       },
       $dataVersion: 'initial-c',
+    }
+    newPState = updatedPState
+  }
+
+  if (newPState.$dataVersion === 'initial-c') {
+    const {
+      sortieHistory,
+      persist: {memos, ready, userPreferredMemoFocus},
+    } = newPState
+
+    const updatedPState = {
+      sortieHistory,
+      persist: {
+        memos: _.mapValues(
+          memos,
+          modifyObject(
+            'checklist',
+            xs => xs.map(x => {
+              const {fleet: _ignored, ...obj} = x
+              return ({...obj, target: 'fleet-1'})
+            })
+          )
+        ),
+        ready,
+        userPreferredMemoFocus,
+      },
+      $dataVersion: 'initial-d',
     }
     newPState = updatedPState
   }

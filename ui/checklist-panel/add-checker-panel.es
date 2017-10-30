@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {
   Button,
   DropdownButton, MenuItem,
+  ButtonGroup,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
@@ -71,18 +72,35 @@ class AddCheckerPanel extends Component {
     const isInputValid = checker.isValid(editorState)
     return (
       <div>
-        <DropdownButton
-          title={Checkers[editor].title}
-          onSelect={this.handleSwitchEditor}
-          id="presortie-add-checker-dropdown">
-          {
-            checkerList.map(checkerClass => (
-              <MenuItem key={checkerClass.type} eventKey={checkerClass.type}>
-                {checkerClass.title}
-              </MenuItem>
-            ))
-          }
-        </DropdownButton>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <div style={{width: '60%', marginRight: '.2em'}}>
+            <ButtonGroup justified>
+              <DropdownButton
+                title={Checkers[editor].title}
+                onSelect={this.handleSwitchEditor}
+                id="presortie-add-checker-checker-dropdown">
+                {
+                  checkerList.map(checkerClass => (
+                    <MenuItem key={checkerClass.type} eventKey={checkerClass.type}>
+                      {checkerClass.title}
+                    </MenuItem>
+                  ))
+                }
+              </DropdownButton>
+            </ButtonGroup>
+          </div>
+          <div style={{width: '40%', marginLeft: '.2em'}}>
+            <ButtonGroup justified>
+              <DropdownButton
+                title="TODO"
+                onSelect={() => "TODO"}
+                id="presortie-add-checker-target-dropdown">
+                <MenuItem>TODO</MenuItem>
+                <MenuItem>TODO</MenuItem>
+              </DropdownButton>
+            </ButtonGroup>
+          </div>
+        </div>
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
           <div style={{flex: 1}}>
             {

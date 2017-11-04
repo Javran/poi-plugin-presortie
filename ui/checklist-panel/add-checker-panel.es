@@ -30,9 +30,6 @@ class AddCheckerPanel extends Component {
     this.state = {
       editor: 'los',
       editorStates: initEditorStates,
-
-      allSlotsEmpty: Checkers.AllSlotsEmpty.defValue,
-      fastFleet: Checkers.FastFleet.defValue,
     }
   }
 

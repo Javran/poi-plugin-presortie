@@ -24,6 +24,16 @@ checkerList.map(checkerClass => {
   initEditorStates[checkerClass.type] = checkerClass.defValue
 })
 
+const targetToText = target => {
+  const fleetMatch = /^fleet-(\d+)$/.exec(target)
+  if (fleetMatch) {
+    const [_ignored, fleetIdStr] = fleetMatch
+    return `Fleet #${fleetIdStr}`
+  }
+
+  return target
+}
+
 const checkerControlPairs = checkerList.map(checker => [
   checker.type, checkerExtras[checker.type].editor])
 
@@ -36,6 +46,7 @@ class AddCheckerPanel extends Component {
     super(props)
     this.state = {
       editor: 'los',
+      target: 'fleet-1',
       editorStates: initEditorStates,
     }
   }
@@ -69,6 +80,9 @@ class AddCheckerPanel extends Component {
   handleSwitchEditor = editor =>
     this.setState({ editor })
 
+  handleSelectTarget = target =>
+    this.setState({target})
+
   render() {
     const {editor, editorStates} = this.state
     const editorState = editorStates[editor]
@@ -96,11 +110,21 @@ class AddCheckerPanel extends Component {
           <div style={{width: '40%', marginLeft: '.2em'}}>
             <ButtonGroup justified>
               <DropdownButton
-                title="TODO"
-                onSelect={() => "TODO"}
+                title={targetToText(this.state.target)}
+                onSelect={this.handleSelectTarget}
                 id="presortie-add-checker-target-dropdown">
-                <MenuItem>TODO</MenuItem>
-                <MenuItem>TODO</MenuItem>
+                {
+                  [1,2,3,4].map(fleetId => {
+                    const target = `fleet-${fleetId}`
+                    return (
+                      <MenuItem
+                        key={target} eventKey={target}
+                      >
+                        {targetToText(target)}
+                      </MenuItem>
+                    )
+                  })
+                }
               </DropdownButton>
             </ButtonGroup>
           </div>

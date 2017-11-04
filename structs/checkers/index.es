@@ -40,6 +40,7 @@ const registerChecker = checker => {
    - isValid(obj): for helping input validation, should return a boolean indicating
      whether `obj` is a valid checker data representation.
      (TODO: isValid => isValidInput)
+     (TODO: depending on target, isValid might do something else? like single fleet vs. combined)
 
    - (TODO) isValidTarget: check "fleet" field (or "target" in future) to see if current
      checker supports it
@@ -74,6 +75,23 @@ const registerChecker = checker => {
 
      when leaving this method not implemented, the checker on UI will always be unsatisfied
      with problem being something like `checker not prepared`
+ */
+
+/*
+   TODO: re-wire checkers to check on 'target' fields
+   - AllSlotsEmpty
+   - FastFleet
+   - AACI
+   - OASW
+   - HasRadar
+   - CountSaiun
+   - FighterPower
+   - Health
+   - Resupply
+   - Morale
+   - LoS
+   - ExtraSlots
+   - YasenEquips
  */
 
 [

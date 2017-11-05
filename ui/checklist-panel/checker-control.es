@@ -2,15 +2,19 @@ import React, { Component } from 'react'
 import {
   Button,
   OverlayTrigger, Tooltip,
+  DropdownButton, MenuItem,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
+import { modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import { checkerExtras } from './checkers'
+import { Target } from '../../structs'
 
 class CheckerControl extends Component {
   static propTypes = {
     checker: PTyp.object.isRequired,
+    memoFocus: PTyp.string.isRequired,
     problems: PTyp.array,
     onModifyChecker: PTyp.func.isRequired,
     onRemoveChecker: PTyp.func.isRequired,
@@ -51,6 +55,11 @@ class CheckerControl extends Component {
     onModifyChecker(() => this.state.checker)
     this.setState({editing: false})
   }
+
+  handleSelectTarget = target =>
+    this.handleModifyStateChecker(
+      modifyObject('target', () => target),
+    )
 
   renderViewMode() {
     const { checker, problems, onToggleChecker } = this.props
@@ -104,8 +113,8 @@ class CheckerControl extends Component {
   }
 
   renderEditMode() {
-    const { checker, onRemoveChecker } = this.props
-    const { type } = checker
+    const { checker, onRemoveChecker, memoFocus } = this.props
+    const { type, id } = checker
     const checkerExtra = checkerExtras[type]
     const checkerClass = checkerExtra.checker
     const isInputValid = checkerClass.isValid(this.state.checker)
@@ -116,6 +125,24 @@ class CheckerControl extends Component {
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
         <div style={{flex: 1, alignSelf: 'center'}}>
+          <DropdownButton
+            title={Target.toString(this.state.checker.target)}
+            onSelect={this.handleSelectTarget}
+            id={`presortie-checker-editor-${memoFocus}-${id}-dropdown`}
+          >
+            {
+              [1,2,3,4].map(fleetId => {
+                const target = `fleet-${fleetId}`
+                return (
+                  <MenuItem
+                    key={target} eventKey={target}
+                  >
+                    {Target.toString(target)}
+                  </MenuItem>
+                )
+              })
+            }
+          </DropdownButton>
           <checkerExtra.editor
             value={this.state.checker}
             onModifyValue={this.handleModifyStateChecker}

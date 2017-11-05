@@ -78,6 +78,7 @@ class ChecklistPanelImpl extends Component {
       checkerResultsMap,
       allFleetInfo,
       fleetIdChange,
+      memoFocus,
     } = this.props
     const checklistSatisfied =
       Object.values(checkerResultsMap).every(
@@ -122,6 +123,7 @@ class ChecklistPanelImpl extends Component {
                   style={{padding: '8px 15px'}}
                   key={id}>
                   <CheckerControl
+                    memoFocus={memoFocus}
                     onModifyChecker={this.handleModifyChecker(id)}
                     onRemoveChecker={this.handleRemoveChecker(id)}
                     onToggleChecker={this.handleToggleChecker(id)(enabled)}

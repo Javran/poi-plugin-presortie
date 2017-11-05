@@ -9,7 +9,7 @@ import FontAwesome from 'react-fontawesome'
 import { checkerExtras } from './checkers'
 
 import { PTyp } from '../../ptyp'
-import { Checkers, checkerList } from '../../structs'
+import { Checkers, checkerList, Target } from '../../structs'
 
 /*
    collection of editor initial states.
@@ -23,16 +23,6 @@ const initEditorStates = {}
 checkerList.map(checkerClass => {
   initEditorStates[checkerClass.type] = checkerClass.defValue
 })
-
-const targetToText = target => {
-  const fleetMatch = /^fleet-(\d+)$/.exec(target)
-  if (fleetMatch) {
-    const [_ignored, fleetIdStr] = fleetMatch
-    return `Fleet #${fleetIdStr}`
-  }
-
-  return target
-}
 
 const checkerControlPairs = checkerList.map(checker => [
   checker.type, checkerExtras[checker.type].editor])
@@ -111,7 +101,7 @@ class AddCheckerPanel extends Component {
           <div style={{width: '40%', marginLeft: '.2em'}}>
             <ButtonGroup justified>
               <DropdownButton
-                title={targetToText(this.state.target)}
+                title={Target.toString(this.state.target)}
                 onSelect={this.handleSelectTarget}
                 id="presortie-add-checker-target-dropdown">
                 {
@@ -121,7 +111,7 @@ class AddCheckerPanel extends Component {
                       <MenuItem
                         key={target} eventKey={target}
                       >
-                        {targetToText(target)}
+                        {Target.toString(target)}
                       </MenuItem>
                     )
                   })

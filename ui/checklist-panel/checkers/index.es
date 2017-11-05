@@ -16,7 +16,7 @@ import { LoSEdit } from './los-edit'
 import { ExtraSlotsEdit } from './extra-slots-edit'
 import { YasenEquipsEdit } from './yasen-equips-edit'
 
-import { Checkers, checkerList } from '../../../structs'
+import { Checkers, checkerList, Target } from '../../../structs'
 
 // collection of editor initial states
 const initEditorStates = {}
@@ -39,7 +39,7 @@ const mkViewer = type => {
     return (
       <div style={style}>
         <div style={{fontSize: '80%'}}>
-          {checker.target}
+          {Target.toString(checker.target)}
         </div>
         <div>
           {description}

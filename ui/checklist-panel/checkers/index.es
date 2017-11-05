@@ -38,7 +38,12 @@ const mkViewer = type => {
         JSON.stringify(checker)
     return (
       <div style={style}>
-        {description}
+        <div style={{fontSize: '80%'}}>
+          {checker.target}
+        </div>
+        <div>
+          {description}
+        </div>
       </div>
     )
   }

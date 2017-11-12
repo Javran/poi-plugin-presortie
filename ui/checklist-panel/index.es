@@ -13,7 +13,6 @@ import { mergeMapStateToProps, modifyObject } from 'subtender'
 import { PTyp } from '../../ptyp'
 import { mapDispatchToProps } from '../../store'
 import { AddCheckerPanel } from './add-checker-panel'
-import { FleetPicker } from './fleet-picker'
 import { CheckerControl } from './checker-control'
 import { checklistUISelector } from './selectors'
 import { checklistSelector, memoFocusSelector } from '../../selectors'
@@ -23,11 +22,9 @@ class ChecklistPanelImpl extends Component {
     checklist: PTyp.array.isRequired,
     style: PTyp.object,
     memoFocus: PTyp.string.isRequired,
-    allFleetInfo: PTyp.array.isRequired,
     checkerResultsMap: PTyp.objectOf(PTyp.shape({
       problems: PTyp.arrayOf(PTyp.node).isRequired,
     })).isRequired,
-    fleetIdChange: PTyp.func.isRequired,
     memoModify: PTyp.func.isRequired,
   }
 
@@ -76,8 +73,6 @@ class ChecklistPanelImpl extends Component {
     const {
       style, checklist,
       checkerResultsMap,
-      allFleetInfo,
-      fleetIdChange,
       memoFocus,
     } = this.props
     const checklistSatisfied =
@@ -100,20 +95,6 @@ class ChecklistPanelImpl extends Component {
           </div>
         }>
         <ListGroup fill>
-          {
-            /*
-          <ListGroupItem
-            style={{padding: '8px 15px'}}
-            key="fleet-picker">
-            <FleetPicker
-              fleetId={fleetId}
-              allFleetInfo={allFleetInfo}
-              onFleetIdChange={fleetIdChange}
-            />
-          </ListGroupItem>
-            */
-            false
-          }
           {
             checklist.map(checker => {
               const {id, enabled} = checker

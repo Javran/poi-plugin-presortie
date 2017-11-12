@@ -5,7 +5,6 @@ import {
 } from 'views/utils/selectors'
 
 import {
-  allFleetInfoSelector,
   memoFocusSelector,
   checklistSelector,
 } from '../../selectors'
@@ -71,9 +70,8 @@ const checkerResultsMapSelector = createSelector(
     {}))
 
 const checklistUISelector = createSelector(
-  allFleetInfoSelector,
   checkerResultsMapSelector,
-  (allFleetInfo, checkerResultsMap) =>
-    ({allFleetInfo, checkerResultsMap}))
+  checkerResultsMap =>
+    ({checkerResultsMap}))
 
 export { checklistUISelector }

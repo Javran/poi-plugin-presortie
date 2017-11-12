@@ -10,14 +10,6 @@ const tyRdy = '@poi-plugin-presortie@persist@Ready'
 
 const initState = {
   /*
-     current fleet id, taking value 1-4.
-     note that when it's a combined fleet,
-     fleet #1 will no longer be usable as a seperated one,
-     so `fleetId === 1` also stands for a combined fleet
-     when the combined flag is set.
-   */
-  fleetId: 1,
-  /*
      userPreferredMemoFocus is either 'last', or MemoId (see below).
      the idea is that:
      - if it's MemoId, we simply use that as the effective memo focus.
@@ -54,10 +46,6 @@ const actionCreator = {
     type: tyMod,
     modifier,
   }),
-  fleetIdChange: fleetId =>
-    actionCreator.persistModify(
-      modifyObject('fleetId', () => fleetId)
-    ),
   userPreferredMemoFocusChange: lastOrMemoId =>
     actionCreator.persistModify(
       modifyObject('userPreferredMemoFocus', () => lastOrMemoId)

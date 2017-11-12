@@ -70,18 +70,10 @@ const registerChecker = checker => {
              (keep in mind that it only contains these two properties so if the selector
              is accessing other parts there will be a problem)
 
-           - `memoId` and `fleetId` represents what user has chosen
-             for this plugin to check against.
-             (TODO: `fleetId` will be removed and all checkers should use 'target' property
-             of objects)
+           - `memoId` represents memo focus.
 
      when leaving this method not implemented, the checker on UI will always be unsatisfied
      with problem being something like `checker not prepared`
- */
-
-/*
-   TODO: re-wire checkers to check on 'target' fields
-   - YasenEquips
  */
 
 [

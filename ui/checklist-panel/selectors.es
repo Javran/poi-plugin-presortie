@@ -25,8 +25,6 @@ const checkerContextSelector = createSelector(
   stateSelector,
   (memoId, st) => ({
     memoId,
-    // TODO: remove this
-    fleetId: 1,
     // "const" and "info" come directly from the store,
     // so CheckerContext will have exactly the same shape
     // as the store (given only these two fields are accessed,

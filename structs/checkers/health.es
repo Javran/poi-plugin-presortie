@@ -4,6 +4,7 @@ import {
 
 import { CheckMethod } from './common'
 import { shipTextSelectorFactory } from './selectors'
+import { Target } from '../target'
 
 class Health {
   static type = 'health'
@@ -53,12 +54,12 @@ class Health {
   }
 
   static prepare = checker => {
-    const {method, healthStates, ignoreUnlocked} = checker
+    const {method, healthStates, ignoreUnlocked, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
+
     const satisfy = CheckMethod.toFunction(method)
     return checkerContext => {
-      const { fleetId } = checkerContext
-      const fleetInd = fleetId-1
-
       const isValidShip = s => {
         if (!Array.isArray(s))
           return false

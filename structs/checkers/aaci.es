@@ -5,6 +5,8 @@ import {
 import { CheckMethod } from './common'
 import { AACISelectorFactory } from './selectors'
 
+import { Target } from '../target'
+
 class AACI {
   static type = 'aaci'
 
@@ -23,12 +25,12 @@ class AACI {
   }
 
   static prepare = checker => {
-    const {method} = checker
+    const {method, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const satisfy = CheckMethod.toFunction(method)
 
     return checkerContext => {
-      const { fleetId } = checkerContext
-      const fleetInd = fleetId-1
       const rosterIds = fleetShipsDataSelectorFactory(fleetInd)(checkerContext)
         .filter( ([ship]) => ship && typeof ship.api_id === 'number')
         .map(([ship]) => ship.api_id)

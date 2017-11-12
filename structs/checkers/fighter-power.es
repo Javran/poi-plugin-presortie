@@ -1,6 +1,8 @@
 import { CheckMethod } from './common'
 import { tykuSelectorFactory } from './selectors'
 
+import { Target } from '../target'
+
 class FighterPower {
   static type = 'fighter-power'
 
@@ -31,14 +33,14 @@ class FighterPower {
   }
 
   static prepare = checker => {
-    const {method, mode} = checker
+    const {method, mode, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const modeText = FighterPower.describeMode(mode)
     const satisfy =
       tyku => CheckMethod.toFunction(method)(tyku[mode])
 
     return checkerContext => {
-      const { fleetId } = checkerContext
-      const fleetInd = fleetId-1
       const tyku = tykuSelectorFactory(fleetInd)(checkerContext)
       return satisfy(tyku) ? [] : [`Current Fighter Power (${modeText}) is ${tyku[mode]}`]
     }

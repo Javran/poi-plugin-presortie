@@ -10,6 +10,8 @@ import {
   shipTextSelectorFactory,
 } from './selectors'
 
+import { Target } from '../target'
+
 class AllSlotsEmpty {
   static type = 'all-slots-empty'
 
@@ -37,12 +39,12 @@ class AllSlotsEmpty {
   }
 
   static prepare = checker => {
-    const {method, ignoreExtra, ignoreUnlocked} = checker
+    const {method, ignoreExtra, ignoreUnlocked, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const applyIgnoreExtra = ignoreExtra ? _.initial : _.identity
     const satisfy = CheckMethod.toFunction(method)
     return checkerContext => {
-      const {fleetId} = checkerContext
-      const fleetInd = fleetId-1
       const isAllSlotsEmpty = shipEquipData =>
         shipEquipData.every(e => !e)
       const shipsEquips =

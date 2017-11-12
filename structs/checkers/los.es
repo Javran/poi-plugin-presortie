@@ -3,6 +3,8 @@ import {
   sakuSelectorFactoryWithNodeFactor,
 } from './selectors'
 
+import { Target } from '../target'
+
 class LoS {
   static type = 'los'
 
@@ -24,12 +26,12 @@ class LoS {
   }
 
   static prepare = checker => {
-    const {method, nodeFactor} = checker
+    const {method, nodeFactor, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const satisfy = CheckMethod.toFunction(method)
     const sakuSelectorFactory = sakuSelectorFactoryWithNodeFactor(nodeFactor)
     return checkerContext => {
-      const { fleetId } = checkerContext
-      const fleetInd = fleetId-1
       const saku = sakuSelectorFactory(fleetInd)(checkerContext)
       return satisfy(saku.total) ? [] : [`Current LoS is ${saku.total}`]
     }

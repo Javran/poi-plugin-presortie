@@ -6,6 +6,8 @@ import {
   shipTextSelectorFactory,
 } from './selectors'
 
+import { Target } from '../target'
+
 class ExtraSlots {
   static type = 'extra-slots'
 
@@ -19,8 +21,9 @@ class ExtraSlots {
   static describe = () =>
     'All openned extra slots should be equipped'
 
-  static prepare = () => checkerContext => {
-    const { fleetId } = checkerContext
+  static prepare = obj => checkerContext => {
+    const { target } = obj
+    const fleetId = Target.destruct({fleet: x => x})(target)
     const fleetInd = fleetId-1
 
     let shipsData = fleetShipsDataSelectorFactory(fleetInd)(checkerContext)

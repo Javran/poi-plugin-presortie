@@ -7,6 +7,8 @@ import {
   shipTextSelectorFactory,
 } from './selectors'
 
+import { Target } from '../target'
+
 class FastFleet {
   static type = 'fast-fleet'
 
@@ -19,8 +21,9 @@ class FastFleet {
 
   static describe = () => "Fast Fleet"
 
-  static prepare = () => checkerContext => {
-    const { fleetId } = checkerContext
+  static prepare = obj => checkerContext => {
+    const { target } = obj
+    const fleetId = Target.destruct({fleet: x => x})(target)
     const fleetInd = fleetId-1
     const isFast = speed => speed >= 10
 

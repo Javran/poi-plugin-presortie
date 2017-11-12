@@ -4,6 +4,7 @@ import {
 
 import { CheckMethod } from './common'
 import { shipTextSelectorFactory } from './selectors'
+import { Target } from '../target'
 
 class Resupply {
   static type = 'resupply'
@@ -49,7 +50,9 @@ class Resupply {
     ship.api_bull / $ship.api_bull_max * 100
 
   static prepare = checker => {
-    const {filterMethod, qualifyMethod, ignoreUnlocked, resource} = checker
+    const {filterMethod, qualifyMethod, ignoreUnlocked, resource, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const filterSatisfy = CheckMethod.toFunction(filterMethod)
     const testResupplyStatus =
       resource === 'fuel-and-ammo' ? (shipInfo =>
@@ -63,8 +66,6 @@ class Resupply {
 
     const satisfy = CheckMethod.toFunction(qualifyMethod)
     return checkerContext => {
-      const { fleetId } = checkerContext
-      const fleetInd = fleetId-1
       const isValidShip = s => {
         if (!Array.isArray(s))
           return false

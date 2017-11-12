@@ -4,6 +4,7 @@ import {
 } from 'views/utils/selectors'
 
 import { CheckMethod } from './common'
+import { Target } from '../target'
 
 class YasenEquips {
   static type = 'yasen-equips'
@@ -55,13 +56,15 @@ class YasenEquips {
   }
 
   static prepare = checker => {
+    const {target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
+
     const satFunctions = _.fromPairs(
       YasenEquips.methodFieldNames.map(fieldName =>
         [fieldName, CheckMethod.toFunction(checker[fieldName])]))
 
     return checkerContext => {
-      const {fleetId} = checkerContext
-      const fleetInd = fleetId-1
       const processEquip = equipInfo => {
         if (!equipInfo)
           return []

@@ -5,6 +5,7 @@ import {
 } from 'views/utils/selectors'
 
 import { CheckMethod } from './common'
+import { Target } from '../target'
 
 class CountSaiun {
   static type = 'count-saiun'
@@ -30,11 +31,11 @@ class CountSaiun {
     ].includes(equipId)
 
   static prepare = checker => {
-    const {method} = checker
+    const {method, target} = checker
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const satisfy = CheckMethod.toFunction(method)
     return checkerContext => {
-      const {fleetId} = checkerContext
-      const fleetInd = fleetId-1
       const processEquip = equipInfo => {
         if (!equipInfo)
           return []

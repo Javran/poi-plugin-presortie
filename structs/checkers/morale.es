@@ -4,6 +4,7 @@ import {
 
 import { CheckMethod } from './common'
 import { shipTextSelectorFactory } from './selectors'
+import { Target } from '../target'
 
 class Morale {
   static type = 'morale'
@@ -33,13 +34,13 @@ class Morale {
   }
 
   static prepare = checker => {
-    const { filterMethod, qualifyMethod, ignoreUnlocked } = checker
+    const { filterMethod, qualifyMethod, ignoreUnlocked, target } = checker
     const filterSatisfy = CheckMethod.toFunction(filterMethod)
+    const fleetId = Target.destruct({fleet: x => x})(target)
+    const fleetInd = fleetId-1
     const satisfy = CheckMethod.toFunction(qualifyMethod)
 
     return checkerContext => {
-      const { fleetId } = checkerContext
-      const fleetInd = fleetId-1
       const isValidShip = s => {
         if (!Array.isArray(s))
           return false

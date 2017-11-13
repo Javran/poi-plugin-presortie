@@ -9,7 +9,7 @@ import { modifyObject } from 'subtender'
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
 
-const $dataVersion = 'initial-d'
+const $dataVersion = 'initial-e'
 
 const getPStateFilePath = () => {
   const { APPDATA_PATH } = window
@@ -51,31 +51,6 @@ const updatePState = (oldPState, forceSave = false) => {
   /*
      version-to-version p-state updating logics
    */
-
-  if (newPState.$dataVersion === 'initial-b') {
-    const {
-      sortieHistory,
-      persist: {memos, ready, userPreferredMemoFocus},
-    } = newPState
-
-    const updatedPState = {
-      sortieHistory,
-      persist: {
-        memos: _.mapValues(
-          memos,
-          modifyObject(
-            'checklist',
-            xs => xs.map(x => ({...x, fleet: 'id-1'}))
-          )
-        ),
-        ready,
-        userPreferredMemoFocus,
-      },
-      $dataVersion: 'initial-c',
-    }
-    newPState = updatedPState
-  }
-
   if (newPState.$dataVersion === 'initial-c') {
     const {
       sortieHistory,
@@ -101,6 +76,18 @@ const updatePState = (oldPState, forceSave = false) => {
       $dataVersion: 'initial-d',
     }
     newPState = updatedPState
+  }
+
+  if (newPState.$dataVersion === 'initial-d') {
+    const {sortieHistory, persist} = newPState
+    newPState = {
+      sortieHistory,
+      persist: {
+        ...persist,
+        smartMemoFocus: true,
+      },
+      $dataVersion: 'initial-e',
+    }
   }
 
   if (newPState.$dataVersion === $dataVersion) {

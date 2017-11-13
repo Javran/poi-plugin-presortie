@@ -19,6 +19,15 @@ const initState = {
    */
   userPreferredMemoFocus: 'last',
   /*
+     (TODO: not implemented)
+     the following feature is enabled when smartMemoFocus === true:
+     when "userPreferredMemoFocus" is a particular map (not 'last' or 'general' but a number),
+     and player sorties to that map, "userPreferredMemoFocus" is automatically switched to 'last'.
+     This is useful in case where user wants to plan ahead of going to sortie page
+     but still want the focus to be interpreted dynamically (using 'last') afterwards.
+   */
+  smartMemoFocus: true,
+  /*
      an Object of:
      - key: <MemoId>
      - value: {checklist, notes, links}

@@ -25,6 +25,7 @@ import {
   memoFocusSelector,
   memoIdToDescFuncSelector,
   pastMapIdsSelector,
+  userPreferredMemoFocusSelector,
 } from '../../selectors'
 import {
   mapDispatchToProps,
@@ -39,6 +40,7 @@ class MapPanelImpl extends PureComponent {
     memoIdToDesc: PTyp.func.isRequired,
     sortieHistory: PTyp.array.isRequired,
     pastMapIds: PTyp.array.isRequired,
+    userPreferredMemoFocus: PTyp.string.isRequired,
 
     userPreferredMemoFocusChange: PTyp.func.isRequired,
   }
@@ -69,6 +71,7 @@ class MapPanelImpl extends PureComponent {
       style,mapInfoArr,
       getMapName,sortieHistory,
       memoFocus, memoIdToDesc,
+      userPreferredMemoFocus,
       pastMapIds,
     } = this.props
     const btnStyle = {marginTop: 0}
@@ -111,7 +114,11 @@ class MapPanelImpl extends PureComponent {
                        having this extra layer of div prevents
                        unintended triggering of "handleToggleMenu"
                      */
-                    <div style={{display: 'block', fontSize: '1.1em'}}>
+                    <div
+                      style={{
+                        display: 'block', fontSize: '1.1em',
+                        ...(userPreferredMemoFocus === 'last' ? {fontWeight: 'bold'} : {}),
+                      }}>
                       {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
                     </div>
                   }
@@ -236,6 +243,7 @@ const MapPanel = connect(
     memoFocus: memoFocusSelector,
     memoIdToDesc: memoIdToDescFuncSelector,
     pastMapIds: pastMapIdsSelector,
+    userPreferredMemoFocus: userPreferredMemoFocusSelector,
   }),
   mapDispatchToProps,
 )(MapPanelImpl)

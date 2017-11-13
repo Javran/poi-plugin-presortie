@@ -11,11 +11,8 @@ import {} from './memo-links'
    TODO:
 
    - i18n
-   - setting: smart last-sortie: when sortie map id = map id the plugin
-     is focusing on, switch to last-sortie.
-   - setting: re-arrange wiki links
    - plan checkers for combined fleets
-   - limit history number
+   - perhaps arrange history in a more consistent way?
 
  */
 

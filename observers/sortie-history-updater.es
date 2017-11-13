@@ -8,7 +8,7 @@ import {
 const sortieHistoryUpdater = observer(
   state => {
     const mapIdRaw = sortieMapIdSelector(state)
-    const parsed = parseInt(mapIdRaw,10)
+    const parsed = Number(mapIdRaw)
     // all falsy values are turned into null
     return !parsed ? null : parsed
   },

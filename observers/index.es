@@ -4,6 +4,7 @@ import { store } from 'views/create-store'
 
 import { sortieHistoryUpdater } from './sortie-history-updater'
 import { pStateWriter } from './p-state-writer'
+import { smartMemoFocusSwitcher } from './smart-memo-focus-switcher'
 
 let unsubscribe = null
 
@@ -20,6 +21,7 @@ const globalSubscribe = () => {
     [
       sortieHistoryUpdater,
       pStateWriter,
+      smartMemoFocusSwitcher,
     ])
 }
 

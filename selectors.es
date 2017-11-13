@@ -40,6 +40,11 @@ const memosSelector = createSelector(
   p => p.memos
 )
 
+const smartMemoFocusSelector = createSelector(
+  persistSelector,
+  p => p.smartMemoFocus
+)
+
 const userPreferredMemoFocusSelector = createSelector(
   persistSelector,
   p => p.userPreferredMemoFocus
@@ -189,10 +194,12 @@ export {
   splitMapId,
 
   sortieHistorySelector,
+  persistSelector,
 
   memosSelector,
   userPreferredMemoFocusSelector,
   memoFocusSelector,
+  smartMemoFocusSelector,
 
   mapInfoArraySelector,
 

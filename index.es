@@ -1,4 +1,5 @@
 import { PresortieMain as reactClass } from './ui'
+import { Settings as settingsClass } from './ui/settings'
 import { reducer, withBoundActionCreator } from './store'
 import { globalSubscribe, globalUnsubscribe } from './observers'
 import { loadPState, applyPState } from './p-state'
@@ -39,6 +40,7 @@ const pluginWillUnload = () => {
 
 export {
   reactClass,
+  settingsClass,
   switchPluginPath,
   reducer,
   pluginDidLoad,

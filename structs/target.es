@@ -17,6 +17,14 @@ class Target {
     console.error(`expecting a Target while getting ${target}`)
   }
 
+  /*
+     returns the fleetId of a Target if the structure in question
+     is indeed a fleet, otherwise null is returned
+   */
+  static extractFleetId = Target.destruct({
+    fleet: x => x,
+  })
+
   static toString = Target.destruct({
     fleet: fleetId => `Fleet #${fleetId}`,
   })

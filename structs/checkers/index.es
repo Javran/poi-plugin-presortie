@@ -19,6 +19,23 @@ const Checkers = {}
 const checkerList = []
 
 const registerChecker = checker => {
+  const assertTy = (propName, tyStr) => {
+    if (! (propName in checker)) {
+      console.warn(`Checker ${checker} is missing property ${propName}`)
+    }
+    // eslint-disable-next-line valid-typeof
+    if (typeof checker[propName] !== tyStr) {
+      console.warn(`Checker ${checker}: property ${propName} does not have type ${tyStr}`)
+    }
+  }
+
+  assertTy('type', 'string')
+  assertTy('defValue', 'object')
+  assertTy('title', 'string')
+  assertTy('isValidObj', 'function')
+  assertTy('describe', 'function')
+  assertTy('prepare', 'function')
+
   Checkers[checker.name] = checker
   Checkers[checker.type] = checker
   checkerList.push(checker)

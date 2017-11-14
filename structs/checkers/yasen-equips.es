@@ -33,7 +33,7 @@ class YasenEquips {
     skilledLookouts: 'Skilled Lookouts',
   }
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     YasenEquips.methodFieldNames.every(fieldName =>
       CheckMethod.isValidInRange(0,Infinity)(obj[fieldName]))
 

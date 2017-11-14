@@ -23,7 +23,7 @@ class AllSlotsEmpty {
 
   static title = "Ships without Equipments"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,6)(obj.method)
 
   static describe = obj => {

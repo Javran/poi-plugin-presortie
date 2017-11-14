@@ -78,7 +78,7 @@ class AddCheckerPanel extends Component {
     const {editor, editorStates} = this.state
     const editorState = editorStates[editor]
     const checker = Checkers[editor]
-    const isInputValid = checker.isValid(editorState)
+    const isInputValid = checker.isValidObj(editorState)
     return (
       <div>
         <div style={{display: 'flex', alignItems: 'center'}}>

@@ -15,7 +15,7 @@ class LoS {
 
   static title = "Line of Sight"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,Infinity)(obj.method) &&
     (obj.nodeFactor >= 1 && obj.nodeFactor <= 4)
 

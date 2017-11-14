@@ -21,7 +21,7 @@ class Health {
 
   static title = "Health"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,6)(obj.method)
 
   static describe = obj => {

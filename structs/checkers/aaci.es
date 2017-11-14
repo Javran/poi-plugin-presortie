@@ -16,7 +16,7 @@ class AACI {
 
   static title = "Anti-Air Cut-In"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,6)(obj.method)
 
   static describe = obj => {

@@ -17,7 +17,7 @@ class Morale {
 
   static title = "Morale"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,100)(obj.filterMethod) &&
     CheckMethod.isValidInRange(0,6)(obj.qualifyMethod)
 

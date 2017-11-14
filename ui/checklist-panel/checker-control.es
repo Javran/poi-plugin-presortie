@@ -117,7 +117,7 @@ class CheckerControl extends Component {
     const { type, id } = checker
     const checkerExtra = checkerExtras[type]
     const checkerClass = checkerExtra.checker
-    const isInputValid = checkerClass.isValid(this.state.checker)
+    const isInputValid = checkerClass.isValidObj(this.state.checker)
     const btnStyle = {
       marginLeft: 5,
       width: '2.7em',

@@ -16,7 +16,7 @@ class OASW {
 
   static title = "Opening Anti-Submarine Warfare"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,6)(obj.method)
 
   static describe = obj => {

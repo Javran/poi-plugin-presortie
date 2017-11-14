@@ -17,7 +17,7 @@ class FastFleet {
 
   static title = "Require Fast Fleet"
 
-  static isValid = () => true
+  static isValidObj = () => true
 
   static describe = () => "Fast Fleet"
 

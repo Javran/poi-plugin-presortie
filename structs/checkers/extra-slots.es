@@ -16,7 +16,7 @@ class ExtraSlots {
 
   static title = "Extra Slots"
 
-  static isValid = () => true
+  static isValidObj = () => true
 
   static describe = () =>
     'All openned extra slots should be equipped'

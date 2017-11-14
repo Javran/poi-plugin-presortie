@@ -37,9 +37,8 @@ const registerChecker = checker => {
 
    - title: string. what appears on UI as a simple description of what this checker does
 
-   - isValid(obj): for helping input validation, should return a boolean indicating
+   - isValidObj(obj): for helping input validation, should return a boolean indicating
      whether `obj` is a valid checker data representation.
-     (TODO: isValid => isValidInput)
      (TODO: depending on target, isValid might do something else? like single fleet vs. combined)
 
    - (TODO) isValidTarget: check "fleet" field (or "target" in future) to see if current

@@ -13,7 +13,7 @@ class FighterPower {
 
   static title = "Fighter Power"
 
-  static isValid = obj =>
+  static isValidObj = obj =>
     CheckMethod.isValidInRange(0,+Infinity)(obj.method)
 
   static describeMode = mode =>

@@ -1,17 +1,12 @@
 import { observer } from 'redux-observers'
-import { sortieMapIdSelector } from 'views/utils/selectors'
+import { parsedSortieMapIdSelector } from '../selectors'
 
 import {
   withBoundActionCreator,
 } from '../store'
 
 const sortieHistoryUpdater = observer(
-  state => {
-    const mapIdRaw = sortieMapIdSelector(state)
-    const parsed = Number(mapIdRaw)
-    // all falsy values are turned into null
-    return !parsed ? null : parsed
-  },
+  parsedSortieMapIdSelector,
   (dispatch, curMapId, prevMapId) => {
     // only observe sortie-changing events
     // where we are not returning to port (i.e. not null)

@@ -7,6 +7,7 @@ import {
   fleetsSelector,
   shipsSelector,
   extensionSelectorFactory,
+  sortieMapIdSelector,
 } from 'views/utils/selectors'
 
 import { emptyMemo } from './structs'
@@ -194,6 +195,19 @@ const pastMapIdsSelector = createSelector(
       .sort((x,y) => x-y)
 )
 
+/*
+   unlike `sortieMapIdSelector`, this selector is guaranteed
+   to return either a number (for valid mapId, which is non-zero) or `null`
+*/
+const parsedSortieMapIdSelector = createSelector(
+  sortieMapIdSelector,
+  mapIdRaw => {
+    const parsed = Number(mapIdRaw)
+    // all falsy values (including 0) are turned into null
+    return !parsed ? null : parsed
+  }
+)
+
 export {
   extSelector,
   splitMapId,
@@ -220,4 +234,6 @@ export {
   validSortieHistorySelector,
   memoIdToDescFuncSelector,
   pastMapIdsSelector,
+
+  parsedSortieMapIdSelector,
 }

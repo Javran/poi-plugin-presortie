@@ -1,28 +1,20 @@
 import _ from 'lodash'
 import { observer } from 'redux-observers'
 import { createStructuredSelector } from 'reselect'
-import { sortieMapIdSelector } from 'views/utils/selectors'
 
 import {
   persistReadySelector,
   userPreferredMemoFocusSelector,
   memoFocusSelector,
   smartMemoFocusSelector,
+  parsedSortieMapIdSelector,
 } from '../selectors'
 import { withBoundActionCreator } from '../store'
 import { MemoId } from '../structs'
 
-// TODO: we might just need a "readySelector"
-
 const smartMemoFocusSwitcher = observer(
   createStructuredSelector({
-    mapId: state => {
-      // TODO: factor out same part in sortieHistoryUpdater
-      const mapIdRaw = sortieMapIdSelector(state)
-      const parsed = Number(mapIdRaw)
-      // all falsy values are turned into null
-      return _.isInteger(parsed) ? parsed : null
-    },
+    mapId: parsedSortieMapIdSelector,
     ready: persistReadySelector,
     userPreferredMemoFocus: userPreferredMemoFocusSelector,
     memoFocus: memoFocusSelector,

@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect'
 import { sortieMapIdSelector } from 'views/utils/selectors'
 
 import {
-  persistSelector,
+  persistReadySelector,
   userPreferredMemoFocusSelector,
   memoFocusSelector,
   smartMemoFocusSelector,
@@ -23,7 +23,7 @@ const smartMemoFocusSwitcher = observer(
       // all falsy values are turned into null
       return _.isInteger(parsed) ? parsed : null
     },
-    ready: s => persistSelector(s).ready,
+    ready: persistReadySelector,
     userPreferredMemoFocus: userPreferredMemoFocusSelector,
     memoFocus: memoFocusSelector,
     smartMemoFocus: smartMemoFocusSelector,

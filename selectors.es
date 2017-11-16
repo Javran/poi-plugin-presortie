@@ -35,6 +35,11 @@ const sortieHistorySelector =
 const persistSelector =
   mkExtPropSelector('persist')
 
+const persistReadySelector = createSelector(
+  persistSelector,
+  p => p.ready
+)
+
 const memosSelector = createSelector(
   persistSelector,
   p => p.memos
@@ -195,6 +200,8 @@ export {
 
   sortieHistorySelector,
   persistSelector,
+
+  persistReadySelector,
 
   memosSelector,
   userPreferredMemoFocusSelector,

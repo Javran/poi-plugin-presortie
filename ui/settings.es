@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import { Checkbox } from 'react-bootstrap'
 import { modifyObject, not } from 'subtender'
 
-import { persistSelector, smartMemoFocusSelector } from '../selectors'
+import {
+  persistReadySelector,
+  smartMemoFocusSelector,
+} from '../selectors'
 import { mapDispatchToProps } from '../store'
 import { PTyp } from '../ptyp'
 
@@ -47,7 +50,7 @@ class SettingsImpl extends PureComponent {
 
 const Settings = connect(
   createStructuredSelector({
-    ready: s => persistSelector(s).ready,
+    ready: persistReadySelector,
     smartMemoFocus: smartMemoFocusSelector,
   }),
   mapDispatchToProps,

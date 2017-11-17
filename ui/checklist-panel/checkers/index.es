@@ -18,6 +18,24 @@ import { YasenEquipsEdit } from './yasen-equips-edit'
 
 import { Checkers, checkerList, Target } from '../../../structs'
 
+/*
+   TODO: refactoring plan:
+
+   - every checker will have a view state "value" and edit state "editorState"
+
+   - every checker will declare its own "checker type" and it's up to
+     "registerCheckerExtra" to dispatch them properly
+
+   - view state is just the actual value of the checker
+   - edit state is only used when a checker is being edited
+     or we are in the middle of creating a new one
+
+   - toEditorState(<value>) : editorState
+
+   - fromEditorState(<editorState>) : value or null, where "null" stands for failure
+
+ */
+
 // collection of editor initial states
 const initEditorStates = {}
 checkerList.map(checkerClass => {

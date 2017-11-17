@@ -14,8 +14,10 @@ import { LoS } from './los'
 import { ExtraSlots } from './extra-slots'
 import { YasenEquips } from './yasen-equips'
 
+
+// Checkers[<string>] gets a checker class
 const Checkers = {}
-// for a fixed checker ordering
+// an Array just for keeping a consistent checker ordering
 const checkerList = []
 
 const registerChecker = checker => {
@@ -49,7 +51,13 @@ const registerChecker = checker => {
    - type: string. what identifies this checker class / its data representation
      from other classes
 
-   - defValue: the default data representation without "id", "enabled" and "type" fields
+   - defValue: the default data representation without the following fields:
+
+     - "id"
+     - "enabled"
+     - "type"
+     - "target"
+
      (we also call data with no guarantee about existency of these fields "partial checker")
 
    - title: string. what appears on UI as a simple description of what this checker does

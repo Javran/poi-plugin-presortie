@@ -91,6 +91,7 @@ class MapPanelImpl extends PureComponent {
             textAlign: 'center',
             fontSize: '2em',
             marginBottom: '.5em',
+            ...(userPreferredMemoFocus === 'last' ? {fontWeight: 'bold'} : {}),
           }}>
           {memoIdToDesc(memoFocus)}
         </div>

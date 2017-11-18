@@ -4,6 +4,8 @@ import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
 class YasenEquipsEdit extends Component {
+  static checkerType = 'yasen-equips'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,

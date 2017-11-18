@@ -4,6 +4,8 @@ import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
 class OASWEdit extends Component {
+  static checkerType = 'oasw'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,

@@ -4,6 +4,8 @@ import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
 class CountSaiunEdit extends Component {
+  static checkerType = 'count-saiun'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,

@@ -5,6 +5,8 @@ import {
 import { PTyp } from '../../../ptyp'
 
 class FastFleetEdit extends Component {
+  static checkerType = 'fast-fleet'
+
   static propTypes = {
     style: PTyp.object,
   }

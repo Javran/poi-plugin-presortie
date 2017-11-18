@@ -7,6 +7,8 @@ import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
 class MoraleEdit extends Component {
+  static checkerType = 'morale'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,

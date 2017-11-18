@@ -8,6 +8,8 @@ import { MethodEdit } from './method-edit'
 import { FighterPower } from '../../../structs/checkers/fighter-power'
 
 class FighterPowerEdit extends Component {
+  static checkerType = 'fighter-power'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,

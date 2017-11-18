@@ -4,6 +4,8 @@ import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
 class HasRadarEdit extends Component {
+  static checkerType = 'has-radar'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,

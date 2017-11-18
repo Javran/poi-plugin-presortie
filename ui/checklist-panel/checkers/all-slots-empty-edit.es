@@ -7,6 +7,8 @@ import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
 class AllSlotsEmptyEdit extends Component {
+  static checkerType = 'all-slots-empty'
+
   static propTypes = {
     value: PTyp.PartialChecker.AllSlotsEmpty.isRequired,
     onModifyValue: PTyp.func.isRequired,

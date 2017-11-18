@@ -18,6 +18,8 @@ import { MethodEdit } from './method-edit'
 )
 
 class HealthEdit extends Component {
+  static checkerType = 'health'
+
   static propTypes = {
     value: PTyp.object.isRequired,
     style: PTyp.object,

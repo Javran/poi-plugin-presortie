@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { PTyp } from '../../../ptyp'
 
 class ExtraSlotsEdit extends Component {
+  static checkerType = 'extra-slots'
+
   static propTypes = {
     style: PTyp.object,
   }

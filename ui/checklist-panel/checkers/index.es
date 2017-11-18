@@ -78,29 +78,48 @@ const mkViewer = type => {
   return component
 }
 
-const registerCheckerExtra = (type, editor) => {
-  const checker = Checkers[type]
-  checkerExtras[type] = {
-    type,
+const registerCheckerUiTmp = editor => {
+  const {checkerType} = editor
+  if (!checkerType || typeof checkerType !== 'string') {
+    console.warn(
+      `invalid editor ${editor}, which has unexpected checkerType: ${checkerType}, skipping`
+    )
+    return
+  }
+
+  const checker = Checkers[checkerType]
+  if (!checker) {
+    console.warn(`unknown checker for type ${checkerType}`)
+    return
+  }
+
+  if (checkerType in checkerExtras) {
+    console.warn(`overwriting existing checkerExtras entry: ${checkerType}`)
+  }
+
+  checkerExtras[checkerType] = {
+    type: checkerType,
     checker,
     editor,
-    viewer: mkViewer(type),
+    viewer: mkViewer(checkerType),
   }
 }
 
-registerCheckerExtra('all-slots-empty', AllSlotsEmptyEdit)
-registerCheckerExtra('fast-fleet', FastFleetEdit)
-registerCheckerExtra('aaci', AACIEdit)
-registerCheckerExtra('oasw', OASWEdit)
-registerCheckerExtra('has-radar', HasRadarEdit)
-registerCheckerExtra('count-saiun', CountSaiunEdit)
-registerCheckerExtra('fighter-power', FighterPowerEdit)
-registerCheckerExtra('health', HealthEdit)
-registerCheckerExtra('resupply', ResupplyEdit)
-registerCheckerExtra('morale',MoraleEdit)
-registerCheckerExtra('los', LoSEdit)
-registerCheckerExtra('extra-slots', ExtraSlotsEdit)
-registerCheckerExtra('yasen-equips', YasenEquipsEdit)
+[
+  AllSlotsEmptyEdit,
+  FastFleetEdit,
+  AACIEdit,
+  OASWEdit,
+  HasRadarEdit,
+  CountSaiunEdit,
+  FighterPowerEdit,
+  HealthEdit,
+  ResupplyEdit,
+  MoraleEdit,
+  LoSEdit,
+  ExtraSlotsEdit,
+  YasenEquipsEdit,
+].map(registerCheckerUiTmp)
 
 export {
   checkerExtras,

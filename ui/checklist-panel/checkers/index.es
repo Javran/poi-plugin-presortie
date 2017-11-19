@@ -46,14 +46,19 @@ checkerList.map(checkerClass => {
 const CheckerUis = {}
 
 const mkViewer = type => {
-  const checkerClass = Checkers[type]
+  const CheckerClass = Checkers[type]
 
   const component = props => {
     const {checker, style} = props
-    const description =
-      typeof checkerClass.describe === 'function' ?
-        checkerClass.describe(checker) :
-        JSON.stringify(checker)
+
+    let description
+    if (typeof CheckerClass.describe === 'function') {
+      description = CheckerClass.describe(checker)
+    } else {
+      console.warn(`Checker of type ${type} is missing .describe function`)
+      description = JSON.stringify(checker)
+    }
+
     return (
       <div style={style}>
         <div style={{fontSize: '80%'}}>

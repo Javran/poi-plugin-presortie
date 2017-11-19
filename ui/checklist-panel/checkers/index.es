@@ -78,7 +78,7 @@ const mkViewer = type => {
   return component
 }
 
-const registerCheckerUiTmp = (editor, viewerOrNull=null) => {
+const registerCheckerUi = (editor, viewerOrNull=null) => {
   const {checkerType} = editor
   if (!checkerType || typeof checkerType !== 'string') {
     console.warn(
@@ -121,7 +121,15 @@ const registerCheckerUiTmp = (editor, viewerOrNull=null) => {
   LoSEdit,
   ExtraSlotsEdit,
   YasenEquipsEdit,
-].map(editor => registerCheckerUiTmp(editor))
+].map(args => {
+  if (Array.isArray(args)) {
+    const [editor, viewer] = args
+    return registerCheckerUi(editor, viewer)
+  } else {
+    const editor = args
+    return registerCheckerUi(editor, null)
+  }
+})
 
 export {
   CheckerUis,

@@ -78,7 +78,7 @@ const mkViewer = type => {
   return component
 }
 
-const registerCheckerUiTmp = editor => {
+const registerCheckerUiTmp = (editor, viewerOrNull=null) => {
   const {checkerType} = editor
   if (!checkerType || typeof checkerType !== 'string') {
     console.warn(
@@ -97,11 +97,13 @@ const registerCheckerUiTmp = editor => {
     console.warn(`overwriting existing CheckerUis entry: ${checkerType}`)
   }
 
+  const viewer = viewerOrNull || mkViewer(checkerType)
+
   CheckerUis[checkerType] = {
     type: checkerType,
     checker,
     editor,
-    viewer: mkViewer(checkerType),
+    viewer,
   }
 }
 
@@ -119,7 +121,7 @@ const registerCheckerUiTmp = editor => {
   LoSEdit,
   ExtraSlotsEdit,
   YasenEquipsEdit,
-].map(registerCheckerUiTmp)
+].map(editor => registerCheckerUiTmp(editor))
 
 export {
   CheckerUis,

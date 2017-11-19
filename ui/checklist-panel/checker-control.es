@@ -8,7 +8,7 @@ import FontAwesome from 'react-fontawesome'
 import { modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
-import { checkerExtras } from './checkers'
+import { CheckerUis } from './checkers'
 import { Target } from '../../structs'
 
 class CheckerControl extends Component {
@@ -64,7 +64,7 @@ class CheckerControl extends Component {
   renderViewMode() {
     const { checker, problems, onToggleChecker } = this.props
     const { type, enabled } = checker
-    const checkerExtra = checkerExtras[type]
+    const checkerExtra = CheckerUis[type]
     const satisfied = problems.length === 0
     const tooltip = (
       <Tooltip
@@ -115,7 +115,7 @@ class CheckerControl extends Component {
   renderEditMode() {
     const { checker, onRemoveChecker, memoFocus } = this.props
     const { type, id } = checker
-    const checkerExtra = checkerExtras[type]
+    const checkerExtra = CheckerUis[type]
     const checkerClass = checkerExtra.checker
     const isInputValid = checkerClass.isValidObj(this.state.checker)
     const btnStyle = {

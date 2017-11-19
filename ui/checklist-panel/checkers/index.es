@@ -43,7 +43,7 @@ checkerList.map(checkerClass => {
 })
 
 // this is the corresponding UI of checkers
-const checkerExtras = {}
+const CheckerUis = {}
 
 const mkViewer = type => {
   const checkerClass = Checkers[type]
@@ -93,11 +93,11 @@ const registerCheckerUiTmp = editor => {
     return
   }
 
-  if (checkerType in checkerExtras) {
-    console.warn(`overwriting existing checkerExtras entry: ${checkerType}`)
+  if (checkerType in CheckerUis) {
+    console.warn(`overwriting existing CheckerUis entry: ${checkerType}`)
   }
 
-  checkerExtras[checkerType] = {
+  CheckerUis[checkerType] = {
     type: checkerType,
     checker,
     editor,
@@ -122,6 +122,6 @@ const registerCheckerUiTmp = editor => {
 ].map(registerCheckerUiTmp)
 
 export {
-  checkerExtras,
+  CheckerUis,
   initEditorStates,
 }

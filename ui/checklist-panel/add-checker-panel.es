@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
-import { checkerExtras } from './checkers'
+import { CheckerUis } from './checkers'
 
 import { PTyp } from '../../ptyp'
 import { Checkers, checkerList, Target } from '../../structs'
@@ -25,7 +25,7 @@ checkerList.map(checkerClass => {
 })
 
 const checkerControlPairs = checkerList.map(checker => [
-  checker.type, checkerExtras[checker.type].editor])
+  checker.type, CheckerUis[checker.type].editor])
 
 class AddCheckerPanel extends Component {
   static propTypes = {

@@ -1,3 +1,4 @@
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import {
   Checkbox,
@@ -21,44 +22,36 @@ class AllSlotsEmptyEdit extends Component {
 
   handleToggleIgnoreExtra = e => {
     const newValue = e.target.checked
-    const { onModifyValue } = this.props
-    onModifyValue(allSlots => ({
-      ...allSlots,
-      ignoreExtra: newValue,
-    }))
+    this.props.onModifyValue(
+      modifyObject('ignoreExtra', () => newValue)
+    )
   }
 
   handleToggleIgnoreUnlocked = e => {
     const newValue = e.target.checked
-    const { onModifyValue } = this.props
-    onModifyValue(allSlots => ({
-      ...allSlots,
-      ignoreUnlocked: newValue,
-    }))
+    this.props.onModifyValue(
+      modifyObject('ignoreUnlocked', () => newValue)
+    )
   }
 
   handleChangeMethodType = e => {
     const newValue = e.target.value
-    const { onModifyValue } = this.props
-    onModifyValue(allSlots => ({
-      ...allSlots,
-      method: {
-        ...allSlots.method,
-        type: newValue,
-      },
-    }))
+    this.props.onModifyValue(
+      modifyObject(
+        'method',
+        modifyObject('type', () => newValue)
+      )
+    )
   }
 
   handleChangeMethodValue = e => {
     const newValue = parseInt(e.target.value,10)
-    const { onModifyValue } = this.props
-    onModifyValue(allSlots => ({
-      ...allSlots,
-      method: {
-        ...allSlots.method,
-        value: newValue,
-      },
-    }))
+    this.props.onModifyValue(
+      modifyObject(
+        'method',
+        modifyObject('value', () => newValue)
+      )
+    )
   }
 
   handleModifyMethod =

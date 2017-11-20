@@ -112,6 +112,25 @@ const registerCheckerUi = (editor, viewerOrNull=null) => {
   }
 }
 
+/*
+   TODO: fromEditorState / toEditorState
+
+   - AllSlotsEmptyEdit
+   - FastFleetEdit
+   - AACIEdit
+   - OASWEdit
+   - HasRadarEdit
+   - CountSaiunEdit
+   - FighterPowerEdit
+   - HealthEdit
+   - ResupplyEdit
+   - MoraleEdit
+   - LoSEdit
+   - ExtraSlotsEdit
+   - YasenEquipsEdit
+
+ */
+
 [
   AllSlotsEmptyEdit,
   FastFleetEdit,

@@ -1,3 +1,4 @@
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import {
   FormControl,
@@ -21,27 +22,16 @@ class MethodEdit extends Component {
   // assumes onModifyValue modifies the whole structure
   // and the method being modified is under key "method"
   static defaultHandleModifyMethod = onModifyValue => modifier =>
-    onModifyValue(v => ({
-      ...v,
-      method: modifier(v.method),
-    }))
+    onModifyValue(modifyObject('method', modifier))
 
   handleChangeType = e => {
     const newValue = e.target.value
-    const { onModifyValue } = this.props
-    onModifyValue(v => ({
-      ...v,
-      type: newValue,
-    }))
+    this.props.onModifyValue(modifyObject('type', () => newValue))
   }
 
   handleChangeValue = e => {
     const newValue = parseInt(e.target.value,10)
-    const { onModifyValue } = this.props
-    onModifyValue(v => ({
-      ...v,
-      value: newValue,
-    }))
+    this.props.onModifyValue(modifyObject('value', () => newValue))
   }
 
   render() {

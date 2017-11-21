@@ -26,7 +26,7 @@ checkerList.map(checkerClass => {
 })
 
 const checkerControlPairs = checkerList.map(checker => [
-  checker.type, CheckerUis[checker.type].editor])
+  checker.type, CheckerUis[checker.type].Editor])
 
 const warnOnce = _.memoize(typ =>
   console.warn(`editor for type ${typ} is still WIP`)
@@ -97,7 +97,7 @@ class AddCheckerPanel extends Component {
                 {
                   checkerList.map(checkerClass => {
                     const checkerUi = CheckerUis[checkerClass.type]
-                    if (isWIPChecker(checkerUi.editor)) {
+                    if (isWIPChecker(checkerUi.Editor)) {
                       warnOnce(checkerClass.type)
                       return (
                         <MenuItem

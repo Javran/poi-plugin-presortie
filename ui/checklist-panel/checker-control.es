@@ -84,7 +84,7 @@ class CheckerControl extends Component {
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
         <div style={{flex: 1}}>
-          <checkerExtra.viewer
+          <checkerExtra.Viewer
             checker={checker}
           />
         </div>
@@ -118,7 +118,7 @@ class CheckerControl extends Component {
     const checkerExtra = CheckerUis[type]
     const checkerClass = checkerExtra.checker
 
-    if (isWIPChecker(checkerExtra.editor)) {
+    if (isWIPChecker(checkerExtra.Editor)) {
       return (<div>Editor WIP for {type}</div>)
     }
     const isInputValid = checkerClass.isValidObj(this.state.checker)
@@ -147,7 +147,7 @@ class CheckerControl extends Component {
               })
             }
           </DropdownButton>
-          <checkerExtra.editor
+          <checkerExtra.Editor
             value={this.state.checker}
             onModifyValue={this.handleModifyStateChecker}
           />

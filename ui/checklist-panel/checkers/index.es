@@ -103,11 +103,11 @@ const mkViewer = type => {
   return component
 }
 
-const registerCheckerUi = (editor, viewerOrNull=null) => {
-  const {checkerType} = editor
+const registerCheckerUi = (Editor, viewerOrNull=null) => {
+  const {checkerType} = Editor
   if (!checkerType || typeof checkerType !== 'string') {
     console.warn(
-      `invalid editor ${editor}, which has unexpected checkerType: ${checkerType}, skipping`
+      `invalid editor ${Editor}, which has unexpected checkerType: ${checkerType}, skipping`
     )
     return
   }
@@ -122,13 +122,13 @@ const registerCheckerUi = (editor, viewerOrNull=null) => {
     console.warn(`overwriting existing CheckerUis entry: ${checkerType}`)
   }
 
-  const viewer = viewerOrNull || mkViewer(checkerType)
+  const Viewer = viewerOrNull || mkViewer(checkerType)
 
   CheckerUis[checkerType] = {
     type: checkerType,
     checker,
-    editor,
-    viewer,
+    Editor,
+    Viewer,
   }
 }
 

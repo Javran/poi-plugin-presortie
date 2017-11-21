@@ -118,7 +118,7 @@ class CheckerControl extends Component {
     const checkerExtra = CheckerUis[type]
     const checkerClass = checkerExtra.checker
 
-    if (isWIPChecker(checkerClass)) {
+    if (isWIPChecker(checkerExtra.editor)) {
       return (<div>Editor WIP for {type}</div>)
     }
     const isInputValid = checkerClass.isValidObj(this.state.checker)

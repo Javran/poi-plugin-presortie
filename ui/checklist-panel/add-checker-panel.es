@@ -96,7 +96,8 @@ class AddCheckerPanel extends Component {
                 id="presortie-add-checker-checker-dropdown">
                 {
                   checkerList.map(checkerClass => {
-                    if (isWIPChecker(checkerClass)) {
+                    const checkerUi = CheckerUis[checkerClass.type]
+                    if (isWIPChecker(checkerUi.editor)) {
                       warnOnce(checkerClass.type)
                       return (
                         <MenuItem

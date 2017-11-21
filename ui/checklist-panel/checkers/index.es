@@ -45,12 +45,12 @@ checkerList.map(checkerClass => {
 // this is the corresponding UI of checkers
 const CheckerUis = {}
 
-const isWIPChecker = CheckerClass => {
-  if (typeof CheckerClass.toEditorState !== 'function') {
+const isWIPChecker = CheckerEditor => {
+  if (typeof CheckerEditor.toEditorState !== 'function') {
     return true
   }
 
-  if (typeof CheckerClass.fromEditorState !== 'function') {
+  if (typeof CheckerEditor.fromEditorState !== 'function') {
     return true
   }
 

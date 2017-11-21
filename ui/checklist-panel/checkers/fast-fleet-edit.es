@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
 } from 'react-bootstrap'
@@ -15,10 +16,14 @@ class FastFleetEdit extends Component {
     style: {},
   }
 
+  // nothing to edit, so we just use value as editor state.
+  static toEditorState = _.identity
+  static fromEditorState = _.identity
+
   render() {
     return (
       <div style={this.props.style}>
-        The Speed of Every Fleet Member Is At Least Fast.
+        Require a fast fleet
       </div>
     )
   }

@@ -15,11 +15,11 @@ class FastFleet {
   static defValue = {
   }
 
-  static title = "Require Fast Fleet"
+  static title = "Fast Fleet"
 
   static isValidObj = () => true
 
-  static describe = () => "Fast Fleet"
+  static describe = () => "Require a fast fleet"
 
   static prepare = obj => checkerContext => {
     const { target } = obj

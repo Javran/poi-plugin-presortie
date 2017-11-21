@@ -20,6 +20,17 @@ class AllSlotsEmptyEdit extends Component {
     style: {},
   }
 
+  // simply turning "method" into its editor state should do.
+  static toEditorState =
+    modifyObject('method', MethodEdit.toEditorState)
+
+  static fromEditorState = es => {
+    const method = MethodEdit.fromEditorState(es.method)
+    if (!method)
+      return null
+    return modifyObject('method', () => method)(es)
+  }
+
   handleToggleIgnoreExtra = e => {
     const newValue = e.target.checked
     this.props.onModifyValue(
@@ -31,26 +42,6 @@ class AllSlotsEmptyEdit extends Component {
     const newValue = e.target.checked
     this.props.onModifyValue(
       modifyObject('ignoreUnlocked', () => newValue)
-    )
-  }
-
-  handleChangeMethodType = e => {
-    const newValue = e.target.value
-    this.props.onModifyValue(
-      modifyObject(
-        'method',
-        modifyObject('type', () => newValue)
-      )
-    )
-  }
-
-  handleChangeMethodValue = e => {
-    const newValue = parseInt(e.target.value,10)
-    this.props.onModifyValue(
-      modifyObject(
-        'method',
-        modifyObject('value', () => newValue)
-      )
     )
   }
 

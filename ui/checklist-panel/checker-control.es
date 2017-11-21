@@ -9,56 +9,71 @@ import { modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
 import { CheckerUis, isWIPChecker } from './checkers'
-import { Target } from '../../structs'
+import { Target, Checkers } from '../../structs'
 
+/*
+   TODO:
+   props.checker: actual checker value
+   state.editorState: null (iff. not editing) or an editor state
+   therefore state.editorState === null indicates view mode
+ */
 class CheckerControl extends Component {
   static propTypes = {
     checker: PTyp.object.isRequired,
     memoFocus: PTyp.string.isRequired,
-    problems: PTyp.array,
+    problems: PTyp.array.isRequired,
     onModifyChecker: PTyp.func.isRequired,
     onRemoveChecker: PTyp.func.isRequired,
     onToggleChecker: PTyp.func.isRequired,
   }
 
-  static defaultProps = {
-    problems: [],
-  }
-
   constructor(props) {
     super(props)
-    this.state = {
-      editing: false,
-      checker: props.checker,
-    }
+    this.state = {editorState: null}
+  }
+
+  getEditor = () =>
+    CheckerUis[this.props.checker.type].Editor
+
+  getValidCheckerFromState = () => {
+    if (this.state.editorState === null)
+      return null
+    const Editor = this.getEditor()
+    const checker = Editor.fromEditorState(this.state.editorState)
+    if (!checker)
+      return null
+    const {type} = this.props.checker
+    const Checker = Checkers[type]
+    return Checker.isValidObj(checker) ? checker : null
   }
 
   handleStartEditing = () => {
-    const { checker } = this.props
+    const Editor = this.getEditor()
     this.setState({
-      editing: true,
-      checker,
+      editorState: Editor.toEditorState(this.props.checker),
     })
   }
 
   handleCancelEditing = () =>
-    this.setState({editing: false})
-
-  handleModifyStateChecker = modifier =>
-    this.setState(state => ({
-      ...state,
-      checker: modifier(state.checker),
-    }))
+    this.setState({editorState: null})
 
   handleSaveChecker = () => {
-    const { onModifyChecker } = this.props
-    onModifyChecker(() => this.state.checker)
-    this.setState({editing: false})
+    const checker = this.getValidCheckerFromState()
+    if (checker) {
+      const {onModifyChecker} = this.props
+      onModifyChecker(() => checker)
+      this.setState({editorState: null})
+    } else {
+      console.error(`inconsistent: trying to save an invalid editor state`)
+    }
   }
 
   handleSelectTarget = target =>
-    this.handleModifyStateChecker(
-      modifyObject('target', () => target),
+    this.setState(
+      modifyObject(
+        'editorState',
+        modifyObject('target', () => target)
+      )
     )
 
   renderViewMode() {
@@ -115,13 +130,11 @@ class CheckerControl extends Component {
   renderEditMode() {
     const { checker, onRemoveChecker, memoFocus } = this.props
     const { type, id } = checker
-    const checkerExtra = CheckerUis[type]
-    const checkerClass = checkerExtra.checker
-
-    if (isWIPChecker(checkerExtra.Editor)) {
+    const CheckerUi = CheckerUis[type]
+    if (isWIPChecker(CheckerUi.Editor)) {
       return (<div>Editor WIP for {type}</div>)
     }
-    const isInputValid = checkerClass.isValidObj(this.state.checker)
+    const isInputValid = Boolean(this.getValidCheckerFromState())
     const btnStyle = {
       marginLeft: 5,
       width: '2.7em',
@@ -130,7 +143,7 @@ class CheckerControl extends Component {
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
         <div style={{flex: 1, alignSelf: 'center'}}>
           <DropdownButton
-            title={Target.toString(this.state.checker.target)}
+            title={Target.toString(this.state.editorState.target)}
             onSelect={this.handleSelectTarget}
             id={`presortie-checker-editor-${memoFocus}-${id}-dropdown`}
           >
@@ -147,9 +160,9 @@ class CheckerControl extends Component {
               })
             }
           </DropdownButton>
-          <checkerExtra.Editor
-            value={this.state.checker}
-            onModifyValue={this.handleModifyStateChecker}
+          <CheckerUi.Editor
+            value={this.state.editorState}
+            onModifyValue={modifier => this.setState(modifyObject('editorState', modifier))}
           />
         </div>
         <Button
@@ -190,13 +203,12 @@ class CheckerControl extends Component {
   }
 
   render() {
-    const { editing } = this.state
-    return editing ?
+    const { editorState } = this.state
+    return editorState ?
       this.renderEditMode() :
       this.renderViewMode()
   }
 }
-
 
 export {
   CheckerControl,

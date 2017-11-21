@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import {
@@ -8,15 +9,30 @@ import { PTyp } from '../../../ptyp'
 
 class MethodEdit extends Component {
   static propTypes = {
-    value: PTyp.CheckMethod.isRequired,
+    value: PTyp.object.isRequired,
     onModifyValue: PTyp.func.isRequired,
     style: PTyp.object,
+    // in case we want "%" in "<num>%" or "ship(s)" in "<num> ship(s)"
     postfix: PTyp.node,
   }
 
   static defaultProps = {
     style: {},
     postfix: null,
+  }
+
+  static toEditorState = ({type,value}) => ({
+    type,
+    valueRaw: String(value),
+  })
+
+  static fromEditorState = ({type, valueRaw}) => {
+    if (!['lt', 'le', 'eq', 'ge', 'gt'].includes(type))
+      return null
+    if (valueRaw === '')
+      return null
+    const value = Number(valueRaw)
+    return _.isFinite(value) ? {type, value} : null
   }
 
   // assumes onModifyValue modifies the whole structure
@@ -30,8 +46,8 @@ class MethodEdit extends Component {
   }
 
   handleChangeValue = e => {
-    const newValue = parseInt(e.target.value,10)
-    this.props.onModifyValue(modifyObject('value', () => newValue))
+    const newValue = e.target.value
+    this.props.onModifyValue(modifyObject('valueRaw', () => newValue))
   }
 
   render() {
@@ -58,7 +74,7 @@ class MethodEdit extends Component {
         <FormControl
           style={{flex: 5, marginRight: 5}}
           onChange={this.handleChangeValue}
-          value={value.value}
+          value={value.valueRaw}
           type="number" />
         {
           postfix

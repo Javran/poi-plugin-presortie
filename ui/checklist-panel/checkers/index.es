@@ -71,14 +71,6 @@ const mkViewer = type => {
       description = JSON.stringify(checker)
     }
 
-    if (typeof CheckerClass.toEditorState !== 'function') {
-      console.warn(`CheckerClass.toEditorState is expected to be a function`)
-    }
-
-    if (typeof CheckerClass.fromEditorState !== 'function') {
-      console.warn(`CheckerClass.fromEditorState is expected to be a function`)
-    }
-
     return (
       <div style={style}>
         <div style={{fontSize: '80%'}}>

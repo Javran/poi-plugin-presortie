@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
   Button,
@@ -6,7 +7,7 @@ import {
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
-import { CheckerUis } from './checkers'
+import { CheckerUis, isWIPChecker } from './checkers'
 
 import { PTyp } from '../../ptyp'
 import { Checkers, checkerList, Target } from '../../structs'
@@ -26,6 +27,10 @@ checkerList.map(checkerClass => {
 
 const checkerControlPairs = checkerList.map(checker => [
   checker.type, CheckerUis[checker.type].editor])
+
+const warnOnce = _.memoize(typ =>
+  console.warn(`editor for type ${typ} is still WIP`)
+)
 
 class AddCheckerPanel extends Component {
   static propTypes = {
@@ -69,7 +74,8 @@ class AddCheckerPanel extends Component {
   }
 
   handleSwitchEditor = editor =>
-    this.setState({ editor })
+    editor !== "wip" &&
+    this.setState({editor})
 
   handleSelectTarget = target =>
     this.setState({target})
@@ -89,11 +95,28 @@ class AddCheckerPanel extends Component {
                 onSelect={this.handleSwitchEditor}
                 id="presortie-add-checker-checker-dropdown">
                 {
-                  checkerList.map(checkerClass => (
-                    <MenuItem key={checkerClass.type} eventKey={checkerClass.type}>
-                      {checkerClass.title}
-                    </MenuItem>
-                  ))
+                  checkerList.map(checkerClass => {
+                    if (isWIPChecker(checkerClass)) {
+                      warnOnce(checkerClass.type)
+                      return (
+                        <MenuItem
+                          key={checkerClass.type}
+                          eventKey={/* TODO: remove after done */ "wip"}
+                        >
+                          Checker WIP: {checkerClass.type}
+                        </MenuItem>
+                      )
+                    }
+
+                    return (
+                      <MenuItem
+                        key={checkerClass.type}
+                        eventKey={checkerClass.type}
+                      >
+                        {checkerClass.title}
+                      </MenuItem>
+                    )
+                  })
                 }
               </DropdownButton>
             </ButtonGroup>
@@ -121,6 +144,7 @@ class AddCheckerPanel extends Component {
           </div>
         </div>
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
+          { false &&
           <div style={{flex: 1}}>
             {
               checkerControlPairs.map(([checkerType, CheckerEditor]) => (
@@ -133,6 +157,7 @@ class AddCheckerPanel extends Component {
               ))
             }
           </div>
+          }
           <Button
             style={{marginLeft: 5, width: '2.7em'}}
             bsSize="small"

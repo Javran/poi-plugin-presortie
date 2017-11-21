@@ -45,6 +45,18 @@ checkerList.map(checkerClass => {
 // this is the corresponding UI of checkers
 const CheckerUis = {}
 
+const isWIPChecker = CheckerClass => {
+  if (typeof CheckerClass.toEditorState !== 'function') {
+    return true
+  }
+
+  if (typeof CheckerClass.fromEditorState !== 'function') {
+    return true
+  }
+
+  return false
+}
+
 const mkViewer = type => {
   const CheckerClass = Checkers[type]
 
@@ -57,6 +69,14 @@ const mkViewer = type => {
     } else {
       console.warn(`Checker of type ${type} is missing .describe function`)
       description = JSON.stringify(checker)
+    }
+
+    if (typeof CheckerClass.toEditorState !== 'function') {
+      console.warn(`CheckerClass.toEditorState is expected to be a function`)
+    }
+
+    if (typeof CheckerClass.fromEditorState !== 'function') {
+      console.warn(`CheckerClass.fromEditorState is expected to be a function`)
     }
 
     return (
@@ -158,4 +178,5 @@ const registerCheckerUi = (editor, viewerOrNull=null) => {
 export {
   CheckerUis,
   initEditorStates,
+  isWIPChecker,
 }

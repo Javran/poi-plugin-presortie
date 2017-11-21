@@ -8,7 +8,7 @@ import FontAwesome from 'react-fontawesome'
 import { modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
-import { CheckerUis } from './checkers'
+import { CheckerUis, isWIPChecker } from './checkers'
 import { Target } from '../../structs'
 
 class CheckerControl extends Component {
@@ -117,6 +117,10 @@ class CheckerControl extends Component {
     const { type, id } = checker
     const checkerExtra = CheckerUis[type]
     const checkerClass = checkerExtra.checker
+
+    if (isWIPChecker(checkerClass)) {
+      return (<div>Editor WIP for {type}</div>)
+    }
     const isInputValid = checkerClass.isValidObj(this.state.checker)
     const btnStyle = {
       marginLeft: 5,

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import {
   Button,
@@ -48,59 +49,73 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editor: initFocus,
+      curType: initFocus,
       target: 'fleet-1',
       editorStates: initEditorStates,
     }
   }
 
-  handleModifyValue = editor => modifier => {
-    const { editorStates } = this.state
-    this.setState({
-      editorStates: {
-        ...editorStates,
-        [editor]: modifier(editorStates[editor]),
-      },
-    })
-  }
+  handleModifyValue = type => modifier =>
+    this.setState(
+      modifyObject(
+        'editorStates',
+        modifyObject(type,modifier)
+      )
+    )
 
   handleReset = () => {
-    const { editor } = this.state
-    this.handleModifyValue(editor)(() => initEditorStates[editor])
+    const {curType} = this.state
+    this.handleModifyValue(curType)(() => initEditorStates[curType])
   }
 
   handleAddChecker = () => {
-    const {editor, editorStates, target} = this.state
-    const partialChecker = editorStates[editor]
-    const {onAddChecker} = this.props
-    onAddChecker({
-      ...partialChecker,
-      type: editor,
-      target,
-    })
+    const {curType, target} = this.state
+    const partialChecker = this.getValidPartialChecker()
+
+    if (partialChecker) {
+      const {onAddChecker} = this.props
+      onAddChecker({
+        ...partialChecker,
+        type: curType,
+        target,
+      })
+    } else {
+      console.warn('trying to add an invalid checker, skipping...')
+    }
     this.handleReset()
   }
 
-  handleSwitchEditor = editor =>
-    editor !== "wip" &&
-    this.setState({editor})
+  handleSwitchCurType = curType =>
+    curType !== "wip" &&
+    this.setState({curType})
 
   handleSelectTarget = target =>
     this.setState({target})
 
+  getValidPartialChecker = () => {
+    const {curType, editorStates} = this.state
+    const editorState = editorStates[curType]
+    const checker = Checkers[curType]
+    const {Editor} = CheckerUis[curType]
+    const partialChecker = Editor.fromEditorState(editorState)
+    if (partialChecker && checker.isValidObj(partialChecker)) {
+      return partialChecker
+    } else {
+      return null
+    }
+  }
+
   render() {
-    const {editor, editorStates} = this.state
-    const editorState = editorStates[editor]
-    const checker = Checkers[editor]
-    const isInputValid = checker.isValidObj(editorState)
+    const {curType} = this.state
+    const isInputValid = Boolean(this.getValidPartialChecker())
     return (
       <div>
         <div style={{display: 'flex', alignItems: 'center'}}>
           <div style={{width: '60%', marginRight: '.2em'}}>
             <ButtonGroup justified>
               <DropdownButton
-                title={Checkers[editor].title}
-                onSelect={this.handleSwitchEditor}
+                title={Checkers[curType].title}
+                onSelect={this.handleSwitchCurType}
                 id="presortie-add-checker-checker-dropdown">
                 {
                   checkerList.map(checkerClass => {
@@ -159,14 +174,14 @@ class AddCheckerPanel extends Component {
                 this.state.editorStates[checkerType] ? (
                   <CheckerEditor
                     key={checkerType}
-                    style={editor === checkerType ? {} : {display: 'none'}}
+                    style={curType === checkerType ? {} : {display: 'none'}}
                     value={this.state.editorStates[checkerType]}
                     onModifyValue={this.handleModifyValue(checkerType)}
                   />
                 ) : (
                   <div
                     key={checkerType}
-                    style={editor === checkerType ? {} : {display: 'none'}}
+                    style={curType === checkerType ? {} : {display: 'none'}}
                   >
                     Checker Editor not available for type {checkerType}
                   </div>

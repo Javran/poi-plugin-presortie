@@ -40,7 +40,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editor: 'los',
+      editor: 'fast-fleet',
       target: 'fleet-1',
       editorStates: initEditorStates,
     }
@@ -145,7 +145,6 @@ class AddCheckerPanel extends Component {
           </div>
         </div>
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
-          { false &&
           <div style={{flex: 1}}>
             {
               checkerControlPairs.map(([checkerType, CheckerEditor]) => (
@@ -158,7 +157,6 @@ class AddCheckerPanel extends Component {
               ))
             }
           </div>
-          }
           <Button
             style={{marginLeft: 5, width: '2.7em'}}
             bsSize="small"

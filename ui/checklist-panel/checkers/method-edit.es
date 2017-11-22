@@ -75,7 +75,7 @@ class MethodEdit extends Component {
           style={{flex: 5, marginRight: 5}}
           onChange={this.handleChangeValue}
           value={value.valueRaw}
-          type="number" />
+        />
         {
           postfix
         }

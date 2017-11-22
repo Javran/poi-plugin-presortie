@@ -21,8 +21,16 @@ import { Checkers, checkerList, Target } from '../../structs'
    (2) get back valid values through input validation
  */
 const initEditorStates = {}
+let initFocus = null
 checkerList.map(checkerClass => {
-  initEditorStates[checkerClass.type] = checkerClass.defValue
+  const {type} = checkerClass
+  const {Editor} = CheckerUis[type]
+  if (!isWIPChecker(Editor)) {
+    if (!initFocus)
+      initFocus = type
+    initEditorStates[type] =
+      Editor.toEditorState(checkerClass.defValue)
+  }
 })
 
 const checkerControlPairs = checkerList.map(checker => [
@@ -40,7 +48,7 @@ class AddCheckerPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      editor: 'fast-fleet',
+      editor: initFocus,
       target: 'fleet-1',
       editorStates: initEditorStates,
     }
@@ -62,9 +70,9 @@ class AddCheckerPanel extends Component {
   }
 
   handleAddChecker = () => {
-    const { editor, editorStates, target } = this.state
+    const {editor, editorStates, target} = this.state
     const partialChecker = editorStates[editor]
-    const { onAddChecker } = this.props
+    const {onAddChecker} = this.props
     onAddChecker({
       ...partialChecker,
       type: editor,
@@ -148,12 +156,21 @@ class AddCheckerPanel extends Component {
           <div style={{flex: 1}}>
             {
               checkerControlPairs.map(([checkerType, CheckerEditor]) => (
-                <CheckerEditor
-                  key={checkerType}
-                  style={editor === checkerType ? {} : {display: 'none'}}
-                  value={this.state.editorStates[checkerType]}
-                  onModifyValue={this.handleModifyValue(checkerType)}
-                />
+                this.state.editorStates[checkerType] ? (
+                  <CheckerEditor
+                    key={checkerType}
+                    style={editor === checkerType ? {} : {display: 'none'}}
+                    value={this.state.editorStates[checkerType]}
+                    onModifyValue={this.handleModifyValue(checkerType)}
+                  />
+                ) : (
+                  <div
+                    key={checkerType}
+                    style={editor === checkerType ? {} : {display: 'none'}}
+                  >
+                    Checker Editor not available for type {checkerType}
+                  </div>
+                )
               ))
             }
           </div>

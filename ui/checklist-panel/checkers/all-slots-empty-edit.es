@@ -7,7 +7,6 @@ import {
 import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
 
-/* TODO to be tested */
 class AllSlotsEmptyEdit extends Component {
   static checkerType = 'all-slots-empty'
 

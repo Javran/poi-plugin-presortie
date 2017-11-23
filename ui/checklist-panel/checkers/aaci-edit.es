@@ -1,3 +1,4 @@
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 
 import { PTyp } from '../../../ptyp'
@@ -14,6 +15,16 @@ class AACIEdit extends Component {
 
   static defaultProps = {
     style: {},
+  }
+
+  static toEditorState =
+    modifyObject('method', MethodEdit.toEditorState)
+
+  static fromEditorState = es => {
+    const method = MethodEdit.fromEditorState(es.method)
+    if (!method)
+      return null
+    return modifyObject('method', () => method)(es)
   }
 
   handleModifyMethod =

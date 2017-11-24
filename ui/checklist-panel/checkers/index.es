@@ -19,20 +19,32 @@ import { YasenEquipsEdit } from './yasen-equips-edit'
 import { Checkers, checkerList, Target } from '../../../structs'
 
 /*
-   TODO: refactoring plan:
 
    - every checker will have a view state "value" and edit state "editorState"
 
-   - every checker will declare its own "checker type" and it's up to
-     "registerCheckerExtra" to dispatch them properly
+       - view state is just the actual value of the checker
 
-   - view state is just the actual value of the checker
-   - edit state is only used when a checker is being edited
-     or we are in the middle of creating a new one
+       - edit state is only used when a checker is being edited
+         or we are in the middle of creating a new one.
+         for the latter we might not have "type", "target" and "enabled" ready,
+         which is referred to as "partial checkers"
+
+   - every checker will declare its own "checker type" and it's up to
+     "registerCheckerUi" to do the right thing
 
    - toEditorState(<value>) : editorState
 
    - fromEditorState(<editorState>) : value or null, where "null" stands for failure
+
+     note that "fromEditorState" is only responsible for making sure we get
+     the structure right from user input, but logical parts will be checked by
+     the mechanism: "<Checker>.isValidObj" will be invoked in resulting value
+     to see if the checker object is really valid.
+
+     for example, if we want user to input some number less than 100,
+     then "fromEditorState" only makes sure to convert from raw input to
+     numbers, and the logical check that the number is indeed less than 100
+     is the job of "<Checker>.isValidObj".
 
  */
 

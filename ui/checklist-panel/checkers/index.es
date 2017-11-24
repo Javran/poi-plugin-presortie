@@ -139,13 +139,6 @@ const registerCheckerUi = (Editor, viewerOrNull=null) => {
 /*
    TODO: fromEditorState / toEditorState
 
-   - AllSlotsEmptyEdit
-   - FastFleetEdit
-   - AACIEdit
-   - OASWEdit
-   - HasRadarEdit
-   - CountSaiunEdit
-   - FighterPowerEdit
    - HealthEdit
    - ResupplyEdit
    - MoraleEdit

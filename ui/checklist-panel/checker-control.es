@@ -12,7 +12,6 @@ import { CheckerUis, isWIPChecker } from './checkers'
 import { Target, Checkers } from '../../structs'
 
 /*
-   TODO:
    props.checker: actual checker value
    state.editorState: null (iff. not editing) or an editor state
    therefore state.editorState === null indicates view mode

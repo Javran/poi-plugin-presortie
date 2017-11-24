@@ -95,12 +95,15 @@ that user can define.
     ```
     {
       type: 'fighter-power',
-      method: <CheckMethod>, // valid range 0~Infinity (no upper bound)
+      method: <CheckMethod>, // valid range 0 ~ (no upper bound)
       mode: 'min' / 'max' / 'basic',
       id: <number>,
       enabled: <boolean>,
     }
     ```
+
+    Since we want this to be serializable in JSON, let's just the maximum
+    representable integer in JSON. (In practice I don't think it matters)
 
 - when `type` is one of `aaci`, `oasw`, `has-radar`
 

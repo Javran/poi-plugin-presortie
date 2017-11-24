@@ -1,3 +1,4 @@
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import {
   FormControl,
@@ -20,16 +21,22 @@ class FighterPowerEdit extends Component {
     style: {},
   }
 
+  static toEditorState =
+    modifyObject('method', MethodEdit.toEditorState)
+
+  static fromEditorState = es => {
+    const method = MethodEdit.fromEditorState(es.method)
+    if (!method)
+      return null
+    return modifyObject('method', () => method)(es)
+  }
+
   handleModifyMethod =
     MethodEdit.defaultHandleModifyMethod(this.props.onModifyValue)
 
   handleChangeMode = e => {
     const mode = e.target.value
-    const { onModifyValue } = this.props
-    onModifyValue(v => ({
-      ...v,
-      mode,
-    }))
+    this.props.onModifyValue(modifyObject('mode', () => mode))
   }
 
   render() {

@@ -31,6 +31,16 @@ class HealthEdit extends Component {
     style: {},
   }
 
+  static toEditorState =
+    modifyObject('method', MethodEdit.toEditorState)
+
+  static fromEditorState = es => {
+    const method = MethodEdit.fromEditorState(es.method)
+    if (!method)
+      return null
+    return modifyObject('method', () => method)(es)
+  }
+
   handleToggleIgnoreUnlocked = e => {
     const newValue = e.target.checked
     this.props.onModifyValue(

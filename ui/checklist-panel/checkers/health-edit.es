@@ -1,3 +1,4 @@
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import {
   Checkbox,
@@ -13,7 +14,7 @@ import { MethodEdit } from './method-edit'
 
 [
   'taiha', 'chuuha', 'shouha', 'normal', 'full',
-].map( healthState =>
+].map(healthState =>
   addStyle(Button,`hp-stat-${healthState}`)
 )
 
@@ -32,39 +33,38 @@ class HealthEdit extends Component {
 
   handleToggleIgnoreUnlocked = e => {
     const newValue = e.target.checked
-    const { onModifyValue } = this.props
-    onModifyValue(value => ({
-      ...value,
-      ignoreUnlocked: newValue,
-    }))
+    this.props.onModifyValue(
+      modifyObject('ignoreUnlocked', () => newValue)
+    )
   }
 
   handleModifyMethod =
     MethodEdit.defaultHandleModifyMethod(this.props.onModifyValue)
 
-  handleToggleHealthState = healthState => isActive => () =>
-    this.props.onModifyValue(value => {
-      const { healthStates } = value
-      let nextHealthStates
-      if (isActive) {
-        // removing this healthState from array
-        nextHealthStates = healthStates.filter(hs => hs !== healthState)
-      } else {
-        // adding this healthState to array
-        nextHealthStates = healthStates.includes(healthState) ?
-          healthStates :
-          [...healthStates, healthState]
-      }
+  handleToggleHealthState = healthState => isActive => () => {
+    this.props.onModifyValue(
+      modifyObject(
+        'healthStates', healthStates => {
+          let newHealthStates
+          if (isActive) {
+            // removing this healthState from array
+            newHealthStates = healthStates.filter(hs => hs !== healthState)
+          } else {
+            // adding this healthState to array
+            newHealthStates = healthStates.includes(healthState) ?
+              healthStates :
+              [...healthStates, healthState]
+          }
 
-      // prevent the change if it makes the healthStates array empty
-      if (nextHealthStates.length === 0)
-        return value
+          // prevent the change if it makes the healthStates array empty
+          if (newHealthStates.length === 0)
+            return healthStates
 
-      return {
-        ...value,
-        healthStates: nextHealthStates,
-      }
-    })
+          return newHealthStates
+        }
+      )
+    )
+  }
 
   render() {
     const {style, value} = this.props

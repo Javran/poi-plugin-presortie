@@ -41,29 +41,25 @@ class MoraleEdit extends Component {
   }
 
   handleModifyQualifyMethod = modifier =>
-    this.props.onModifyValue(v => ({
-      ...v,
-      qualifyMethod: modifier(v.qualifyMethod),
-    }))
+    this.props.onModifyValue(
+      modifyObject('qualifyMethod', modifier)
+    )
 
   handleModifyFilterMethod = modifier =>
-    this.props.onModifyValue(v => ({
-      ...v,
-      filterMethod: modifier(v.filterMethod),
-    }))
+    this.props.onModifyValue(
+      modifyObject('filterMethod', modifier)
+    )
 
   handleToggleIgnoreUnlocked = e => {
     const newValue = e.target.checked
-    const { onModifyValue } = this.props
-    onModifyValue(value => ({
-      ...value,
-      ignoreUnlocked: newValue,
-    }))
+    this.props.onModifyValue(
+      modifyObject('ignoreUnlocked', () => newValue)
+    )
   }
 
   render() {
     const {style, value} = this.props
-    const { qualifyMethod, filterMethod, ignoreUnlocked } = value
+    const {qualifyMethod, filterMethod, ignoreUnlocked} = value
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'baseline'}}>

@@ -1,3 +1,5 @@
+import { modifyObject } from 'subtender'
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
   FormControl, Checkbox,
@@ -16,6 +18,25 @@ class ResupplyEdit extends Component {
 
   static defaultProps = {
     style: {},
+  }
+
+  static toEditorState = _.flow(
+    modifyObject('filterMethod', MethodEdit.toEditorState),
+    modifyObject('qualifyMethod', MethodEdit.toEditorState)
+  )
+
+  static fromEditorState = es => {
+    const filterMethod = MethodEdit.fromEditorState(es.filterMethod)
+    if (!filterMethod)
+      return null
+    const qualifyMethod = MethodEdit.fromEditorState(es.qualifyMethod)
+    if (!qualifyMethod)
+      return null
+
+    return _.flow(
+      modifyObject('filterMethod', () => filterMethod),
+      modifyObject('qualifyMethod', () => qualifyMethod),
+    )(es)
   }
 
   handleResourceChange = e => {

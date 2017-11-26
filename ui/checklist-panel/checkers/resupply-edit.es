@@ -41,31 +41,26 @@ class ResupplyEdit extends Component {
 
   handleResourceChange = e => {
     const resource = e.target.value
-    this.props.onModifyValue(v => ({
-      ...v,
-      resource,
-    }))
+    this.props.onModifyValue(
+      modifyObject('resource', () => resource)
+    )
   }
 
   handleModifyQualifyMethod = modifier =>
-    this.props.onModifyValue(v => ({
-      ...v,
-      qualifyMethod: modifier(v.qualifyMethod),
-    }))
+    this.props.onModifyValue(
+      modifyObject('qualifyMethod', modifier)
+    )
 
   handleModifyFilterMethod = modifier =>
-    this.props.onModifyValue(v => ({
-      ...v,
-      filterMethod: modifier(v.filterMethod),
-    }))
+    this.props.onModifyValue(
+      modifyObject('filterMethod', modifier)
+    )
 
   handleToggleIgnoreUnlocked = e => {
     const newValue = e.target.checked
-    const { onModifyValue } = this.props
-    onModifyValue(value => ({
-      ...value,
-      ignoreUnlocked: newValue,
-    }))
+    this.props.onModifyValue(
+      modifyObject('ignoreUnlocked', () => newValue)
+    )
   }
 
   render() {

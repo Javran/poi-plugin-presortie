@@ -78,7 +78,7 @@ class AddCheckerPanel extends Component {
   }
 
   handleSwitchCurType = curType =>
-    curType !== "wip" &&
+    curType !== 'internal/wip' &&
     this.setState({curType})
 
   handleSelectTarget = target =>
@@ -117,7 +117,7 @@ class AddCheckerPanel extends Component {
                       return (
                         <MenuItem
                           key={checkerClass.type}
-                          eventKey={/* TODO: remove after done */ "wip"}
+                          eventKey="internal/wip"
                         >
                           Checker WIP: {checkerClass.type}
                         </MenuItem>

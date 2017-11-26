@@ -51,10 +51,9 @@ class YasenEquipsEdit extends Component {
   }
 
   handleModifyMethodWithField = fieldName => modifier =>
-    this.props.onModifyValue(v => ({
-      ...v,
-      [fieldName]: modifier(v[fieldName]),
-    }))
+    this.props.onModifyValue(
+      modifyObject(fieldName, modifier)
+    )
 
   render() {
     const {style, value} = this.props

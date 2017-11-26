@@ -1,7 +1,19 @@
+import _ from 'lodash'
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 
 import { PTyp } from '../../../ptyp'
 import { MethodEdit } from './method-edit'
+
+const yasenEquipPairs = [
+  ['Searchlight', 'searchlight'],
+  ['Star Shell', 'starShell'],
+  ['Night Recon', 'nightRecon'],
+  ['Skilled Lookouts', 'skilledLookouts'],
+]
+
+const yasenEquipPropNames =
+  yasenEquipPairs.map(([_name, propName]) => propName)
 
 class YasenEquipsEdit extends Component {
   static checkerType = 'yasen-equips'
@@ -16,6 +28,28 @@ class YasenEquipsEdit extends Component {
     style: {},
   }
 
+  // every prop name of yasen equipment is a CheckMethod
+  // so we transform them into modifiers and then compose.
+  static toEditorState = _.flow(
+    yasenEquipPropNames.map(propName =>
+      modifyObject(propName, MethodEdit.toEditorState)
+    )
+  )
+
+  static fromEditorState = es => {
+    const methodPairs = yasenEquipPropNames.map(propName =>
+      [propName, MethodEdit.fromEditorState(es[propName])]
+    )
+    if (methodPairs.some(([_propName, method]) => !method))
+      return null
+    // if all can be converted, do modification in steps
+    return _.flow(
+      methodPairs.map(([propName, method]) =>
+        modifyObject(propName, () => method)
+      )
+    )(es)
+  }
+
   handleModifyMethodWithField = fieldName => modifier =>
     this.props.onModifyValue(v => ({
       ...v,
@@ -27,12 +61,7 @@ class YasenEquipsEdit extends Component {
     return (
       <div style={style}>
         {
-          [
-            ['Searchlight', 'searchlight'],
-            ['Star Shell', 'starShell'],
-            ['Night Recon', 'nightRecon'],
-            ['Skilled Lookouts', 'skilledLookouts'],
-          ].map( ([desc, fieldName]) => (
+          yasenEquipPairs.map(([desc, fieldName]) => (
             <div
               key={fieldName}
               style={{

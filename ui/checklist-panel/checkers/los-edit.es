@@ -1,3 +1,5 @@
+import { modifyObject } from 'subtender'
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
   FormControl,
@@ -19,16 +21,32 @@ class LoSEdit extends Component {
     style: {},
   }
 
+  static toEditorState = _.flow(
+    modifyObject('method', MethodEdit.toEditorState),
+    modifyObject('nodeFactor', String),
+  )
+
+  static fromEditorState = es => {
+    const method = MethodEdit.fromEditorState(es.method)
+    if (!method)
+      return null
+    const nodeFactor = Number(es.nodeFactor)
+    if (!_.isFinite(nodeFactor))
+      return null
+    return _.flow(
+      modifyObject('method', () => method),
+      modifyObject('nodeFactor', () => nodeFactor),
+    )(es)
+  }
+
   handleModifyMethod =
     MethodEdit.defaultHandleModifyMethod(this.props.onModifyValue)
 
   handleChangeNodeFactor = e => {
-    const nodeFactor = parseInt(e.target.value,10)
-    const { onModifyValue } = this.props
-    onModifyValue(v => ({
-      ...v,
-      nodeFactor,
-    }))
+    const nodeFactor = e.target.value
+    this.props.onModifyValue(
+      modifyObject('nodeFactor', () => nodeFactor)
+    )
   }
 
   render() {
@@ -55,7 +73,7 @@ class LoSEdit extends Component {
             style={{flex: 1, marginLeft: 5}}
             onChange={this.handleChangeNodeFactor}
             value={value.nodeFactor}
-            type="number" />
+          />
         </div>
       </div>
     )

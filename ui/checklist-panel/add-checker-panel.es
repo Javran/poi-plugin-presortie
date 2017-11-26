@@ -47,6 +47,19 @@ class AddCheckerPanel extends Component {
     }
   }
 
+  getValidPartialChecker = () => {
+    const {curType, editorStates} = this.state
+    const editorState = editorStates[curType]
+    const checker = Checkers[curType]
+    const {Editor} = CheckerUis[curType]
+    const partialChecker = Editor.fromEditorState(editorState)
+    if (partialChecker && checker.isValidObj(partialChecker)) {
+      return partialChecker
+    } else {
+      return null
+    }
+  }
+
   handleModifyValue = type => modifier =>
     this.setState(
       modifyObject(
@@ -83,19 +96,6 @@ class AddCheckerPanel extends Component {
 
   handleSelectTarget = target =>
     this.setState({target})
-
-  getValidPartialChecker = () => {
-    const {curType, editorStates} = this.state
-    const editorState = editorStates[curType]
-    const checker = Checkers[curType]
-    const {Editor} = CheckerUis[curType]
-    const partialChecker = Editor.fromEditorState(editorState)
-    if (partialChecker && checker.isValidObj(partialChecker)) {
-      return partialChecker
-    } else {
-      return null
-    }
-  }
 
   render() {
     const {curType} = this.state

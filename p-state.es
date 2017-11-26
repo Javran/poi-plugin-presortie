@@ -4,8 +4,6 @@
    - for avoiding cyclic imports, there is no use of store and selectors
 
  */
-import _ from 'lodash'
-import { modifyObject } from 'subtender'
 import { ensureDirSync, readJsonSync, writeJsonSync } from 'fs-extra'
 import { join } from 'path-extra'
 

@@ -13,14 +13,6 @@ import { CheckerUis, isWIPChecker } from './checkers'
 import { PTyp } from '../../ptyp'
 import { Checkers, checkerList, Target } from '../../structs'
 
-/*
-   collection of editor initial states.
-
-   TODO: it's unnecessary to limit editor states to just be valid values,
-   we should have mechanism to:
-   (1) expand a value into some editor state
-   (2) get back valid values through input validation
- */
 const initEditorStates = {}
 let initFocus = null
 checkerList.map(checkerClass => {

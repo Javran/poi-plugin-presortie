@@ -136,18 +136,6 @@ const registerCheckerUi = (Editor, viewerOrNull=null) => {
   }
 }
 
-/*
-   TODO: fromEditorState / toEditorState
-
-   - HealthEdit
-   - ResupplyEdit
-   - MoraleEdit
-   - LoSEdit
-   - ExtraSlotsEdit
-   - YasenEquipsEdit
-
- */
-
 [
   AllSlotsEmptyEdit,
   FastFleetEdit,

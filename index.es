@@ -4,8 +4,6 @@ import { reducer, withBoundActionCreator } from './store'
 import { globalSubscribe, globalUnsubscribe } from './observers'
 import { loadPState, applyPState } from './p-state'
 
-import {} from './memo-links'
-
 /*
 
    TODO:

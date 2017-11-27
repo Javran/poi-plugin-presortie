@@ -133,30 +133,48 @@ class MapPanelImpl extends PureComponent {
                   flexWrap: 'wrap',
                 }}>
                 {
-                  _.take(sortieHistory,7*4).map((id,ind) => {
-                    const {area,num} = splitMapId(id)
-                    return (
-                      <OverlayTrigger
-                        placement="right"
-                        overlay={(
-                          <Tooltip
-                            id={`presortie-map-panel-tooltip-map-${id}`}>
-                            {getMapName(id)}
-                          </Tooltip>
-                        )}
-                        key={_.identity(ind)}>
-                        <MenuItem
-                          onSelect={this.handleSelectMap}
-                          eventKey={id}
-                          style={{
-                            fontSize: '1.2em',
-                            margin: '.5em',
-                          }}>
-                          {`${area}-${num}`}
-                        </MenuItem>
-                      </OverlayTrigger>
-                    )
-                  })
+                  (() => {
+                    // prepare 6 columns.
+                    const colCount = 6
+                    const sortieHistoryShort =
+                      _.take(sortieHistory,21)
+                    const minRowsPerCol = Math.floor(sortieHistoryShort.length/colCount)
+                    const remainder = sortieHistoryShort.length - colCount*minRowsPerCol
+                    const mapIdChunks = []
+                    {
+                      let xs = sortieHistoryShort
+                      for (let i=0; i<colCount; ++i) {
+                        const sz = i < remainder ? minRowsPerCol+1 : minRowsPerCol
+                        mapIdChunks.push(_.take(xs,sz))
+                        xs = _.drop(xs,sz)
+                      }
+                    }
+
+                    return _.take(sortieHistory,6*5).map((id,ind) => {
+                      const {area,num} = splitMapId(id)
+                      return (
+                        <OverlayTrigger
+                          placement="right"
+                          overlay={(
+                            <Tooltip
+                              id={`presortie-map-panel-tooltip-map-${id}`}>
+                              {getMapName(id)}
+                            </Tooltip>
+                          )}
+                          key={_.identity(ind)}>
+                          <MenuItem
+                            onSelect={this.handleSelectMap}
+                            eventKey={id}
+                            style={{
+                              fontSize: '1.2em',
+                              margin: '.5em',
+                            }}>
+                            {`${area}-${num}`}
+                          </MenuItem>
+                        </OverlayTrigger>
+                      )
+                    })
+                  })()
                 }
               </div>
               <MenuItem divider />

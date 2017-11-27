@@ -10,7 +10,6 @@ import { loadPState, applyPState } from './p-state'
 
    - i18n
    - plan checkers for combined fleets
-   - perhaps arrange history in a more consistent way?
 
  */
 

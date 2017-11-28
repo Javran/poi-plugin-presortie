@@ -1,5 +1,6 @@
-import { CheckMethod } from './common'
+import _ from 'lodash'
 
+import { CheckMethod } from './common'
 import { AllSlotsEmpty } from './all-slots-empty'
 import { FastFleet } from './fast-fleet'
 import { AACI } from './aaci'
@@ -8,12 +9,12 @@ import { CountSaiun } from './count-saiun'
 import { HasRadar } from './has-radar'
 import { FighterPower } from './fighter-power'
 import { Health } from './health'
+
 import { Resupply } from './resupply'
 import { Morale } from './morale'
 import { LoS } from './los'
 import { ExtraSlots } from './extra-slots'
 import { YasenEquips } from './yasen-equips'
-
 
 // Checkers[<string>] gets a checker class
 const Checkers = {}
@@ -24,11 +25,15 @@ const registerChecker = checker => {
   const assertTy = (propName, tyStr) => {
     if (! (propName in checker)) {
       console.warn(`Checker ${checker} is missing property ${propName}`)
+      return
     }
     // eslint-disable-next-line valid-typeof
     if (typeof checker[propName] !== tyStr) {
       console.warn(`Checker ${checker}: property ${propName} does not have type ${tyStr}`)
+      return
     }
+    // for stopping eslint from being smart
+    _.noop()
   }
 
   assertTy('type', 'string')
@@ -37,6 +42,8 @@ const registerChecker = checker => {
   assertTy('isValidObj', 'function')
   assertTy('describe', 'function')
   assertTy('prepare', 'function')
+  // TODO: WIP
+  assertTy('isValidTarget', 'function')
 
   Checkers[checker.name] = checker
   Checkers[checker.type] = checker

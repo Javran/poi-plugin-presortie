@@ -99,6 +99,22 @@ const registerChecker = checker => {
      with problem being something like `checker not prepared`
  */
 
+/*
+   TODO: extend to support targets other than "fleet-X"
+
+   - AllSlotsEmpty: ???
+   - FastFleet: extend to combined
+   - AACI: extend to combined
+   - HasRadar: extend to combined
+   - FighterPower: extend to combined
+   - Health: extend to combined
+   - Resupply: extend to combined
+   - Morale: extend to combined
+   - LoS: extend to combined
+   - ExtraSlots: extend to combined
+
+ */
+
 [
   AllSlotsEmpty,
   FastFleet,

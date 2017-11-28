@@ -3,6 +3,15 @@ import _ from 'lodash'
 class Target {
   // TODO: more to come, full list:
   // fleet / combined / lbas
+  /*
+     NOTE: lbas needs to be determined dynamically?
+
+     - every world would have a separated land base
+     - I guess the best we can do a way would be to determine it base on memo focus
+     - what to do with "general" focus?
+     - or should we have a separated checker for lbas stuff?
+
+   */
   static destruct = ({fleet}) => target => {
     const fleetMatch = /^fleet-(\d+)$/.exec(target)
     if (fleetMatch) {

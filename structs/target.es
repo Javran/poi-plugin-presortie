@@ -59,6 +59,8 @@ class Target {
 
   static toString = Target.destruct({
     fleet: fleetId => `Fleet #${fleetId}`,
+    combined: () => 'Combined Fleet',
+    lbas: (areaId, sqId) => `Area #${areaId} Squadron #${sqId}`,
   })
 }
 

@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
+// See: docs/Checklist.md
+
 class Target {
-  // TODO: more to come, full list:
-  // fleet / combined / lbas
   /*
      NOTE: lbas needs to be determined dynamically?
 
@@ -55,6 +55,12 @@ class Target {
     fleet: x => x,
     combined: () => null,
     lbas: () => null,
+  })
+
+  static getType = Target.destruct({
+    fleet: () => 'fleet',
+    combined: () => 'combined',
+    lbas: () => 'lbas',
   })
 
   static toString = Target.destruct({

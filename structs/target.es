@@ -28,7 +28,7 @@ class Target {
 
   /*
      returns the fleetId of a Target if the structure in question
-     is indeed a fleet, otherwise null is returned
+     is indeed a fleet, (TODO) otherwise null is returned
    */
   static extractFleetId = Target.destruct({
     fleet: x => x,

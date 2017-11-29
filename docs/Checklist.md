@@ -16,21 +16,12 @@ that user can define.
       type: <string>,
       id: <number>,
       enabled: <boolean>,
-      target: <target>,
+      target: <Target>,
     }
     ```
 
     where every `Checklist` object must have a unique id.
     also we will only check enabled items in the list.
-
-    `target` is one of `fleet-1`, `fleet-2`, `fleet-3`, `fleet-4`, `combined` to
-    indicate which target we are checking against.
-
-    (TODO) In future we might make it possible to check against LBAS
-    or even some other things.
-
-    Potential plan: implement target checkers for each checker to figure out
-    which target they are capable of checking.
 
 - when `type` is `health`
 
@@ -225,3 +216,16 @@ that user can define.
     - `gt`: greater than
 
 - a `CheckMethod` valid range means the range that `value` can take.
+
+## `Target` structure
+
+a `Target` is a string that takes only few limited values
+to indicate which target we are checking against.
+
+Current a `Target` is one of `fleet-1`, `fleet-2`, `fleet-3`, `fleet-4`.
+
+(TODO) In future we might make it possible to check against LBAS
+or even some other things.
+
+(TODO) Potential plan: implement target checkers for each checker to figure out
+which target they are capable of checking.

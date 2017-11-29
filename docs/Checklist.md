@@ -221,8 +221,16 @@ that user can define.
 
 a `Target` is a string that takes only few limited values
 to indicate which target we are checking against.
+If the target we are checking against is not valid,
+the checker in question must fail with clear indication
+that the target is not available.
 
-Current a `Target` is one of `fleet-1`, `fleet-2`, `fleet-3`, `fleet-4`.
+Currently a `Target` is one of the following:
+
+- `fleet-X`, where `X` is one of `1`, `2`, `3`, `4`
+- (TODO) `combined`, which stands for combined fleet.
+- (TODO) `lbas-A-X`, where `A` is area id (`api_area_id` from game API)
+  and `X` squadron id (`api_rid` from game API)
 
 (TODO) In future we might make it possible to check against LBAS
 or even some other things.

@@ -208,6 +208,24 @@ const parsedSortieMapIdSelector = createSelector(
   }
 )
 
+/*
+   TODO: return an Array of TargetInfo.
+
+   A TargetInfo contains: {target: <Target>, available: <bool>}
+   with best guess of the current availablity for targets:
+   (Note: availablity means that the player can actually change the configuration
+   of that specific target: e.g. an unlocked empty fleet is considered available,
+   but a not-yet unlocked lbas is considered not.
+
+   - fleet type: available=false when the fleet is not yet unlocked
+   - combined type: available=false when where is no area id greater or equal to 30
+     (TODO: some other way of knowing whether a combined fleet is possible?)
+   - lbas type: available only when both the world and the squadron exist.
+
+ */
+// const targetInfoListSelector = createSelector(
+// )
+
 export {
   extSelector,
   splitMapId,

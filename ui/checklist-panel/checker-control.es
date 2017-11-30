@@ -21,6 +21,7 @@ class CheckerControl extends Component {
     checker: PTyp.object.isRequired,
     memoFocus: PTyp.string.isRequired,
     problems: PTyp.array.isRequired,
+    targetInfoList: PTyp.array.isRequired,
     onModifyChecker: PTyp.func.isRequired,
     onRemoveChecker: PTyp.func.isRequired,
     onToggleChecker: PTyp.func.isRequired,
@@ -127,7 +128,7 @@ class CheckerControl extends Component {
   }
 
   renderEditMode() {
-    const { checker, onRemoveChecker, memoFocus } = this.props
+    const { checker, onRemoveChecker, memoFocus, targetInfoList } = this.props
     const { type, id } = checker
     const CheckerUi = CheckerUis[type]
     if (isWIPChecker(CheckerUi.Editor)) {
@@ -138,6 +139,7 @@ class CheckerControl extends Component {
       marginLeft: 5,
       width: '2.7em',
     }
+    // TODO: target verification
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
         <div style={{flex: 1, alignSelf: 'center'}}>
@@ -147,15 +149,21 @@ class CheckerControl extends Component {
             id={`presortie-checker-editor-${memoFocus}-${id}-dropdown`}
           >
             {
-              [1,2,3,4].map(fleetId => {
-                const target = `fleet-${fleetId}`
-                return (
-                  <MenuItem
-                    key={target} eventKey={target}
-                  >
-                    {Target.toString(target)}
-                  </MenuItem>
-                )
+              targetInfoList.map(targetOrSep => {
+                if (typeof targetOrSep === 'string') {
+                  return (<MenuItem divider key={targetOrSep} />)
+                } else {
+                  const {target, available} = targetOrSep
+                  return (
+                    <MenuItem
+                      key={target} eventKey={target}
+                    >
+                      <div className={available ? 'text-primary' : 'text-muted'}>
+                        {Target.toString(target)}
+                      </div>
+                    </MenuItem>
+                  )
+                }
               })
             }
           </DropdownButton>

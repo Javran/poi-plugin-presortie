@@ -15,7 +15,11 @@ import { mapDispatchToProps } from '../../store'
 import { AddCheckerPanel } from './add-checker-panel'
 import { CheckerControl } from './checker-control'
 import { checklistUISelector } from './selectors'
-import { checklistSelector, memoFocusSelector } from '../../selectors'
+import {
+  checklistSelector,
+  memoFocusSelector,
+  targetInfoListSelector,
+} from '../../selectors'
 
 class ChecklistPanelImpl extends Component {
   static propTypes = {
@@ -26,6 +30,7 @@ class ChecklistPanelImpl extends Component {
       problems: PTyp.arrayOf(PTyp.node).isRequired,
     })).isRequired,
     memoModify: PTyp.func.isRequired,
+    targetInfoList: PTyp.array.isRequired,
   }
 
   static defaultProps = {
@@ -73,7 +78,7 @@ class ChecklistPanelImpl extends Component {
     const {
       style, checklist,
       checkerResultsMap,
-      memoFocus,
+      memoFocus, targetInfoList,
     } = this.props
     const checklistSatisfied =
       Object.values(checkerResultsMap).every(
@@ -104,6 +109,7 @@ class ChecklistPanelImpl extends Component {
                   style={{padding: '8px 15px'}}
                   key={id}>
                   <CheckerControl
+                    targetInfoList={targetInfoList}
                     memoFocus={memoFocus}
                     onModifyChecker={this.handleModifyChecker(id)}
                     onRemoveChecker={this.handleRemoveChecker(id)}
@@ -118,6 +124,7 @@ class ChecklistPanelImpl extends Component {
             style={{padding: '8px 15px'}}
             key="add">
             <AddCheckerPanel
+              targetInfoList={targetInfoList}
               onAddChecker={this.handleAddChecker}
             />
           </ListGroupItem>
@@ -133,6 +140,7 @@ const ChecklistPanel = connect(
     createStructuredSelector({
       memoFocus: memoFocusSelector,
       checklist: checklistSelector,
+      targetInfoList: targetInfoListSelector,
     })),
   mapDispatchToProps
 )(ChecklistPanelImpl)

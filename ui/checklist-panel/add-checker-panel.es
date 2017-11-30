@@ -35,6 +35,7 @@ const warnOnce = _.memoize(typ =>
 
 class AddCheckerPanel extends Component {
   static propTypes = {
+    targetInfoList: PTyp.array.isRequired,
     onAddChecker: PTyp.func.isRequired,
   }
 

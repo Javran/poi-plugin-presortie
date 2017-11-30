@@ -95,8 +95,33 @@ const grouppedLbasTargetInfoSelector = createSelector(
     )
 )
 
-import { selectorTester } from 'subtender/poi'
-selectorTester(grouppedLbasTargetInfoSelector)
+const targetInfoListSelector = createSelector(
+  fleetTargetInfoListSelector,
+  isCombinedFleetAvailableSelector,
+  grouppedLbasTargetInfoSelector,
+  (fleetTargetInfoList, isCombinedFleetAvailable, grouppedLbasTargetInfo) => {
+    // want to sort it in a way that event lbas goes first
+    const sortedLbasAreas =
+      Object.keys(grouppedLbasTargetInfo).map(Number).sort((x,y) => y-x)
+    const targetInfoGroups = [
+      fleetTargetInfoList,
+      [{target: 'combined', available: isCombinedFleetAvailable}],
+      ...sortedLbasAreas.map(areaId => grouppedLbasTargetInfo[areaId]),
+    ]
 
-// const targetInfoListSelector = createSelector(
-// )
+    return _.flatMap(
+      targetInfoGroups,
+      (group, ind) => {
+        if (ind+1 < targetInfoGroups.length) {
+          return [...group, `sep-${ind}`]
+        } else {
+          return group
+        }
+      }
+    )
+  }
+)
+
+export {
+  targetInfoListSelector,
+}

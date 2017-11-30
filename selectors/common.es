@@ -10,8 +10,8 @@ import {
   sortieMapIdSelector,
 } from 'views/utils/selectors'
 
-import { emptyMemo } from './structs'
-import { initState } from './store'
+import { emptyMemo } from '../structs'
+import { initState } from '../store'
 
 /*
 

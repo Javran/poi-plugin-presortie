@@ -1,7 +1,9 @@
+import _ from 'lodash'
 import { createSelector } from 'reselect'
 
 import {
   fleetsSelector,
+  constSelector,
 } from 'views/utils/selectors'
 
 /*
@@ -35,5 +37,66 @@ const fleetTargetInfoListSelector = createSelector(
       }
     })
 )
+
+const isCombinedFleetAvailableSelector = createSelector(
+  constSelector,
+  ({$maps = {}}) =>
+    Object.values($maps).some(mapRaw => {
+      const combinedFlag = _.get(mapRaw, ['api_sally_flag',1])
+      return _.isInteger(combinedFlag) && combinedFlag !== 0
+    })
+)
+
+const grouppedLbasTargetInfoSelector = createSelector(
+  state => state.info.airbase,
+  (airbaseRaw = []) =>
+    // fill in blanks, assuming we can at least have 3 squadrons
+    // for each area (some might be unlocked by clearing maps)
+    _.mapValues(
+      // group squadrons by area
+      _.groupBy(
+        airbaseRaw.map(abRaw => {
+          const areaId = abRaw.api_area_id
+          const sqId = abRaw.api_rid
+          return {
+            target: `lbas-${areaId}-${sqId}`,
+            available: true,
+            areaId, sqId,
+          }
+        }),
+        'areaId'
+      ),
+      (xs, areaIdStr) => {
+        const areaId = Number(areaIdStr)
+        const first3 = [1,2,3].map(sqId => {
+          const targetInfo = xs.find(x => x.sqId === sqId)
+          if (targetInfo) {
+            return targetInfo
+          } else {
+            return {
+              target: `lbas-${areaId}-${sqId}`,
+              available: false,
+              areaId, sqId,
+            }
+          }
+        })
+
+        const remaining = xs.filter(x => ![1,2,3].includes(x.sqId))
+        if (remaining.length !== 0) {
+          console.warn(
+            `receiving more than 3 lbas TargetInfo for area ${areaId}`,
+            remaining,
+          )
+          return [...first3, ...remaining]
+        } else {
+          return first3
+        }
+      }
+    )
+)
+
+import { selectorTester } from 'subtender/poi'
+selectorTester(grouppedLbasTargetInfoSelector)
+
 // const targetInfoListSelector = createSelector(
 // )

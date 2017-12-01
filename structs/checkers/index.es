@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
 import { CheckMethod } from './common'
+import { Target } from '../target'
 import { AllSlotsEmpty } from './all-slots-empty'
 import { FastFleet } from './fast-fleet'
 import { AACI } from './aaci'
@@ -44,6 +45,11 @@ const registerChecker = checker => {
   assertTy('prepare', 'function')
   // TODO: WIP
   assertTy('isValidTarget', 'function')
+  if (!checker.isValidTarget) {
+    // TODO
+    // eslint-disable-next-line no-param-reassign
+    checker.isValidTarget = (t => Target.getType(t) === 'fleet')
+  }
 
   Checkers[checker.name] = checker
   Checkers[checker.type] = checker

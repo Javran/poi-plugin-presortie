@@ -48,10 +48,13 @@ class AddCheckerPanel extends Component {
     }
   }
 
+  getCheckerClass = () =>
+    Checkers[this.state.curType]
+
   getValidPartialChecker = () => {
     const {curType, editorStates} = this.state
     const editorState = editorStates[curType]
-    const checker = Checkers[curType]
+    const checker = this.getCheckerClass()
     const {Editor} = CheckerUis[curType]
     const partialChecker = Editor.fromEditorState(editorState)
     if (partialChecker && checker.isValidObj(partialChecker)) {
@@ -77,8 +80,9 @@ class AddCheckerPanel extends Component {
   handleAddChecker = () => {
     const {curType, target} = this.state
     const partialChecker = this.getValidPartialChecker()
+    const checkerClass = this.getCheckerClass()
 
-    if (partialChecker) {
+    if (partialChecker && checkerClass.isValidTarget(target)) {
       const {onAddChecker} = this.props
       onAddChecker({
         ...partialChecker,
@@ -99,9 +103,12 @@ class AddCheckerPanel extends Component {
     this.setState({target})
 
   render() {
-    const {curType} = this.state
+    const {curType, target: curTarget} = this.state
     const {targetInfoList} = this.props
-    const isInputValid = Boolean(this.getValidPartialChecker())
+    const curCheckerClass = this.getCheckerClass()
+    const isInputValid =
+      Boolean(this.getValidPartialChecker()) &&
+      curCheckerClass.isValidTarget(curTarget)
     return (
       <div>
         <div style={{display: 'flex', alignItems: 'center'}}>

@@ -100,6 +100,7 @@ class AddCheckerPanel extends Component {
 
   render() {
     const {curType} = this.state
+    const {targetInfoList} = this.props
     const isInputValid = Boolean(this.getValidPartialChecker())
     return (
       <div>
@@ -145,15 +146,21 @@ class AddCheckerPanel extends Component {
                 onSelect={this.handleSelectTarget}
                 id="presortie-add-checker-target-dropdown">
                 {
-                  [1,2,3,4].map(fleetId => {
-                    const target = `fleet-${fleetId}`
-                    return (
-                      <MenuItem
-                        key={target} eventKey={target}
-                      >
-                        {Target.toString(target)}
-                      </MenuItem>
-                    )
+                  targetInfoList.map(targetOrSep => {
+                    if (typeof targetOrSep === 'string') {
+                      return (<MenuItem divider key={targetOrSep} />)
+                    } else {
+                      const {target, available} = targetOrSep
+                      return (
+                        <MenuItem
+                          key={target} eventKey={target}
+                        >
+                          <div className={available ? 'text-primary' : 'text-muted'}>
+                            {Target.toString(target)}
+                          </div>
+                        </MenuItem>
+                      )
+                    }
                   })
                 }
               </DropdownButton>

@@ -107,18 +107,20 @@ const registerChecker = checker => {
  */
 
 /*
-   TODO: extend to support targets other than "fleet-X"
+   TODO: impl isValidTarget && extend to support targets other than "fleet-X"
 
-   - AllSlotsEmpty: ???
+   - AllSlotsEmpty: extend to combined
    - FastFleet: extend to combined
    - AACI: extend to combined
    - HasRadar: extend to combined
+   - CountSaiun: no extend
    - FighterPower: extend to combined
    - Health: extend to combined
    - Resupply: extend to combined
    - Morale: extend to combined
    - LoS: extend to combined
    - ExtraSlots: extend to combined
+   - YasenEquips: no extend
 
  */
 

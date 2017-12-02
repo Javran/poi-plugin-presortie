@@ -35,6 +35,9 @@ class CheckerControl extends Component {
   getEditor = () =>
     CheckerUis[this.props.checker.type].Editor
 
+  getCheckerClass = () =>
+    Checkers[this.props.checker.type]
+
   getValidCheckerFromState = () => {
     if (this.state.editorState === null)
       return null
@@ -42,9 +45,10 @@ class CheckerControl extends Component {
     const checker = Editor.fromEditorState(this.state.editorState)
     if (!checker)
       return null
-    const {type} = this.props.checker
-    const Checker = Checkers[type]
-    return Checker.isValidObj(checker) ? checker : null
+    const Checker = this.getCheckerClass()
+    return (
+      Checker.isValidObj(checker) && Checker.isValidTarget(checker.target)
+    ) ? checker : null
   }
 
   handleStartEditing = () => {

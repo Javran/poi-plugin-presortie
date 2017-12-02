@@ -143,7 +143,7 @@ class CheckerControl extends Component {
       marginLeft: 5,
       width: '2.7em',
     }
-    // TODO: target verification
+
     return (
       <div style={{display: 'flex', alignItems: 'flex-end'}}>
         <div style={{flex: 1, alignSelf: 'center'}}>

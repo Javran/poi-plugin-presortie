@@ -78,8 +78,7 @@ const registerChecker = checker => {
    - isValidObj(obj): for helping input validation, should return a boolean indicating
      whether `obj` is a valid checker data representation.
 
-   - (TODO) isValidTarget: check "target" field to see if current
-     checker supports it
+   - isValidTarget: check "target" field to see if current checker supports it
 
    - describe(obj): (optional) returns a string that describes a valid `obj` data representation.
      if this method is missing, `JSON.stringify` will be used.

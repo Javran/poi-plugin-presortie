@@ -228,15 +228,9 @@ that the target is not available.
 Currently a `Target` is one of the following:
 
 - `fleet-X`, where `X` is one of `1`, `2`, `3`, `4`
-- (TODO) `combined`, which stands for combined fleet.
-- (TODO) `lbas-A-X`, where `A` is area id (`api_area_id` from game API)
+- `combined`, which stands for combined fleet.
+- `lbas-A-X`, where `A` is area id (`api_area_id` from game API)
   and `X` squadron id (`api_rid` from game API)
 
 Every `Target` will have a type to distinguish between those described above,
 for now there are just one of: `fleet`, `combined`, and `lbas`.
-
-(TODO) In future we might make it possible to check against LBAS
-or even some other things.
-
-(TODO) Potential plan: implement target checkers for each checker to figure out
-which target they are capable of checking.

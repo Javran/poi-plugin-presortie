@@ -114,7 +114,6 @@ const registerChecker = checker => {
 /*
    TODO: impl isValidTarget && extend to support targets other than "fleet-X"
 
-   - AllSlotsEmpty: extend to combined
    - AACI: extend to combined
    - HasRadar: extend to combined
    - CountSaiun: extend to combined

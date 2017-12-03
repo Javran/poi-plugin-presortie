@@ -16,7 +16,7 @@ import { loadPState, applyPState } from './p-state'
 
 const switchPluginPath = [
   {
-    path: "/kcsapi/api_get_member/mapinfo",
+    path: '/kcsapi/api_get_member/mapinfo',
     valid: () => true,
   },
 ]

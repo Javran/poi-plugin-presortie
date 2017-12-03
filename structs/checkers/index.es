@@ -117,7 +117,7 @@ const registerChecker = checker => {
    - AllSlotsEmpty: extend to combined
    - AACI: extend to combined
    - HasRadar: extend to combined
-   - CountSaiun: no extend
+   - CountSaiun: extend to combined
    - FighterPower: extend to combined
    - Health: extend to combined
    - Resupply: extend to combined

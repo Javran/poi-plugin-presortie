@@ -131,7 +131,7 @@ that user can define.
     ```
     {
       type: 'all-slots-empty'
-      method: <CheckMethod>, // valid range 0~6
+      method: <CheckMethod>, // valid range 0~12
       ignoreExtra: <bool>,
       ignoreUnlocked: <bool>,
       id: <number>,

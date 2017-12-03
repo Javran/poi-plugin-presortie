@@ -21,16 +21,16 @@ class AllSlotsEmpty {
     ignoreUnlocked: true,
   }
 
-  static title = "Ships without Equipments"
+  static title = 'Ships without Equipments'
 
   static isValidObj = obj =>
-    CheckMethod.isValidInRange(0,6)(obj.method)
+    CheckMethod.isValidInRange(0,12)(obj.method)
 
   static describe = obj => {
     const {method, ignoreExtra, ignoreUnlocked} = obj
 
-    const ignoreExtraText = ignoreExtra ? "ignoring extra slots" : null
-    const ignoreUnlockedText = ignoreUnlocked ? "ignoring unlocked ships" : null
+    const ignoreExtraText = ignoreExtra ? 'ignoring extra slots' : null
+    const ignoreUnlockedText = ignoreUnlocked ? 'ignoring unlocked ships' : null
 
     return [
       `Ships without Equipments ${CheckMethod.describe(method)}`,

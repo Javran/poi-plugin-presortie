@@ -26,6 +26,9 @@ class AllSlotsEmpty {
   static isValidObj = obj =>
     CheckMethod.isValidInRange(0,12)(obj.method)
 
+  static isValidTarget = target =>
+    ['fleet', 'combined'].includes(Target.getType(target))
+
   static describe = obj => {
     const {method, ignoreExtra, ignoreUnlocked} = obj
 
@@ -40,26 +43,31 @@ class AllSlotsEmpty {
 
   static prepare = checker => {
     const {method, ignoreExtra, ignoreUnlocked, target} = checker
-    const fleetId = Target.destruct({fleet: x => x})(target)
-    const fleetInd = fleetId-1
     const applyIgnoreExtra = ignoreExtra ? _.initial : _.identity
     const satisfy = CheckMethod.toFunction(method)
     return checkerContext => {
-      const isAllSlotsEmpty = shipEquipData =>
-        shipEquipData.every(e => !e)
-      const shipsEquips =
-        fleetShipsDataSelectorFactory(fleetInd)(checkerContext)
-          .filter(([ship]) =>
-            typeof ship !== 'undefined' &&
-            (ship.api_locked === 1 || !ignoreUnlocked))
-          .map(([ship]) => ({
-            rosterId: ship.api_id,
-            allSlotsEmpty:
+      const emptySlotShipsForFleet = fleetId => {
+        const isAllSlotsEmpty = shipEquipData =>
+          shipEquipData.every(e => !e)
+        const fleetInd = fleetId-1
+        const shipsEquips =
+          fleetShipsDataSelectorFactory(fleetInd)(checkerContext)
+            .filter(([ship]) =>
+              typeof ship !== 'undefined' &&
+              (ship.api_locked === 1 || !ignoreUnlocked))
+            .map(([ship]) => ({
+              rosterId: ship.api_id,
+              allSlotsEmpty:
               isAllSlotsEmpty(
                 applyIgnoreExtra(
                   shipEquipDataSelectorFactory(ship.api_id)(checkerContext))),
-          }))
-      const emptySlotShips = shipsEquips.filter(s => s.allSlotsEmpty)
+            }))
+        return shipsEquips.filter(s => s.allSlotsEmpty)
+      }
+      const emptySlotShips = Target.destruct({
+        fleet: fleetId => emptySlotShipsForFleet(fleetId),
+        combined: () => _.flatMap([1,2], emptySlotShipsForFleet),
+      })(target)
       return satisfy(emptySlotShips.length) ?
         [] :
         emptySlotShips.map(s => {

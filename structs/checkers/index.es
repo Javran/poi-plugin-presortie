@@ -123,7 +123,6 @@ const registerChecker = checker => {
    - Morale: extend to combined
    - LoS: extend to combined
    - ExtraSlots: extend to combined
-   - YasenEquips: no extend
 
  */
 

@@ -37,6 +37,8 @@ class YasenEquips {
     YasenEquips.methodFieldNames.every(fieldName =>
       CheckMethod.isValidInRange(0,Infinity)(obj[fieldName]))
 
+  static isValidTarget = target => Target.getType(target) === 'fleet'
+
   static describe = obj => {
     const eqpReqs = YasenEquips.methodFieldNames
       .map(fieldName =>

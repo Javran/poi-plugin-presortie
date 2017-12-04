@@ -15,7 +15,7 @@ class HasRadar {
   static title = "Require Radars"
 
   static isValidObj = obj =>
-    CheckMethod.isValidInRange(0,6)(obj.method)
+    CheckMethod.isValidInRange(0,12)(obj.method)
 
   static describe = obj => {
     const {method} = obj

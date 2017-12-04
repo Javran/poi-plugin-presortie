@@ -104,7 +104,7 @@ that user can define.
     ```
     {
       type: <see above>
-      method: <CheckMethod>, // valid range 0~12 (TODO: for oasw and has-radar)
+      method: <CheckMethod>, // valid range: 0~6 for oasw and 0~12 for aaci and has-radar)
       id: <number>,
       enabled: <boolean>,
     }

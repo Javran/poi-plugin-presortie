@@ -123,6 +123,37 @@ const registerChecker = checker => {
    - LoS: extend to combined
    - ExtraSlots: extend to combined
 
+   TODO: generalze some rules, reduce rule set.
+
+   - CountSaiun & YasenEquips & HasRadar can be expressed using a more generalized check:
+
+       (draft)
+
+       - countTarget: number of fleet members that has it vs. number of equipments in total
+       - targetEquip: Array of [<equip type requirement> or <equip set requirement>]
+
+         - connective: or
+         - equip type requirement: a set of api_type[2]
+         - equip set requirement: a set of slotitem id
+
+       - checkMethod
+
+       - then we can make them presets:
+
+         CountSaiun:
+         - countTarget: number of equips
+         - targetEquip: [<two different saiuns>]
+         - checkMethod: greater than 0
+
+         YasenEquips: similar, but might break into multiple parts
+
+         HasRadar:
+         - countTarget: number of fleet members that has it
+         - targetEquip: any radar type will do
+         - checkMethod: greater or equal to 3
+
+         then we can encode drum requirements as well.
+
  */
 
 [

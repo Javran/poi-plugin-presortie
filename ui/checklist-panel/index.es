@@ -100,8 +100,12 @@ class ChecklistPanelImpl extends Component {
             </Button>
           </div>
         </Panel.Heading>
-        <Panel.Body>
-          <ListGroup>
+        <Panel.Body
+          style={{padding: 0}}
+        >
+          <ListGroup
+            style={{marginBottom: 0}}
+          >
             {
               checklist.map(checker => {
                 const {id, enabled} = checker

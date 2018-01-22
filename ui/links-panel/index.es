@@ -80,8 +80,10 @@ class LinksPanelImpl extends Component {
         <Panel.Heading>
           Links
         </Panel.Heading>
-        <Panel.Body>
-          <ListGroup fill>
+        <Panel.Body
+          style={{padding: 0}}
+        >
+          <ListGroup style={{marginBottom: 0}}>
             {
               allLinks.map(({name, link, type}) => (
                 <ListGroupItem

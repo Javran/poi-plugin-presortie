@@ -68,8 +68,10 @@ class NotesPanelImpl extends Component {
         <Panel.Heading>
           Notes
         </Panel.Heading>
-        <Panel.Body>
-          <ListGroup fill>
+        <Panel.Body
+          style={{padding: 0}}
+        >
+          <ListGroup style={{marginBottom: 0}}>
             {
               notes.map(note => (
                 <ListGroupItem key={note.id}>

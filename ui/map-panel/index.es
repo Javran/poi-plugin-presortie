@@ -86,180 +86,182 @@ class MapPanelImpl extends PureComponent {
 
     return (
       <Panel style={style}>
-        <div
-          style={{
-            textAlign: 'center',
-            fontSize: '2em',
-            marginBottom: '.5em',
-            ...(userPreferredMemoFocus === 'last' ? {fontWeight: 'bold'} : {}),
-          }}>
-          {memoIdToDesc(memoFocus)}
-        </div>
-        <ButtonToolbar style={{display: 'flex', justifyContent: 'center'}}>
-          <Dropdown
-            open={this.state.menuOpened}
-            onToggle={this.handleToggleMenu}
-            id="presortie-map-panel-select-map">
-            <Dropdown.Toggle
-              style={btnStyle}
-            >
-              Maps
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <div style={{marginLeft: '2em', marginTop: '.3em'}}>
-                <MenuItem
-                  onSelect={this.handleSelectMap}
-                  eventKey="last">
-                  {
-                    /*
-                       having this extra layer of div prevents
-                       unintended triggering of "handleToggleMenu"
-                     */
-                    <div
-                      style={{
-                        display: 'block', fontSize: '1.1em',
-                        ...(userPreferredMemoFocus === 'last' ? {fontWeight: 'bold'} : {}),
-                      }}>
-                      {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
-                    </div>
-                  }
-                </MenuItem>
-              </div>
-              <MenuItem divider />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}>
-                {
-                  (() => {
-                    // prepare 6 columns.
-                    const colCount = 6
-                    const maxRowsPerCol = 5
-                    const sortieHistoryShort =
-                      _.take(sortieHistory,colCount*maxRowsPerCol)
-                    const minRowsPerCol = Math.floor(sortieHistoryShort.length/colCount)
-                    const remainder = sortieHistoryShort.length - colCount*minRowsPerCol
-                    const mapIdChunks = []
+        <Panel.Body>
+          <div
+            style={{
+              textAlign: 'center',
+              fontSize: '2em',
+              marginBottom: '.5em',
+              ...(userPreferredMemoFocus === 'last' ? {fontWeight: 'bold'} : {}),
+            }}>
+            {memoIdToDesc(memoFocus)}
+          </div>
+          <ButtonToolbar style={{display: 'flex', justifyContent: 'center'}}>
+            <Dropdown
+              open={this.state.menuOpened}
+              onToggle={this.handleToggleMenu}
+              id="presortie-map-panel-select-map">
+              <Dropdown.Toggle
+                style={btnStyle}
+              >
+                Maps
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <div style={{marginLeft: '2em', marginTop: '.3em'}}>
+                  <MenuItem
+                    onSelect={this.handleSelectMap}
+                    eventKey="last">
                     {
-                      let xs = sortieHistoryShort
-                      for (let i=0; i<colCount; ++i) {
-                        const sz = i < remainder ? minRowsPerCol+1 : minRowsPerCol
-                        mapIdChunks.push(_.take(xs,sz))
-                        xs = _.drop(xs,sz)
-                      }
-                    }
-                    return mapIdChunks.map((mapIds,chunkInd) => (
+                      /*
+                         having this extra layer of div prevents
+                         unintended triggering of "handleToggleMenu"
+                       */
                       <div
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                        }}
-                        key={_.identity(chunkInd)}>
+                          display: 'block', fontSize: '1.1em',
+                          ...(userPreferredMemoFocus === 'last' ? {fontWeight: 'bold'} : {}),
+                        }}>
+                        {`Last Sortie: ${lastSortieInfo.area}-${lastSortieInfo.num}`}
+                      </div>
+                    }
+                  </MenuItem>
+                </div>
+                <MenuItem divider />
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}>
+                  {
+                    (() => {
+                      // prepare 6 columns.
+                      const colCount = 6
+                      const maxRowsPerCol = 5
+                      const sortieHistoryShort =
+                        _.take(sortieHistory,colCount*maxRowsPerCol)
+                      const minRowsPerCol = Math.floor(sortieHistoryShort.length/colCount)
+                      const remainder = sortieHistoryShort.length - colCount*minRowsPerCol
+                      const mapIdChunks = []
+                      {
+                        let xs = sortieHistoryShort
+                        for (let i=0; i<colCount; ++i) {
+                          const sz = i < remainder ? minRowsPerCol+1 : minRowsPerCol
+                          mapIdChunks.push(_.take(xs,sz))
+                          xs = _.drop(xs,sz)
+                        }
+                      }
+                      return mapIdChunks.map((mapIds,chunkInd) => (
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                          }}
+                          key={_.identity(chunkInd)}>
+                          {
+                            mapIds.map((id,ind) => {
+                              const {area,num} = splitMapId(id)
+                              return (
+                                <OverlayTrigger
+                                  placement="right"
+                                  overlay={(
+                                    <Tooltip
+                                      id={`presortie-map-panel-tooltip-map-${id}`}>
+                                      {getMapName(id)}
+                                    </Tooltip>
+                                  )}
+                                  key={_.identity(ind)}>
+                                  <MenuItem
+                                    onSelect={this.handleSelectMap}
+                                    eventKey={id}
+                                    style={{
+                                      fontSize: '1.2em',
+                                      margin: '.2em .5em',
+                                    }}>
+                                    {`${area}-${num}`}
+                                  </MenuItem>
+                                </OverlayTrigger>
+                              )
+                            })
+                          }
+                        </div>
+                      ))
+                    })()
+                  }
+                </div>
+                <MenuItem divider />
+                <div
+                  style={{
+                    display: 'flex',
+                    minWidth: '22em',
+                    justifyContent: 'center',
+                  }}>
+                  {
+                    mapInfoGroups.map(([world,ms]) => (
+                      <div
+                        role="menu"
+                        key={world}>
                         {
-                          mapIds.map((id,ind) => {
-                            const {area,num} = splitMapId(id)
-                            return (
-                              <OverlayTrigger
-                                placement="right"
-                                overlay={(
-                                  <Tooltip
-                                    id={`presortie-map-panel-tooltip-map-${id}`}>
-                                    {getMapName(id)}
-                                  </Tooltip>
-                                )}
-                                key={_.identity(ind)}>
-                                <MenuItem
-                                  onSelect={this.handleSelectMap}
-                                  eventKey={id}
-                                  style={{
-                                    fontSize: '1.2em',
-                                    margin: '.2em .5em',
-                                  }}>
-                                  {`${area}-${num}`}
-                                </MenuItem>
-                              </OverlayTrigger>
-                            )
-                          })
+                          ms.map(({area,num,id}) => (
+                            <OverlayTrigger
+                              placement="right"
+                              overlay={(
+                                <Tooltip
+                                  id={`presortie-map-panel-tooltip-map-${id}`}>
+                                  {getMapName(id)}
+                                </Tooltip>
+                              )}
+                              key={id}>
+                              <MenuItem
+                                onSelect={this.handleSelectMap}
+                                eventKey={id}
+                                style={{
+                                  fontSize: '1.2em',
+                                  margin: '.5em',
+                                }}>
+                                {`${area}-${num}`}
+                              </MenuItem>
+                            </OverlayTrigger>
+                          ))
                         }
                       </div>
                     ))
-                  })()
-                }
-              </div>
-              <MenuItem divider />
-              <div
-                style={{
-                  display: 'flex',
-                  minWidth: '22em',
-                  justifyContent: 'center',
-                }}>
-                {
-                  mapInfoGroups.map(([world,ms]) => (
-                    <div
-                      role="menu"
-                      key={world}>
-                      {
-                        ms.map(({area,num,id}) => (
-                          <OverlayTrigger
-                            placement="right"
-                            overlay={(
-                              <Tooltip
-                                id={`presortie-map-panel-tooltip-map-${id}`}>
-                                {getMapName(id)}
-                              </Tooltip>
-                            )}
-                            key={id}>
-                            <MenuItem
-                              onSelect={this.handleSelectMap}
-                              eventKey={id}
-                              style={{
-                                fontSize: '1.2em',
-                                margin: '.5em',
-                              }}>
-                              {`${area}-${num}`}
-                            </MenuItem>
-                          </OverlayTrigger>
-                        ))
-                      }
-                    </div>
-                  ))
-                }
-              </div>
-            </Dropdown.Menu>
-          </Dropdown>
-          <Button
-            onClick={this.handleClickGeneral}
-            style={btnStyle}>
-            General
-          </Button>
-          {
-            // past maps are only shown only if records exist
-            pastMapIds.length > 0 && (
-              <DropdownButton
-                onSelect={this.handleSelectMap}
-                style={btnStyle}
-                title="Past Maps ..."
-                id="presortie-map-panel-past"
-              >
-                {
-                  pastMapIds.map(mapId => {
-                    const {area,num} = splitMapId(mapId)
-                    return (
-                      <MenuItem
-                        key={mapId}
-                        eventKey={mapId}
-                      >
-                        {`${area}-${num}`}
-                      </MenuItem>
-                    )
-                  })
-                }
-              </DropdownButton>
-            )
-          }
-        </ButtonToolbar>
+                  }
+                </div>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button
+              onClick={this.handleClickGeneral}
+              style={btnStyle}>
+              General
+            </Button>
+            {
+              // past maps are only shown only if records exist
+              pastMapIds.length > 0 && (
+                <DropdownButton
+                  onSelect={this.handleSelectMap}
+                  style={btnStyle}
+                  title="Past Maps ..."
+                  id="presortie-map-panel-past"
+                >
+                  {
+                    pastMapIds.map(mapId => {
+                      const {area,num} = splitMapId(mapId)
+                      return (
+                        <MenuItem
+                          key={mapId}
+                          eventKey={mapId}
+                        >
+                          {`${area}-${num}`}
+                        </MenuItem>
+                      )
+                    })
+                  }
+                </DropdownButton>
+              )
+            }
+          </ButtonToolbar>
+        </Panel.Body>
       </Panel>
     )
   }

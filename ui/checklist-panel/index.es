@@ -88,7 +88,8 @@ class ChecklistPanelImpl extends Component {
       <Panel
         style={style}
         className="main-panel"
-        header={
+      >
+        <Panel.Heading>
           <div style={{display: 'flex', alignItems: 'center'}}>
             <div style={{width: 'auto', flex: 1}}>Checklist</div>
             <Button
@@ -98,37 +99,39 @@ class ChecklistPanelImpl extends Component {
               <FontAwesome name={checklistSatisfied ? "check" : "close"} />
             </Button>
           </div>
-        }>
-        <ListGroup fill>
-          {
-            checklist.map(checker => {
-              const {id, enabled} = checker
-              const problems = enabled ? checkerResultsMap[id].problems : []
-              return (
-                <ListGroupItem
-                  style={{padding: '8px 15px'}}
-                  key={id}>
-                  <CheckerControl
-                    targetInfoList={targetInfoList}
-                    memoFocus={memoFocus}
-                    onModifyChecker={this.handleModifyChecker(id)}
-                    onRemoveChecker={this.handleRemoveChecker(id)}
-                    onToggleChecker={this.handleToggleChecker(id)(enabled)}
-                    problems={problems}
-                    checker={checker} />
-                </ListGroupItem>
-              )
-            })
-          }
-          <ListGroupItem
-            style={{padding: '8px 15px'}}
-            key="add">
-            <AddCheckerPanel
-              targetInfoList={targetInfoList}
-              onAddChecker={this.handleAddChecker}
-            />
-          </ListGroupItem>
-        </ListGroup>
+        </Panel.Heading>
+        <Panel.Body>
+          <ListGroup>
+            {
+              checklist.map(checker => {
+                const {id, enabled} = checker
+                const problems = enabled ? checkerResultsMap[id].problems : []
+                return (
+                  <ListGroupItem
+                    style={{padding: '8px 15px'}}
+                    key={id}>
+                    <CheckerControl
+                      targetInfoList={targetInfoList}
+                      memoFocus={memoFocus}
+                      onModifyChecker={this.handleModifyChecker(id)}
+                      onRemoveChecker={this.handleRemoveChecker(id)}
+                      onToggleChecker={this.handleToggleChecker(id)(enabled)}
+                      problems={problems}
+                      checker={checker} />
+                  </ListGroupItem>
+                )
+              })
+            }
+            <ListGroupItem
+              style={{padding: '8px 15px'}}
+              key="add">
+              <AddCheckerPanel
+                targetInfoList={targetInfoList}
+                onAddChecker={this.handleAddChecker}
+              />
+            </ListGroupItem>
+          </ListGroup>
+        </Panel.Body>
       </Panel>
     )
   }

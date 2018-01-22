@@ -64,24 +64,29 @@ class NotesPanelImpl extends Component {
       <Panel
         style={style}
         className="main-panel"
-        header="Notes">
-        <ListGroup fill>
-          {
-            notes.map(note => (
-              <ListGroupItem key={note.id}>
-                <NoteControl
-                  onReplaceNote={this.handleReplaceNote(note.id)}
-                  note={note}
-                />
-              </ListGroupItem>
-            ))
-          }
-          <ListGroupItem style={{padding: '8px 15px'}}>
-            <AddNoteControl
-              onAddNote={this.handleAddNote}
-            />
-          </ListGroupItem>
-        </ListGroup>
+      >
+        <Panel.Heading>
+          Notes
+        </Panel.Heading>
+        <Panel.Body>
+          <ListGroup fill>
+            {
+              notes.map(note => (
+                <ListGroupItem key={note.id}>
+                  <NoteControl
+                    onReplaceNote={this.handleReplaceNote(note.id)}
+                    note={note}
+                  />
+                </ListGroupItem>
+              ))
+            }
+            <ListGroupItem style={{padding: '8px 15px'}}>
+              <AddNoteControl
+                onAddNote={this.handleAddNote}
+              />
+            </ListGroupItem>
+          </ListGroup>
+        </Panel.Body>
       </Panel>
     )
   }

@@ -80,35 +80,31 @@ class LinksPanelImpl extends Component {
         <Panel.Heading>
           Links
         </Panel.Heading>
-        <Panel.Body
-          style={{padding: 0}}
-        >
-          <ListGroup style={{marginBottom: 0}}>
-            {
-              allLinks.map(({name, link, type}) => (
-                <ListGroupItem
-                  style={{padding: '8px 15px'}}
-                  key={name}>
-                  <LinkControl
-                    link={link}
-                    name={name}
-                    onReplaceLink={
-                      type === 'custom' ?
-                        this.handleReplaceLink(name) :
-                        null
-                    }
-                  />
-                </ListGroupItem>
-              ))
-            }
-            <ListGroupItem style={{padding: '8px 15px'}}>
-              <AddLinkControl
-                onAddLink={this.handleAddLink}
-                checkLinkName={this.checkLinkName}
-              />
-            </ListGroupItem>
-          </ListGroup>
-        </Panel.Body>
+        <ListGroup>
+          {
+            allLinks.map(({name, link, type}) => (
+              <ListGroupItem
+                style={{padding: '8px 15px'}}
+                key={name}>
+                <LinkControl
+                  link={link}
+                  name={name}
+                  onReplaceLink={
+                    type === 'custom' ?
+                      this.handleReplaceLink(name) :
+                      null
+                  }
+                />
+              </ListGroupItem>
+            ))
+          }
+          <ListGroupItem style={{padding: '8px 15px'}}>
+            <AddLinkControl
+              onAddLink={this.handleAddLink}
+              checkLinkName={this.checkLinkName}
+            />
+          </ListGroupItem>
+        </ListGroup>
       </Panel>
     )
   }

@@ -100,42 +100,36 @@ class ChecklistPanelImpl extends Component {
             </Button>
           </div>
         </Panel.Heading>
-        <Panel.Body
-          style={{padding: 0}}
-        >
-          <ListGroup
-            style={{marginBottom: 0}}
-          >
-            {
-              checklist.map(checker => {
-                const {id, enabled} = checker
-                const problems = enabled ? checkerResultsMap[id].problems : []
-                return (
-                  <ListGroupItem
-                    style={{padding: '8px 15px'}}
-                    key={id}>
-                    <CheckerControl
-                      targetInfoList={targetInfoList}
-                      memoFocus={memoFocus}
-                      onModifyChecker={this.handleModifyChecker(id)}
-                      onRemoveChecker={this.handleRemoveChecker(id)}
-                      onToggleChecker={this.handleToggleChecker(id)(enabled)}
-                      problems={problems}
-                      checker={checker} />
-                  </ListGroupItem>
-                )
-              })
-            }
-            <ListGroupItem
-              style={{padding: '8px 15px'}}
-              key="add">
-              <AddCheckerPanel
-                targetInfoList={targetInfoList}
-                onAddChecker={this.handleAddChecker}
-              />
-            </ListGroupItem>
-          </ListGroup>
-        </Panel.Body>
+        <ListGroup>
+          {
+            checklist.map(checker => {
+              const {id, enabled} = checker
+              const problems = enabled ? checkerResultsMap[id].problems : []
+              return (
+                <ListGroupItem
+                  style={{padding: '8px 15px'}}
+                  key={id}>
+                  <CheckerControl
+                    targetInfoList={targetInfoList}
+                    memoFocus={memoFocus}
+                    onModifyChecker={this.handleModifyChecker(id)}
+                    onRemoveChecker={this.handleRemoveChecker(id)}
+                    onToggleChecker={this.handleToggleChecker(id)(enabled)}
+                    problems={problems}
+                    checker={checker} />
+                </ListGroupItem>
+              )
+            })
+          }
+          <ListGroupItem
+            style={{padding: '8px 15px'}}
+            key="add">
+            <AddCheckerPanel
+              targetInfoList={targetInfoList}
+              onAddChecker={this.handleAddChecker}
+            />
+          </ListGroupItem>
+        </ListGroup>
       </Panel>
     )
   }

@@ -156,6 +156,25 @@ const registerChecker = checker => {
 
  */
 
+/*
+   TODO: we want to keep it simple and only have those that we truly need:
+
+   - AllSlotsEmpty => ? the name is weird
+   - FastFleet
+   - AACI
+   - OASW
+   - HasRadar => Maelstrom?
+   - CountSaiun => Saiun?
+   - FighterPower
+   - Health
+   - Resupply
+   - Morale
+   - LoS
+   - ExtraSlots
+   - YasenEquips
+
+ */
+
 [
   AllSlotsEmpty,
   FastFleet,
